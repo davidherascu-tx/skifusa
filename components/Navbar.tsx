@@ -34,7 +34,8 @@ const navLinks = [
     href: "#",
     submenu: [
         { name: "Membership", href: "/membership" },
-        { name: "Black Belt Registry", href: "/registry" },
+        { name: "Black Belt Registry", href: "/registry" },    
+        { name: "Find a Dojo", href: "/dojo" },
         { name: "Technical", href: "/technical" },
     ]
   },

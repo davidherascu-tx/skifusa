@@ -1,6 +1,6 @@
 import Navbar from "@/components/Navbar";
 import Image from "next/image";
-import { Shield, Target, Users, ArrowRight, Mail, Calendar, MapPin } from "lucide-react";
+import { Shield, Target, Users, ArrowRight, Mail, Calendar, MapPin, Search, Globe } from "lucide-react";
 
 export default function Home() {
   return (
@@ -113,14 +113,56 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 3. NEWS & EVENTS SECTION */}
-      <section id="news" className="py-24 px-6 bg-neutral-950">
+      {/* 3. FIND A DOJO SECTION */}
+      <section id="find-dojo" className="py-24 px-6 bg-neutral-900 border-t border-neutral-800 relative overflow-hidden">
+         {/* Background Glow Effect */}
+         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-red-600/5 rounded-full blur-[100px] -z-10" />
+
+         <div className="container mx-auto max-w-5xl">
+            <div className="bg-black rounded-[3rem] p-8 md:p-16 border border-neutral-800 relative overflow-hidden flex flex-col md:flex-row items-center gap-12 shadow-2xl">
+                
+                {/* Dotted Pattern Overlay */}
+                <div className="absolute inset-0 opacity-20 pointer-events-none" style={{ backgroundImage: 'radial-gradient(#333 1px, transparent 1px)', backgroundSize: '24px 24px' }}></div>
+
+                {/* Left Text */}
+                <div className="flex-1 relative z-10 text-center md:text-left flex flex-col items-center md:items-start">
+                    <div className="inline-flex items-center gap-2 text-red-600 font-bold uppercase tracking-widest text-xs mb-4 bg-red-600/10 px-4 py-2 rounded-full">
+                        <Globe size={14} /> National Network
+                    </div>
+                    <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter mb-4 text-white">
+                        Find a Dojo <br/> Near You
+                    </h2>
+                    <p className="text-neutral-400 text-lg leading-relaxed mb-8">
+                        Join the SKIF family. Locate an affiliated dojo in your state and train with certified instructors committed to the traditional way.
+                    </p>
+                    
+                    {/* BUTTON REPLACING SEARCH BAR */}
+                    <button className="bg-white text-black hover:bg-neutral-200 px-8 py-4 rounded-full font-bold uppercase tracking-wider transition-colors shadow-lg flex items-center justify-center gap-2 w-fit">
+                        <MapPin size={20} /> View Dojo Directory
+                    </button>
+                </div>
+
+                {/* Right Visual (Abstract Map/Icon) */}
+                <div className="relative z-10 w-full md:w-1/3 flex justify-center">
+                    <div className="relative w-48 h-48 md:w-64 md:h-64 bg-neutral-900 rounded-full flex items-center justify-center border border-neutral-800 shadow-2xl shadow-red-900/20 animate-[pulse_4s_ease-in-out_infinite]">
+                        <div className="absolute inset-4 border border-dashed border-neutral-700 rounded-full animate-[spin_20s_linear_infinite]" />
+                        <MapPin size={80} className="text-red-600 drop-shadow-[0_0_15px_rgba(220,38,38,0.5)]" />
+                    </div>
+                </div>
+
+            </div>
+         </div>
+      </section>
+
+      {/* 4. NEWS & EVENTS SECTION */}
+      <section id="news" className="py-24 px-6 bg-neutral-950 border-t border-neutral-900">
         <div className="container mx-auto">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-12 border-b border-neutral-800 pb-6">
-            <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter">
-              News & <br /> <span className="text-white">Events</span>
+          {/* UPDATED HEADER: Centered on Mobile, Row on Desktop */}
+          <div className="flex flex-col md:flex-row justify-between items-center md:items-end mb-12 border-b border-neutral-800 pb-6">
+            <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter text-center md:text-left">
+              News & <span className="text-white">Events</span>
             </h2>
-            <p className="text-neutral-500 mb-2">Updates from the Federation.</p>
+            <p className="text-neutral-500 mb-2 mt-4 md:mt-0 text-center md:text-right">Updates from the Federation.</p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-6">
@@ -174,23 +216,21 @@ function NewsCard({ category, date, title, location, image }: { category: string
             src={image} 
             alt={title}
             fill
-            // Added 'group-active:' classes for mobile touch feedback
             className="object-cover transition-transform duration-700 group-hover:scale-105 group-active:scale-105"
          />
       </div>
 
       {/* Hover/Active Background Overlay */}
-      {/* Visible on hover (Desktop) OR Active/Touch (Mobile) */}
       <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 group-active:opacity-100 transition-opacity duration-500" />
       
-      {/* Dark Overlay Gradient (Bottom only, permanent) */}
+      {/* Dark Overlay Gradient (Bottom only) */}
       <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black via-black/80 to-transparent" />
 
       {/* Content Area */}
       <div className="absolute inset-0 p-6 flex flex-col justify-end z-20">
          <div className="flex items-end justify-between w-full gap-4">
              
-             {/* Left Text Info - Changed 'w-full' to 'flex-1' so it doesn't push the arrow off screen on mobile */}
+             {/* Left Text Info */}
              <div className="flex flex-col items-start flex-1 pr-2">
                  
                  {/* CATEGORY & DATE */}
@@ -213,9 +253,6 @@ function NewsCard({ category, date, title, location, image }: { category: string
              </div>
 
              {/* Arrow Button */}
-             {/* MOBILE (Default): opacity-100 translate-y-0 (Always Visible)
-                DESKTOP (md:): opacity-0 translate-y-4 (Hidden by default, reveals on hover)
-             */}
              <div className="bg-white text-black p-3 rounded-full shadow-lg shrink-0 
                              opacity-100 translate-y-0 
                              md:opacity-0 md:translate-y-4 md:group-hover:opacity-100 md:group-hover:translate-y-0 
