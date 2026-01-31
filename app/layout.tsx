@@ -1,28 +1,15 @@
-import type { Metadata } from "next";
-import { Inter, Oswald } from "next/font/google"; // Oswald is great for sports headers
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer"; // Import Footer here
 import "./globals.css";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
-const oswald = Oswald({ subsets: ["latin"], variable: "--font-oswald" });
-
-export const metadata: Metadata = {
-  title: "Zenith Karate Dojo | Discipline & Strength",
-  description: "Join the premier martial arts organization for all ages.",
-};
-
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} ${oswald.variable} font-sans antialiased bg-stone-50 text-stone-900`}>
+      <body className="bg-black text-white">
+        {/* Navbar and Footer here ensure they are on EVERY page */}
         <Navbar />
-        <main className="min-h-screen">{children}</main>
-        <Footer />
+        {children}
+        <Footer /> 
       </body>
     </html>
   );

@@ -1,126 +1,222 @@
+import Navbar from "@/components/Navbar";
 import Image from "next/image";
-import { ChevronRight, Award, Users, Clock } from "lucide-react";
+import { Shield, Target, Users, ArrowRight, Mail, Calendar, MapPin } from "lucide-react";
 
 export default function Home() {
   return (
-    <div>
-      {/* HERO SECTION */}
-      <section className="relative h-[80vh] flex items-center justify-center overflow-hidden bg-stone-900">
-        {/* Background Image Placeholder - In real app, use a real image */}
-        <div className="absolute inset-0 opacity-40">
-           {/* You can replace this src with a real martial arts image URL */}
-           <Image 
-             src="https://images.unsplash.com/photo-1555597673-b21d5c935865?q=80&w=2072&auto=format&fit=crop" 
-             alt="Karate Training" 
-             fill 
-             className="object-cover"
-             priority
-           />
+    <main className="min-h-screen bg-black text-white selection:bg-white selection:text-black">
+      <Navbar />
+
+      {/* 1. HERO SECTION */}
+      <section className="relative min-h-screen flex flex-col justify-center items-center px-6 pt-32 pb-20 overflow-hidden">
+        {/* Background Gradient */}
+        <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-neutral-900 via-black to-black -z-10" />
+
+        <div className="container mx-auto max-w-5xl z-10 flex flex-col items-center">
+          
+          {/* --- TOP CENTERED CONTENT --- */}
+          <div className="text-center max-w-4xl mb-12">
+            <h2 className="text-neutral-500 font-medium tracking-[0.2em] mb-4 uppercase text-sm md:text-base animate-pulse">
+              Shotokan Karate-Do International Federation &bull; USA
+            </h2>
+            
+            <h1 className="text-6xl md:text-9xl font-black tracking-tighter mb-8 uppercase leading-[0.9]">
+              Karate-Do <br /> 
+              <span className="text-transparent bg-clip-text bg-gradient-to-b from-neutral-200 to-neutral-700">
+                Way of Life.
+              </span>
+            </h1>
+
+            <p className="text-neutral-400 text-lg md:text-xl leading-relaxed mx-auto">
+              <strong className="text-white">SKIF</strong> was founded in 1977 by Hirokazu Kanazawa Soke, 10th Dan. 
+              It has become one of the world’s largest and finest karate organizations with over 
+              <span className="text-white"> 2 million members</span> in more than 100 countries. 
+              SKIF-USA is closely affiliated with SKIF-Japan and is dedicated to the growth and development of SKIF in the United States.
+            </p>
+          </div>
+          
+          {/* --- SPLIT SECTION UNDER TEXT --- */}
+          <div className="grid md:grid-cols-2 gap-6 items-center w-full max-w-4xl">
+            
+            {/* LEFT SIDE: HEADQUARTERS & INFO (WHITE BOX) */}
+            <div className="flex flex-col items-center md:items-start text-center md:text-left space-y-8 bg-white text-neutral-800 p-8 rounded-3xl shadow-xl shadow-white/5">
+              <div className="space-y-4 text-sm md:text-base w-full">
+                <div className="flex flex-col gap-1">
+                  <h3 className="text-black font-black uppercase tracking-widest text-xs mb-1">Headquarters</h3>
+                  <p>St. Paul, Minnesota</p>
+                </div>
+                
+                <div className="flex flex-col gap-1">
+                  <h3 className="text-black font-black uppercase tracking-widest text-xs mb-1">Mailing Address</h3>
+                  <p>SKIF-USA, P.O. Box 42316,<br/>Cincinnati, OH 45242</p>
+                </div>
+
+                <div className="flex flex-col gap-1 pt-4 border-t border-neutral-200 mt-2">
+                   <h3 className="text-black font-black uppercase tracking-widest text-xs mb-1">General Secretary</h3>
+                   <p>Chris Johnson</p>
+                   {/* Email in RED */}
+                   <a href="mailto:skifusa@gmail.com" className="text-red-600 hover:text-red-800 transition-colors flex items-center justify-center md:justify-start gap-2 font-bold uppercase tracking-wider mt-1">
+                    <Mail size={16} /> skifusa@gmail.com
+                  </a>
+                </div>
+              </div>
+
+              {/* BUTTONS */}
+              <div className="flex flex-col sm:flex-row gap-4 w-full pt-2">
+                <button className="bg-black text-white px-6 py-3 font-bold uppercase tracking-wider hover:bg-neutral-800 transition-all text-sm rounded-full w-full sm:w-auto shadow-lg">
+                  About Us
+                </button>
+                <button className="border border-neutral-300 text-black px-6 py-3 font-bold uppercase tracking-wider hover:border-red-600 hover:text-red-600 transition-all text-sm rounded-full w-full sm:w-auto">
+                  Events
+                </button>
+              </div>
+            </div>
+
+            {/* RIGHT SIDE: HERO IMAGE */}
+            <div className="flex justify-center md:justify-start pl-0 md:pl-4">
+              <div className="relative w-full max-w-[320px] h-[380px]">
+                  <Image 
+                    src="/skif_kanji.png" 
+                    alt="SKIF Kanji Calligraphy"
+                    fill
+                    className="object-contain drop-shadow-[0_10px_30px_rgba(220,38,38,0.25)]"
+                    priority
+                  />
+              </div>
+            </div>
+
+          </div>
+
         </div>
-        <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
-          <h1 className="font-oswald text-5xl md:text-7xl text-white font-bold uppercase tracking-tight mb-6">
-            Forge Your <span className="text-red-600">Spirit</span>
-          </h1>
-          <p className="text-xl md:text-2xl text-stone-200 mb-8 font-light max-w-2xl mx-auto">
-            Traditional Shotokan Karate for the modern world. Build discipline, confidence, and physical strength.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="bg-red-700 hover:bg-red-800 text-white px-8 py-4 rounded-sm font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2">
-              Start Free Trial <ChevronRight size={20} />
-            </button>
-            <button className="bg-transparent border-2 border-white hover:bg-white/10 text-white px-8 py-4 rounded-sm font-bold uppercase tracking-wider transition-all">
-              View Schedule
-            </button>
+      </section>
+
+      {/* 2. PHILOSOPHY GRID */}
+      <section id="philosophy" className="py-24 px-6 border-t border-neutral-900">
+        <div className="container mx-auto">
+          <div className="grid md:grid-cols-3 gap-8">
+            <FeatureCard 
+              icon={<Shield size={32} />}
+              title="Defense"
+              desc="Learn to protect yourself and others with practical, high-impact techniques refined over generations."
+            />
+            <FeatureCard 
+              icon={<Target size={32} />}
+              title="Focus"
+              desc="Martial arts is 10% physical and 90% mental. Sharpen your mind and eliminate distractions."
+            />
+            <FeatureCard 
+              icon={<Users size={32} />}
+              title="Community"
+              desc="Join a brotherhood and sisterhood of warriors dedicated to mutual growth and respect."
+            />
           </div>
         </div>
       </section>
 
-      {/* STATISTICS STRIP */}
-      <div className="bg-red-700 text-white py-12">
-        <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-          <div className="flex flex-col items-center">
-            <Award size={40} className="mb-4 text-red-200" />
-            <h3 className="font-oswald text-3xl font-bold">25+ Years</h3>
-            <p className="text-red-100">Of Teaching Excellence</p>
+      {/* 3. NEWS & EVENTS SECTION */}
+      <section id="news" className="py-24 px-6 bg-neutral-950">
+        <div className="container mx-auto">
+          <div className="flex flex-col md:flex-row justify-between items-end mb-12 border-b border-neutral-800 pb-6">
+            <h2 className="text-4xl md:text-6xl font-black uppercase tracking-tighter">
+              News & <br /> <span className="text-white">Events</span>
+            </h2>
+            <p className="text-neutral-500 mb-2">Updates from the Federation.</p>
           </div>
-          <div className="flex flex-col items-center">
-            <Users size={40} className="mb-4 text-red-200" />
-            <h3 className="font-oswald text-3xl font-bold">500+ Students</h3>
-            <p className="text-red-100">Active Members</p>
-          </div>
-          <div className="flex flex-col items-center">
-            <Clock size={40} className="mb-4 text-red-200" />
-            <h3 className="font-oswald text-3xl font-bold">30 Classes</h3>
-            <p className="text-red-100">Weekly Sessions</p>
+
+          <div className="grid md:grid-cols-3 gap-6">
+            <NewsCard 
+              category="Newsletter"
+              date="January 29, 2026"
+              title="Newsletter Fall/Winter 2025" 
+              location="Headquarters"
+              image="/SKIF_Newsletter_Winter_2025.webp" // Flyer
+            />
+            <NewsCard 
+              category="Seminar"
+              date="January 14, 2026"
+              title="Karate Seminar with Ruben Fung, 6.Dan – February 20 & 21, 2026" 
+              location="Headquarters"
+              image="/seminar_feb_20_21_2026.webp" 
+            />
+            <NewsCard 
+              category="Seminar"
+              date="December 30, 2025"
+              title="2026 SKIF Houston Annual Gasshuku" 
+              location="Houston, TX"
+              image="/skif_gasshuku_houston_2026.webp" 
+            />
           </div>
         </div>
+      </section>
+    </main>
+  );
+}
+
+// --- SUB-COMPONENTS ---
+
+function FeatureCard({ icon, title, desc }: { icon: any, title: string, desc: string }) {
+  return (
+    <div className="p-8 border border-neutral-900 hover:border-red-600/50 transition-colors duration-300 group">
+      <div className="mb-6 text-neutral-500 group-hover:text-red-500 transition-colors">{icon}</div>
+      <h3 className="text-xl font-bold uppercase mb-4 tracking-wide">{title}</h3>
+      <p className="text-neutral-400 leading-relaxed">{desc}</p>
+    </div>
+  );
+}
+
+function NewsCard({ category, date, title, location, image }: { category: string, date: string, title: string, location: string, image: string }) {
+  return (
+    <div className="group relative h-[700px] overflow-hidden rounded-3xl border border-neutral-800 bg-neutral-900 cursor-pointer">
+      
+      {/* Background Image */}
+      <div className="absolute inset-0 bg-neutral-900">
+         <Image 
+            src={image} 
+            alt={title}
+            fill
+            className="object-cover transition-transform duration-700 group-hover:scale-105"
+         />
       </div>
 
-      {/* PROGRAMS SECTION */}
+      {/* ----- NEW: HOVER BACKGROUND OVERLAY ----- */}
+      {/* Fades in a dark tint over the whole image on hover */}
+      <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
       
-      <section id="programs" className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="text-center mb-16">
-            <h2 className="font-oswald text-4xl text-stone-900 font-bold uppercase mb-4">Our Programs</h2>
-            <div className="w-20 h-1 bg-red-700 mx-auto"></div>
-            <p className="mt-4 text-stone-600 max-w-2xl mx-auto">
-              Whether you are looking to compete or just get fit, we have a curriculum tailored to your goals.
-            </p>
-          </div>
+      {/* Dark Overlay Gradient (Bottom only, permanent) */}
+      <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black via-black/80 to-transparent" />
 
-          <div className="grid md:grid-cols-3 gap-8">
-            {/* Program 1 */}
-            <div className="group bg-stone-50 border border-stone-200 p-8 hover:border-red-700 transition-colors duration-300">
-              <h3 className="font-oswald text-black text-2xl font-bold mb-4">Little Ninjas (4-7)</h3>
-              <p className="text-stone-600 mb-6">Focus, coordination, and fun. The perfect introduction to martial arts for young children.</p>
-              <ul className="space-y-2 mb-8 text-sm text-stone-700">
-                <li className="flex gap-2">✓ Basic Motor Skills</li>
-                <li className="flex gap-2">✓ Listening Skills</li>
-                <li className="flex gap-2">✓ Stranger Danger</li>
-              </ul>
-              <a href="#" className="text-red-700 font-bold uppercase text-sm tracking-wider hover:underline">Learn More</a>
-            </div>
+      {/* Content Area */}
+      <div className="absolute inset-0 p-6 flex flex-col justify-end z-20">
+         <div className="flex items-end justify-between w-full">
+             
+             {/* Left Text Info */}
+             <div className="flex flex-col items-start w-full pr-2">
+                 
+                 {/* CATEGORY & DATE */}
+                 <div className="flex items-center gap-3 mb-3">
+                     <span className="bg-red-600 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow-lg">
+                        {category}
+                     </span>
+                     <span className="text-neutral-300 text-xs font-mono flex items-center gap-1">
+                        <Calendar size={12} /> {date}
+                     </span>
+                 </div>
+                 
+                 <h3 className="text-xl md:text-2xl font-black uppercase leading-tight drop-shadow-md mb-2">
+                    {title}
+                 </h3>
+                 
+                 <div className="flex items-center gap-2 text-neutral-400 text-sm font-medium">
+                    <MapPin size={14} /> {location}
+                 </div>
+             </div>
 
-            {/* Program 2 */}
-            <div className="group bg-stone-900 text-white p-8 border border-stone-900 relative shadow-xl transform md:-translate-y-4">
-              <div className="absolute top-0 right-0 bg-red-700 text-white text-xs font-bold px-3 py-1 uppercase">Most Popular</div>
-              <h3 className="font-oswald text-2xl font-bold mb-4">Youth & Teens</h3>
-              <p className="text-stone-300 mb-6">Building character through discipline. Self-defense skills that last a lifetime.</p>
-              <ul className="space-y-2 mb-8 text-sm text-stone-300">
-                <li className="flex gap-2">✓ Confidence Building</li>
-                <li className="flex gap-2">✓ Belt Progression</li>
-                <li className="flex gap-2">✓ Anti-Bullying</li>
-              </ul>
-              <a href="#" className="text-white font-bold uppercase text-sm tracking-wider hover:underline">Learn More</a>
-            </div>
-
-            {/* Program 3 */}
-            <div className="group bg-stone-50 border border-stone-200 p-8 hover:border-red-700 transition-colors duration-300">
-              <h3 className="font-oswald text-2xl font-bold mb-4">Adults & Combatives</h3>
-              <p className="text-stone-600 mb-6">High-intensity fitness meets traditional technique. Relieve stress and learn to defend yourself.</p>
-              <ul className="space-y-2 mb-8 text-sm text-stone-700">
-                <li className="flex gap-2">✓ Fitness & Flexibility</li>
-                <li className="flex gap-2">✓ Advanced Kata</li>
-                <li className="flex gap-2">✓ Sparring (Kumite)</li>
-              </ul>
-              <a href="#" className="text-red-700 font-bold uppercase text-sm tracking-wider hover:underline">Learn More</a>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* CALL TO ACTION */}
-      <section className="bg-stone-900 py-20 px-4">
-         <div className="max-w-4xl mx-auto text-center">
-            <h2 className="font-oswald text-4xl text-white font-bold uppercase mb-6">Ready to Start Your Journey?</h2>
-            <p className="text-stone-300 mb-8 text-lg">
-              Your first class is on us. Come meet the instructors and see the dojo for yourself.
-            </p>
-            <button className="bg-red-700 hover:bg-red-800 text-white px-10 py-5 rounded-sm font-bold uppercase tracking-widest text-lg transition-all">
-              Book Your Free Trial
-            </button>
+             {/* Arrow Button (Hover Effect) */}
+             <div className="bg-white text-black p-3 rounded-full shadow-lg shrink-0 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 ease-out">
+                <ArrowRight size={24} />
+             </div>
          </div>
-      </section>
+      </div>
     </div>
   );
 }
