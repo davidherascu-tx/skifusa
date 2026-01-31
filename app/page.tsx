@@ -125,25 +125,25 @@ export default function Home() {
 
           <div className="grid md:grid-cols-3 gap-6">
             <NewsCard 
-              category="Event"
-              date="Oct 15, 2024"
-              title="National Championship" 
-              location="Las Vegas, NV"
-              image="/seminar_feb_20_21_2026.webp" // Flyer
+              category="Newsletter"
+              date="January 29, 2026"
+              title="Newsletter Fall/Winter 2025" 
+              location="Headquarters"
+              image="/SKIF_Newsletter_Winter_2025.webp" 
             />
             <NewsCard 
-              category="News"
-              date="Sept 01, 2024"
-              title="Dan Grading Results" 
+              category="Seminar"
+              date="January 14, 2026"
+              title="Karate Seminar with Ruben Fung, 6.Dan" 
               location="Headquarters"
               image="/seminar_feb_20_21_2026.webp" 
             />
             <NewsCard 
               category="Seminar"
-              date="Aug 20, 2024"
-              title="Summer Camp" 
-              location="Miami, FL"
-              image="/seminar_feb_20_21_2026.webp" 
+              date="December 30, 2025"
+              title="2026 SKIF Houston Annual Gasshuku" 
+              location="Houston, TX"
+              image="/skif_gasshuku_houston_2026.webp" 
             />
           </div>
         </div>
@@ -174,26 +174,27 @@ function NewsCard({ category, date, title, location, image }: { category: string
             src={image} 
             alt={title}
             fill
-            className="object-cover transition-transform duration-700 group-hover:scale-105"
+            // Added 'group-active:' classes for mobile touch feedback
+            className="object-cover transition-transform duration-700 group-hover:scale-105 group-active:scale-105"
          />
       </div>
 
-      {/* Hover Background Overlay */}
-      {/* Visible on tap on mobile (active state) or hover on desktop */}
-      <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+      {/* Hover/Active Background Overlay */}
+      {/* Visible on hover (Desktop) OR Active/Touch (Mobile) */}
+      <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 group-active:opacity-100 transition-opacity duration-500" />
       
       {/* Dark Overlay Gradient (Bottom only, permanent) */}
       <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black via-black/80 to-transparent" />
 
       {/* Content Area */}
       <div className="absolute inset-0 p-6 flex flex-col justify-end z-20">
-         <div className="flex items-end justify-between w-full">
+         <div className="flex items-end justify-between w-full gap-4">
              
-             {/* Left Text Info */}
-             <div className="flex flex-col items-start w-full pr-2">
+             {/* Left Text Info - Changed 'w-full' to 'flex-1' so it doesn't push the arrow off screen on mobile */}
+             <div className="flex flex-col items-start flex-1 pr-2">
                  
                  {/* CATEGORY & DATE */}
-                 <div className="flex items-center gap-3 mb-3">
+                 <div className="flex flex-wrap items-center gap-3 mb-3">
                      <span className="bg-red-600 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow-lg">
                         {category}
                      </span>
@@ -212,12 +213,12 @@ function NewsCard({ category, date, title, location, image }: { category: string
              </div>
 
              {/* Arrow Button */}
-             {/* Mobile (Default): Visible (opacity-100), No offset (translate-y-0)
-                Desktop (lg:): Hidden (opacity-0), Offset down (translate-y-4) -> Visible on Hover 
+             {/* MOBILE (Default): opacity-100 translate-y-0 (Always Visible)
+                DESKTOP (md:): opacity-0 translate-y-4 (Hidden by default, reveals on hover)
              */}
              <div className="bg-white text-black p-3 rounded-full shadow-lg shrink-0 
                              opacity-100 translate-y-0 
-                             lg:opacity-0 lg:translate-y-4 lg:group-hover:opacity-100 lg:group-hover:translate-y-0 
+                             md:opacity-0 md:translate-y-4 md:group-hover:opacity-100 md:group-hover:translate-y-0 
                              transition-all duration-300 ease-out">
                 <ArrowRight size={24} />
              </div>
