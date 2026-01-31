@@ -125,25 +125,25 @@ export default function Home() {
 
           <div className="grid md:grid-cols-3 gap-6">
             <NewsCard 
-              category="Newsletter"
-              date="January 29, 2026"
-              title="Newsletter Fall/Winter 2025" 
-              location="Headquarters"
-              image="/SKIF_Newsletter_Winter_2025.webp" // Flyer
+              category="Event"
+              date="Oct 15, 2024"
+              title="National Championship" 
+              location="Las Vegas, NV"
+              image="/seminar_feb_20_21_2026.webp" // Flyer
             />
             <NewsCard 
-              category="Seminar"
-              date="January 14, 2026"
-              title="Karate Seminar with Ruben Fung, 6.Dan – February 20 & 21, 2026" 
+              category="News"
+              date="Sept 01, 2024"
+              title="Dan Grading Results" 
               location="Headquarters"
               image="/seminar_feb_20_21_2026.webp" 
             />
             <NewsCard 
               category="Seminar"
-              date="December 30, 2025"
-              title="2026 SKIF Houston Annual Gasshuku" 
-              location="Houston, TX"
-              image="/skif_gasshuku_houston_2026.webp" 
+              date="Aug 20, 2024"
+              title="Summer Camp" 
+              location="Miami, FL"
+              image="/seminar_feb_20_21_2026.webp" 
             />
           </div>
         </div>
@@ -178,8 +178,8 @@ function NewsCard({ category, date, title, location, image }: { category: string
          />
       </div>
 
-      {/* ----- NEW: HOVER BACKGROUND OVERLAY ----- */}
-      {/* Fades in a dark tint over the whole image on hover */}
+      {/* Hover Background Overlay */}
+      {/* Visible on tap on mobile (active state) or hover on desktop */}
       <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
       
       {/* Dark Overlay Gradient (Bottom only, permanent) */}
@@ -211,8 +211,14 @@ function NewsCard({ category, date, title, location, image }: { category: string
                  </div>
              </div>
 
-             {/* Arrow Button (Hover Effect) */}
-             <div className="bg-white text-black p-3 rounded-full shadow-lg shrink-0 opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 ease-out">
+             {/* Arrow Button */}
+             {/* Mobile (Default): Visible (opacity-100), No offset (translate-y-0)
+                Desktop (lg:): Hidden (opacity-0), Offset down (translate-y-4) -> Visible on Hover 
+             */}
+             <div className="bg-white text-black p-3 rounded-full shadow-lg shrink-0 
+                             opacity-100 translate-y-0 
+                             lg:opacity-0 lg:translate-y-4 lg:group-hover:opacity-100 lg:group-hover:translate-y-0 
+                             transition-all duration-300 ease-out">
                 <ArrowRight size={24} />
              </div>
          </div>
