@@ -69,25 +69,81 @@ export default function PhilosophyPage() {
             </div>
           </section>
 
-          {/* --- DOJO KUN SECTION --- */}
-          <section className="space-y-8">
+{/* --- STACKED HORIZONTAL KANJI DESIGN --- */}
+          <section className="space-y-16 py-12">
             <div className="text-center space-y-4">
-               <h3 className="text-3xl font-black uppercase tracking-tight">The Dojo Kun</h3>
-               <p className="text-neutral-400">Precepts passed down from Master Funakoshi, vital to all SKIF members:</p>
+              <div className="inline-flex items-center gap-4 text-red-600 font-bold uppercase tracking-[0.3em] text-xs mb-2">
+                <span className="h-px w-12 bg-red-600"></span>
+                The Five Precepts
+                <span className="h-px w-12 bg-red-600"></span>
+              </div>
+              <h3 className="text-4xl md:text-6xl font-black uppercase tracking-tighter">The Dojo Kun</h3>
+              <p className="text-neutral-500 max-w-lg mx-auto text-sm">Fundamental principles of character and conduct vital to every SKIF practitioner.</p>
             </div>
-            <div className="grid md:grid-cols-5 gap-4">
+            
+            <div className="max-w-3xl mx-auto space-y-8">
               {[
-                { title: "Character", desc: "Strive for perfection" },
-                { title: "Sincerity", desc: "Defend paths of truth" },
-                { title: "Effort", desc: "Foster spirit of effort" },
-                { title: "Etiquette", desc: "Honor principles" },
-                { title: "Self-Control", desc: "Guard against impetuous courage" }
+                { 
+                  meaning: "Seek perfection of character",
+                  japanese: "人格完成に努むること",
+                  romaji: "hitotsu, jinkaku kansei ni tsutomuru koto"
+                },
+                { 
+                  meaning: "Be faithful", 
+                  japanese: "誠の道を守ること",
+                  romaji: "hitotsu, makoto no michi o mamoru koto"
+                },
+                { 
+                  meaning: "Endeavor for effort", 
+                  japanese: "努力の精神を養うこと",
+                  romaji: "hitotsu, doryoku de seishin o yashinau koto"
+                },
+                { 
+                  meaning: "Respect others", 
+                  japanese: "礼儀を重んずること",
+                  romaji: "hitotsu, reigi o omonzuru koto"
+                },
+                { 
+                  meaning: "Refrain from violent behavior", 
+                  japanese: "血気の勇を戒むること",
+                  romaji: "hitotsu, kekki no yū o imashimuru koto"
+                }
               ].map((kun, i) => (
-                <div key={kun.title} className="text-center p-6 border border-neutral-800 rounded-3xl hover:border-red-600/50 transition-colors">
-                  <span className="text-red-600 font-bold block mb-2">0{i+1}</span>
-                  <h4 className="font-black uppercase text-xs mb-1 tracking-widest">{kun.title}</h4>
-                  <p className="text-[10px] text-neutral-500 uppercase">{kun.desc}</p>
-                </div>
+                <motion.div 
+                  key={i}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: i * 0.1 }}
+                  className="group relative bg-neutral-950 border border-neutral-900 rounded-[2.5rem] p-8 md:p-12 hover:border-red-600/40 transition-all duration-500 shadow-2xl overflow-hidden"
+                >
+                  {/* Watermark Numbering */}
+                  <div className="absolute top-4 right-8 text-neutral-900 font-black text-8xl group-hover:text-red-600/5 transition-colors pointer-events-none">
+                    0{i+1}
+                  </div>
+
+                  <div className="relative z-10 flex flex-col gap-6">
+                    {/* 1. Japanese Kanji (Horizontal) */}
+                    <div className="flex items-center gap-4">
+                      <span className="text-red-600 font-mono text-xs font-black uppercase tracking-widest bg-red-600/10 px-3 py-1 rounded-full">Hitotsu</span>
+                      <p className="text-white text-2xl md:text-3xl font-bold tracking-[0.2em] group-hover:text-red-500 transition-colors">
+                        {kun.japanese}
+                      </p>
+                    </div>
+
+                    {/* 2. English Meaning */}
+                    <div className="border-l-2 border-neutral-800 pl-6 group-hover:border-red-600/50 transition-colors">
+                      <h4 className="text-xl md:text-2xl font-black uppercase tracking-tight text-neutral-300 group-hover:text-white transition-colors">
+                        {kun.meaning}
+                      </h4>
+                    </div>
+                    
+                    {/* 3. Phonetic Romaji */}
+                    <p className="text-neutral-500 font-mono text-[10px] md:text-xs uppercase tracking-[0.2em] leading-relaxed italic">
+                      {kun.romaji}
+                    </p>
+                  </div>
+                </motion.div>
               ))}
             </div>
           </section>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import NextLink from "next/link"; // Changed from next/image to next/link
+import NextLink from "next/link";
 import Image from "next/image";
 import { 
   Menu, 
@@ -9,11 +9,12 @@ import {
   ArrowRight, 
   Instagram, 
   Facebook, 
-  ChevronDown 
+  ChevronDown,
+  ExternalLink // Added for visual indicator
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
-// --- UPDATED NAVIGATION DATA ---
+// --- NAVIGATION DATA ---
 const navLinks = [
   { 
     name: "About", 
@@ -27,7 +28,6 @@ const navLinks = [
     ]
   },
   { name: "News", href: "/news" },
-  // Merged Item
   { name: "Events/Calendar", href: "/events" }, 
   { 
     name: "Resources", 
@@ -37,6 +37,7 @@ const navLinks = [
         { name: "Black Belt Registry", href: "/registry" },    
         { name: "Find a Dojo", href: "/dojo" },
         { name: "Technical", href: "/technical" },
+        { name: "SKIF Japan", href: "https://www.skifworld.com/" },
     ]
   },
   { name: "Shop", href: "/shop" },
@@ -55,6 +56,11 @@ export default function Navbar() {
     }
   }, [isOpen]);
 
+  const closeMenu = () => {
+    setIsOpen(false);
+    setMobileExpandedIndex(null);
+  };
+
   return (
     <>
       {/* --- FLOATING PILL NAVBAR --- */}
@@ -62,14 +68,13 @@ export default function Navbar() {
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.8, ease: "easeOut" }}
-        className="fixed top-4 inset-x-0 max-w-7xl mx-auto px-4 z-50"
+        className="fixed top-4 inset-x-0 max-w-7xl mx-auto px-4 z-[60]"
       >
         <div 
           className="bg-neutral-900/90 backdrop-blur-xl border border-neutral-800 rounded-full pl-6 pr-2 py-2 flex justify-between items-center shadow-2xl shadow-black/50"
           onMouseLeave={() => setHoveredIndex(null)}
         >
-          
-          <NextLink href="/" className="flex items-center gap-3 mr-4 relative z-50 shrink-0 group">
+          <NextLink href="/" className="flex items-center gap-3 mr-4 relative z-50 shrink-0 group" onClick={closeMenu}>
             <div className="relative h-8 w-8 md:h-9 md:w-9">
               <Image 
                 src="/skifusa_logo.webp"
@@ -79,7 +84,6 @@ export default function Navbar() {
                 sizes="(max-width: 768px) 32px, 36px"
               />
             </div>
-
             <span className="text-xl font-black tracking-tighter text-white uppercase group-hover:text-neutral-300 transition-colors">
               SKIF.<span className="text-neutral-500">USA</span>
             </span>
@@ -110,18 +114,24 @@ export default function Navbar() {
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: 10, scale: 0.95 }}
                       transition={{ duration: 0.2 }}
-                      className="absolute top-full left-0 mt-4 w-56 bg-neutral-900 border border-neutral-800 rounded-2xl p-2 shadow-xl overflow-hidden"
+                      className="absolute top-full left-0 mt-4 w-60 bg-neutral-900 border border-neutral-800 rounded-2xl p-2 shadow-xl overflow-hidden"
                     >
                       <div className="flex flex-col gap-1">
-                        {link.submenu.map((subItem) => (
-                          <NextLink
-                            key={subItem.name}
-                            href={subItem.href}
-                            className="text-neutral-400 hover:text-white hover:bg-white/10 px-4 py-2.5 rounded-xl text-sm font-medium transition-colors"
-                          >
-                            {subItem.name}
-                          </NextLink>
-                        ))}
+                        {link.submenu.map((subItem) => {
+                          const isExternal = subItem.href.startsWith("http");
+                          return (
+                            <NextLink
+                              key={subItem.name}
+                              href={subItem.href}
+                              target={isExternal ? "_blank" : "_self"}
+                              rel={isExternal ? "noopener noreferrer" : ""}
+                              className="text-neutral-400 hover:text-white hover:bg-white/10 px-4 py-2.5 rounded-xl text-sm font-medium transition-colors flex items-center justify-between group/item"
+                            >
+                              {subItem.name}
+                              {isExternal && <ExternalLink size={12} className="opacity-50 group-hover/item:opacity-100 transition-opacity" />}
+                            </NextLink>
+                          );
+                        })}
                       </div>
                     </motion.div>
                   )}
@@ -131,18 +141,20 @@ export default function Navbar() {
           </div>
 
           <div className="flex items-center gap-2 relative z-50">
-            <button className="hidden sm:flex bg-white text-black px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wide hover:bg-neutral-200 transition-colors items-center gap-2">
+            <NextLink 
+              href="/membership" 
+              className="hidden sm:flex bg-white text-black px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wide hover:bg-neutral-200 transition-colors items-center gap-2"
+              onClick={closeMenu}
+            >
               Join <ArrowRight size={14} />
-            </button>
+            </NextLink>
 
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="bg-neutral-800 hover:bg-neutral-700 text-white p-3 rounded-full transition-colors border border-neutral-700"
+              className="bg-neutral-800 hover:bg-neutral-700 text-white p-3 rounded-full transition-colors border border-neutral-700 relative z-[70]"
               aria-label="Toggle Menu"
             >
-              <div className="relative">
-                 {isOpen ? <CloseIcon size={18} /> : <Menu size={18} />}
-              </div>
+              {isOpen ? <CloseIcon size={18} /> : <Menu size={18} />}
             </button>
           </div>
         </div>
@@ -161,74 +173,66 @@ export default function Navbar() {
             <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-neutral-900/30 rounded-full blur-[100px] -z-10 pointer-events-none" />
 
             <div className="container mx-auto max-w-5xl grid lg:grid-cols-2 gap-12 lg:gap-24">
-              
               <div className="flex flex-col gap-4">
-                <p className="text-neutral-500 text-sm font-mono mb-2">NAVIGATION</p>
+                <p className="text-neutral-500 text-sm font-mono mb-2 uppercase tracking-widest">Navigation</p>
                 
                 {navLinks.map((link, idx) => (
                   <div key={link.name} className="flex flex-col">
                     <div 
                       className="flex items-center justify-between group cursor-pointer"
                       onClick={() => {
-                         if(link.submenu) {
-                            setMobileExpandedIndex(mobileExpandedIndex === idx ? null : idx)
+                         if (link.submenu) {
+                            setMobileExpandedIndex(mobileExpandedIndex === idx ? null : idx);
                          } else {
-                            setIsOpen(false);
+                            closeMenu();
                          }
                       }}
                     >
-                        <NextLink href={link.href} onClick={(e) => link.submenu && e.preventDefault()}>
-                            <motion.span
-                                initial={{ x: -50, opacity: 0 }}
-                                animate={{ x: 0, opacity: 1 }}
-                                transition={{ delay: 0.1 + idx * 0.1 }}
-                                className={`text-4xl md:text-6xl font-black uppercase tracking-tighter transition-colors ${mobileExpandedIndex === idx ? 'text-white' : 'text-neutral-400 group-hover:text-white'}`}
-                            >
-                            {link.name}
-                            </motion.span>
-                        </NextLink>
-                        {link.submenu && (
-                             <motion.div
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                transition={{ delay: 0.1 + idx * 0.1 }}
-                             >
-                                <ChevronDown 
-                                    className={`text-neutral-500 transition-transform duration-300 ${mobileExpandedIndex === idx ? 'rotate-180' : ''}`} 
-                                    size={32} 
-                                />
-                             </motion.div>
-                        )}
+                      <span className={`text-4xl md:text-6xl font-black uppercase tracking-tighter transition-colors ${mobileExpandedIndex === idx ? 'text-white' : 'text-neutral-400 group-hover:text-white'}`}>
+                        {link.name}
+                      </span>
+                      {link.submenu && (
+                        <ChevronDown 
+                          className={`text-neutral-500 transition-transform duration-300 ${mobileExpandedIndex === idx ? 'rotate-180' : ''}`} 
+                          size={32} 
+                        />
+                      )}
                     </div>
 
                     <AnimatePresence>
-                        {link.submenu && mobileExpandedIndex === idx && (
-                            <motion.div
-                                initial={{ height: 0, opacity: 0 }}
-                                animate={{ height: "auto", opacity: 1 }}
-                                exit={{ height: 0, opacity: 0 }}
-                                className="overflow-hidden"
-                            >
-                                <div className="pl-6 pt-2 flex flex-col gap-3 border-l-2 border-neutral-800 ml-2 my-4">
-                                    {link.submenu.map((subItem) => (
-                                        <NextLink 
-                                            key={subItem.name}
-                                            href={subItem.href}
-                                            onClick={() => setIsOpen(false)}
-                                            className="text-xl text-neutral-400 hover:text-white font-medium block"
-                                        >
-                                            {subItem.name}
-                                        </NextLink>
-                                    ))}
-                                </div>
-                            </motion.div>
-                        )}
+                      {link.submenu && mobileExpandedIndex === idx && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          className="overflow-hidden"
+                        >
+                          <div className="pl-6 pt-2 flex flex-col gap-3 border-l-2 border-neutral-800 ml-2 my-4">
+                            {link.submenu.map((subItem) => {
+                              const isExternal = subItem.href.startsWith("http");
+                              return (
+                                <NextLink 
+                                  key={subItem.name}
+                                  href={subItem.href}
+                                  target={isExternal ? "_blank" : "_self"}
+                                  rel={isExternal ? "noopener noreferrer" : ""}
+                                  onClick={closeMenu}
+                                  className="text-xl text-neutral-400 hover:text-white font-medium flex items-center gap-3"
+                                >
+                                  {subItem.name}
+                                  {isExternal && <ExternalLink size={16} className="text-neutral-600" />}
+                                </NextLink>
+                              );
+                            })}
+                          </div>
+                        </motion.div>
+                      )}
                     </AnimatePresence>
                   </div>
                 ))}
               </div>
 
-              {/* Info Column */}
+              {/* RESTORED INFO COLUMN */}
               <motion.div 
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -243,35 +247,22 @@ export default function Navbar() {
                   <div>
                     <h4 className="text-neutral-500 text-xs font-bold uppercase tracking-widest mb-4">Contact</h4>
                     <p className="text-xl text-white font-medium hover:underline cursor-pointer">skifusa@gmail.com</p>
-                    <p className="text-xl text-white font-medium">+1 555-0199</p>
                   </div>
 
                   <div className="flex gap-4 pt-4">
-                    <NextLink 
-                      href="https://facebook.com" 
-                      target="_blank" 
-                      className="w-14 h-14 rounded-full bg-neutral-800 flex items-center justify-center hover:bg-[#1877F2] hover:text-white transition-all cursor-pointer"
-                    >
-                        <Facebook size={24} />
-                    </NextLink>
-
-                    <NextLink 
-                      href="https://x.com" 
-                      target="_blank" 
-                      className="w-14 h-14 rounded-full bg-neutral-800 flex items-center justify-center hover:bg-white hover:text-black transition-all cursor-pointer"
-                    >
+                    <a href="https://facebook.com/groups/skifusa" target="_blank" className="w-14 h-14 rounded-full bg-neutral-800 flex items-center justify-center hover:bg-[#1877F2] hover:text-white transition-all">
+                      <Facebook size={24} />
+                    </a>
+                    
+                    <a href="https://x.com/skif_usa" target="_blank" className="w-14 h-14 rounded-full bg-neutral-800 flex items-center justify-center hover:bg-white hover:text-black transition-all">
                         <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
                           <path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932 6.064-6.932zm-1.294 19.497h2.039L6.486 3.24H4.298l13.31 17.41z" />
                         </svg>
-                    </NextLink>
+                    </a>
 
-                    <NextLink 
-                      href="https://instagram.com" 
-                      target="_blank" 
-                      className="w-14 h-14 rounded-full bg-neutral-800 flex items-center justify-center hover:bg-gradient-to-tr from-[#f9ce34] via-[#ee2a7b] to-[#6228d7] hover:text-white transition-all cursor-pointer"
-                    >
-                        <Instagram size={24} />
-                    </NextLink>
+                    <a href="https://instagram.com/skif_usa" target="_blank" className="w-14 h-14 rounded-full bg-neutral-800 flex items-center justify-center hover:bg-gradient-to-tr from-[#f9ce34] via-[#ee2a7b] to-[#6228d7] hover:text-white transition-all">
+                      <Instagram size={24} />
+                    </a>
                   </div>
                 </div>
               </motion.div>
