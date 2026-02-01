@@ -23,7 +23,7 @@ export default function NewsPage() {
           </h1>
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mt-6">
             <p className="text-neutral-400 text-lg max-w-2xl">
-              Official Fall/Winter 2025 Newsletter1. Read about Taikyoku Shodan perspectives, Kancho Kanazawa in Hawaii, and more.
+              Official Fall/Winter 2025 Newsletter. Read about Taikyoku Shodan perspectives, Kancho Kanazawa in Hawaii, and more.
             </p>
             <a 
               href={pdfUrl} 
