@@ -234,9 +234,13 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 5. MEMBER RESOURCES SECTION (White BG + Dark Cards) */}
-      <section id="resources" className="py-32 px-6 bg-white border-t border-neutral-200">
-        <div className="container mx-auto max-w-6xl">
+      {/* 5. MEMBER RESOURCES SECTION (Light Gray BG + DARK CARDS) */}
+      <section id="resources" className="py-32 px-6 bg-neutral-200 border-t border-neutral-300 relative overflow-hidden">
+        
+        {/* Subtle patterned overlay */}
+        <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#000 1px, transparent 1px)', backgroundSize: '20px 20px' }}></div>
+        
+        <div className="container mx-auto max-w-6xl relative z-10">
            
            {/* HEADER 04 */}
            <div className="flex flex-col items-center text-center mb-16 relative">
@@ -249,9 +253,9 @@ export default function Home() {
                 <span className="w-8 h-[2px] bg-red-600"></span>
             </div>
             <h2 className="text-5xl md:text-7xl font-black uppercase tracking-tighter text-black mb-6 relative z-10">
-                Member <span className="text-neutral-300 mx-2">&bull;</span> Resources
+                Member <span className="text-neutral-500 mx-2">&bull;</span> Resources
             </h2>
-            <p className="text-neutral-500 max-w-xl text-lg leading-relaxed relative z-10">
+            <p className="text-neutral-600 max-w-xl text-lg leading-relaxed relative z-10">
                 Verify black belt credentials, download official technical syllabi, or purchase authentic federation merchandise.
             </p>
           </div>
@@ -259,7 +263,8 @@ export default function Home() {
            <div className="grid md:grid-cols-3 gap-8">
               
               {/* --- CARD 1: Black Belt Registry (Dark Card) --- */}
-              <div className="group relative h-[350px] bg-neutral-900 border border-neutral-800 hover:border-red-600 rounded-3xl overflow-hidden transition-all duration-500 cursor-pointer flex flex-col p-8 hover:shadow-2xl hover:shadow-black/20">
+              {/* CHANGED: bg-neutral-900 (Dark), text-white */}
+              <div className="group relative h-[350px] bg-neutral-900 border border-neutral-800 hover:border-red-600 rounded-3xl overflow-hidden transition-all duration-500 cursor-pointer flex flex-col p-8 shadow-2xl shadow-neutral-900/20 hover:shadow-red-900/20 hover:-translate-y-2">
                   <div className="w-12 h-12 bg-neutral-800 rounded-full flex items-center justify-center mb-6 group-hover:bg-red-600 transition-colors">
                       <ScrollText size={20} className="text-white" />
                   </div>
@@ -268,7 +273,7 @@ export default function Home() {
                           Black Belt <br/><span className="text-neutral-500 group-hover:text-white transition-colors">Registry</span>
                       </h3>
                       <p className="text-neutral-400 text-sm leading-relaxed">
-                         Official database of SKIF-USA Yudansha members. Verify ranks and certification status.
+                         The official SKIF-USA Black Belt database—search by name to verify Dan grade and dojo affiliation.
                       </p>
                   </div>
                   <div className="mt-auto border-t border-neutral-800 pt-6 flex items-center justify-between text-white font-bold uppercase tracking-widest text-xs">
@@ -278,7 +283,7 @@ export default function Home() {
               </div>
 
               {/* --- CARD 2: Technical (Dark Card) --- */}
-              <div className="group relative h-[350px] bg-neutral-900 border border-neutral-800 hover:border-red-600 rounded-3xl overflow-hidden transition-all duration-500 cursor-pointer flex flex-col p-8 hover:shadow-2xl hover:shadow-black/20">
+              <div className="group relative h-[350px] bg-neutral-900 border border-neutral-800 hover:border-red-600 rounded-3xl overflow-hidden transition-all duration-500 cursor-pointer flex flex-col p-8 shadow-2xl shadow-neutral-900/20 hover:shadow-red-900/20 hover:-translate-y-2">
                   <div className="w-12 h-12 bg-neutral-800 rounded-full flex items-center justify-center mb-6 group-hover:bg-red-600 transition-colors">
                       <FileText size={20} className="text-white" />
                   </div>
@@ -297,7 +302,7 @@ export default function Home() {
               </div>
 
               {/* --- CARD 3: Merchandise (Dark Card) --- */}
-              <div className="group relative h-[350px] bg-neutral-900 border border-neutral-800 hover:border-red-600 rounded-3xl overflow-hidden transition-all duration-500 cursor-pointer flex flex-col p-8 hover:shadow-2xl hover:shadow-black/20">
+              <div className="group relative h-[350px] bg-neutral-900 border border-neutral-800 hover:border-red-600 rounded-3xl overflow-hidden transition-all duration-500 cursor-pointer flex flex-col p-8 shadow-2xl shadow-neutral-900/20 hover:shadow-red-900/20 hover:-translate-y-2">
                   <div className="w-12 h-12 bg-neutral-800 rounded-full flex items-center justify-center mb-6 group-hover:bg-red-600 transition-colors">
                       <ShoppingBag size={20} className="text-white" />
                   </div>
@@ -306,7 +311,7 @@ export default function Home() {
                           Official <br/><span className="text-neutral-500 group-hover:text-white transition-colors">Merch</span>
                       </h3>
                       <p className="text-neutral-400 text-sm leading-relaxed">
-                         Purchase authentic SKIF-USA gi, patches, belts, and branded apparel.
+                         Purchase authentic SKIF-USA stamps, DVDs , books, and accessories.
                       </p>
                   </div>
                   <div className="mt-auto border-t border-neutral-800 pt-6 flex items-center justify-between text-white font-bold uppercase tracking-widest text-xs">
