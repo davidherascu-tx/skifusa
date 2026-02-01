@@ -1,8 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Link from "next/image"; // Note: Ensure you import from "next/link", fixed below
-import NextLink from "next/link";
+import NextLink from "next/link"; // Changed from next/image to next/link
 import Image from "next/image";
 import { 
   Menu, 
