@@ -1,11 +1,12 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Link from "next/link";
+import Link from "next/image"; // Note: Ensure you import from "next/link", fixed below
+import NextLink from "next/link";
 import Image from "next/image";
 import { 
   Menu, 
-  X as CloseIcon, // Renamed to avoid conflict with X logo
+  X as CloseIcon, 
   ArrowRight, 
   Instagram, 
   Facebook, 
@@ -13,7 +14,7 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
-// --- NAVIGATION DATA ---
+// --- UPDATED NAVIGATION DATA ---
 const navLinks = [
   { 
     name: "About", 
@@ -27,8 +28,8 @@ const navLinks = [
     ]
   },
   { name: "News", href: "/news" },
-  { name: "Events", href: "/events" },
-  { name: "Calendar", href: "/calendar" },
+  // Merged Item
+  { name: "Events/Calendar", href: "/events" }, 
   { 
     name: "Resources", 
     href: "#",
@@ -69,7 +70,7 @@ export default function Navbar() {
           onMouseLeave={() => setHoveredIndex(null)}
         >
           
-          <Link href="/" className="flex items-center gap-3 mr-4 relative z-50 shrink-0 group">
+          <NextLink href="/" className="flex items-center gap-3 mr-4 relative z-50 shrink-0 group">
             <div className="relative h-8 w-8 md:h-9 md:w-9">
               <Image 
                 src="/skifusa_logo.webp"
@@ -83,7 +84,7 @@ export default function Navbar() {
             <span className="text-xl font-black tracking-tighter text-white uppercase group-hover:text-neutral-300 transition-colors">
               SKIF.<span className="text-neutral-500">USA</span>
             </span>
-          </Link>
+          </NextLink>
 
           {/* DESKTOP LINKS */}
           <div className="hidden lg:flex items-center gap-1 h-full">
@@ -93,7 +94,7 @@ export default function Navbar() {
                 className="relative h-full flex items-center"
                 onMouseEnter={() => setHoveredIndex(index)}
               >
-                <Link
+                <NextLink
                   href={link.href}
                   className={`px-4 py-2 text-xs font-bold transition-all uppercase tracking-wider rounded-full flex items-center gap-1 ${
                     hoveredIndex === index ? "text-white bg-white/10" : "text-neutral-400 hover:text-white"
@@ -101,7 +102,7 @@ export default function Navbar() {
                 >
                   {link.name}
                   {link.submenu && <ChevronDown size={12} />}
-                </Link>
+                </NextLink>
 
                 <AnimatePresence>
                   {link.submenu && hoveredIndex === index && (
@@ -114,13 +115,13 @@ export default function Navbar() {
                     >
                       <div className="flex flex-col gap-1">
                         {link.submenu.map((subItem) => (
-                          <Link
+                          <NextLink
                             key={subItem.name}
                             href={subItem.href}
                             className="text-neutral-400 hover:text-white hover:bg-white/10 px-4 py-2.5 rounded-xl text-sm font-medium transition-colors"
                           >
                             {subItem.name}
-                          </Link>
+                          </NextLink>
                         ))}
                       </div>
                     </motion.div>
@@ -177,14 +178,16 @@ export default function Navbar() {
                          }
                       }}
                     >
-                        <motion.span
-                            initial={{ x: -50, opacity: 0 }}
-                            animate={{ x: 0, opacity: 1 }}
-                            transition={{ delay: 0.1 + idx * 0.1 }}
-                            className={`text-4xl md:text-6xl font-black uppercase tracking-tighter transition-colors ${mobileExpandedIndex === idx ? 'text-white' : 'text-neutral-400 group-hover:text-white'}`}
-                        >
-                        {link.name}
-                        </motion.span>
+                        <NextLink href={link.href} onClick={(e) => link.submenu && e.preventDefault()}>
+                            <motion.span
+                                initial={{ x: -50, opacity: 0 }}
+                                animate={{ x: 0, opacity: 1 }}
+                                transition={{ delay: 0.1 + idx * 0.1 }}
+                                className={`text-4xl md:text-6xl font-black uppercase tracking-tighter transition-colors ${mobileExpandedIndex === idx ? 'text-white' : 'text-neutral-400 group-hover:text-white'}`}
+                            >
+                            {link.name}
+                            </motion.span>
+                        </NextLink>
                         {link.submenu && (
                              <motion.div
                                 initial={{ opacity: 0 }}
@@ -209,14 +212,14 @@ export default function Navbar() {
                             >
                                 <div className="pl-6 pt-2 flex flex-col gap-3 border-l-2 border-neutral-800 ml-2 my-4">
                                     {link.submenu.map((subItem) => (
-                                        <Link 
+                                        <NextLink 
                                             key={subItem.name}
                                             href={subItem.href}
                                             onClick={() => setIsOpen(false)}
                                             className="text-xl text-neutral-400 hover:text-white font-medium block"
                                         >
                                             {subItem.name}
-                                        </Link>
+                                        </NextLink>
                                     ))}
                                 </div>
                             </motion.div>
@@ -244,41 +247,32 @@ export default function Navbar() {
                     <p className="text-xl text-white font-medium">+1 555-0199</p>
                   </div>
 
-                  {/* SOCIAL ICONS SECTION */}
                   <div className="flex gap-4 pt-4">
-                    {/* Facebook */}
-                    <Link 
+                    <NextLink 
                       href="https://facebook.com" 
                       target="_blank" 
                       className="w-14 h-14 rounded-full bg-neutral-800 flex items-center justify-center hover:bg-[#1877F2] hover:text-white transition-all cursor-pointer"
                     >
                         <Facebook size={24} />
-                    </Link>
+                    </NextLink>
 
-                    {/* CUSTOM X LOGO (SVG) */}
-                    <Link 
+                    <NextLink 
                       href="https://x.com" 
                       target="_blank" 
                       className="w-14 h-14 rounded-full bg-neutral-800 flex items-center justify-center hover:bg-white hover:text-black transition-all cursor-pointer"
                     >
-                        <svg 
-                          width="22" 
-                          height="22" 
-                          viewBox="0 0 24 24" 
-                          fill="currentColor"
-                        >
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
                           <path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932 6.064-6.932zm-1.294 19.497h2.039L6.486 3.24H4.298l13.31 17.41z" />
                         </svg>
-                    </Link>
+                    </NextLink>
 
-                    {/* Instagram */}
-                    <Link 
+                    <NextLink 
                       href="https://instagram.com" 
                       target="_blank" 
                       className="w-14 h-14 rounded-full bg-neutral-800 flex items-center justify-center hover:bg-gradient-to-tr from-[#f9ce34] via-[#ee2a7b] to-[#6228d7] hover:text-white transition-all cursor-pointer"
                     >
                         <Instagram size={24} />
-                    </Link>
+                    </NextLink>
                   </div>
                 </div>
               </motion.div>
