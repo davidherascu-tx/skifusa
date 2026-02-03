@@ -10,7 +10,7 @@ import {
   Instagram, 
   Facebook, 
   ChevronDown,
-  ExternalLink // Added for visual indicator
+  ExternalLink 
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -18,7 +18,7 @@ import { motion, AnimatePresence } from "framer-motion";
 const navLinks = [
   { 
     name: "About", 
-    href: "#",
+    href: "#", // No link, just opens submenu
     submenu: [
       { name: "Our History", href: "/history" },
       { name: "Instructors", href: "/instructors" },
@@ -40,7 +40,7 @@ const navLinks = [
         { name: "SKIF Japan", href: "https://www.skifworld.com/" },
     ]
   },
-  { name: "Shop", href: "/shop" },
+  { name: "Shop", href: "https://www.skifusa.org/shop" },
 ];
 
 export default function Navbar() {
@@ -91,53 +91,75 @@ export default function Navbar() {
 
           {/* DESKTOP LINKS */}
           <div className="hidden lg:flex items-center gap-1 h-full">
-            {navLinks.map((link, index) => (
-              <div 
-                key={link.name} 
-                className="relative h-full flex items-center"
-                onMouseEnter={() => setHoveredIndex(index)}
-              >
-                <NextLink
-                  href={link.href}
-                  className={`px-4 py-2 text-xs font-bold transition-all uppercase tracking-wider rounded-full flex items-center gap-1 ${
-                    hoveredIndex === index ? "text-white bg-white/10" : "text-neutral-400 hover:text-white"
-                  }`}
-                >
-                  {link.name}
-                  {link.submenu && <ChevronDown size={12} />}
-                </NextLink>
+            {navLinks.map((link, index) => {
+              const isExternal = link.href.startsWith("http");
+              const hasSubmenu = !!link.submenu;
+              const isNoLink = link.href === "#";
 
-                <AnimatePresence>
-                  {link.submenu && hoveredIndex === index && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                      animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                      transition={{ duration: 0.2 }}
-                      className="absolute top-full left-0 mt-4 w-60 bg-neutral-900 border border-neutral-800 rounded-2xl p-2 shadow-xl overflow-hidden"
+              return (
+                <div 
+                  key={link.name} 
+                  className="relative h-full flex items-center"
+                  onMouseEnter={() => setHoveredIndex(index)}
+                >
+                  {isNoLink ? (
+                    /* Render as a div/span if there is no link to follow */
+                    <div
+                      className={`px-4 py-2 text-xs font-bold transition-all uppercase tracking-wider rounded-full flex items-center gap-1 cursor-default ${
+                        hoveredIndex === index ? "text-white bg-white/10" : "text-neutral-400"
+                      }`}
                     >
-                      <div className="flex flex-col gap-1">
-                        {link.submenu.map((subItem) => {
-                          const isExternal = subItem.href.startsWith("http");
-                          return (
-                            <NextLink
-                              key={subItem.name}
-                              href={subItem.href}
-                              target={isExternal ? "_blank" : "_self"}
-                              rel={isExternal ? "noopener noreferrer" : ""}
-                              className="text-neutral-400 hover:text-white hover:bg-white/10 px-4 py-2.5 rounded-xl text-sm font-medium transition-colors flex items-center justify-between group/item"
-                            >
-                              {subItem.name}
-                              {isExternal && <ExternalLink size={12} className="opacity-50 group-hover/item:opacity-100 transition-opacity" />}
-                            </NextLink>
-                          );
-                        })}
-                      </div>
-                    </motion.div>
+                      {link.name}
+                      {hasSubmenu && <ChevronDown size={12} />}
+                    </div>
+                  ) : (
+                    <NextLink
+                      href={link.href}
+                      target={isExternal ? "_blank" : "_self"}
+                      rel={isExternal ? "noopener noreferrer" : ""}
+                      className={`px-4 py-2 text-xs font-bold transition-all uppercase tracking-wider rounded-full flex items-center gap-1 ${
+                        hoveredIndex === index ? "text-white bg-white/10" : "text-neutral-400 hover:text-white"
+                      }`}
+                    >
+                      {link.name}
+                      {hasSubmenu && <ChevronDown size={12} />}
+                      {isExternal && <ExternalLink size={12} className="opacity-50" />}
+                    </NextLink>
                   )}
-                </AnimatePresence>
-              </div>
-            ))}
+
+                  <AnimatePresence>
+                    {link.submenu && hoveredIndex === index && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                        transition={{ duration: 0.2 }}
+                        className="absolute top-full left-0 mt-4 w-60 bg-neutral-900 border border-neutral-800 rounded-2xl p-2 shadow-xl overflow-hidden"
+                      >
+                        <div className="flex flex-col gap-1">
+                          {link.submenu.map((subItem) => {
+                            const isSubExternal = subItem.href.startsWith("http");
+                            return (
+                              <NextLink
+                                key={subItem.name}
+                                href={subItem.href}
+                                target={isSubExternal ? "_blank" : "_self"}
+                                rel={isSubExternal ? "noopener noreferrer" : ""}
+                                onClick={() => setHoveredIndex(null)}
+                                className="text-neutral-400 hover:text-white hover:bg-white/10 px-4 py-2.5 rounded-xl text-sm font-medium transition-colors flex items-center justify-between group/item"
+                              >
+                                {subItem.name}
+                                {isSubExternal && <ExternalLink size={12} className="opacity-50 group-hover/item:opacity-100 transition-opacity" />}
+                              </NextLink>
+                            );
+                          })}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              );
+            })}
           </div>
 
           <div className="flex items-center gap-2 relative z-50">
@@ -176,60 +198,68 @@ export default function Navbar() {
               <div className="flex flex-col gap-4">
                 <p className="text-neutral-500 text-sm font-mono mb-2 uppercase tracking-widest">Navigation</p>
                 
-                {navLinks.map((link, idx) => (
-                  <div key={link.name} className="flex flex-col">
-                    <div 
-                      className="flex items-center justify-between group cursor-pointer"
-                      onClick={() => {
-                         if (link.submenu) {
-                            setMobileExpandedIndex(mobileExpandedIndex === idx ? null : idx);
-                         } else {
-                            closeMenu();
-                         }
-                      }}
-                    >
-                      <span className={`text-4xl md:text-6xl font-black uppercase tracking-tighter transition-colors ${mobileExpandedIndex === idx ? 'text-white' : 'text-neutral-400 group-hover:text-white'}`}>
-                        {link.name}
-                      </span>
-                      {link.submenu && (
-                        <ChevronDown 
-                          className={`text-neutral-500 transition-transform duration-300 ${mobileExpandedIndex === idx ? 'rotate-180' : ''}`} 
-                          size={32} 
-                        />
-                      )}
-                    </div>
+                {navLinks.map((link, idx) => {
+                  const isExternal = link.href.startsWith("http");
+                  return (
+                    <div key={link.name} className="flex flex-col">
+                      <div 
+                        className="flex items-center justify-between group cursor-pointer"
+                        onClick={() => {
+                           if (link.submenu) {
+                              setMobileExpandedIndex(mobileExpandedIndex === idx ? null : idx);
+                           } else if (isExternal) {
+                              window.open(link.href, "_blank", "noopener,noreferrer");
+                              closeMenu();
+                           } else {
+                              closeMenu();
+                           }
+                        }}
+                      >
+                        <span className={`text-4xl md:text-6xl font-black uppercase tracking-tighter transition-colors ${mobileExpandedIndex === idx ? 'text-white' : 'text-neutral-400 group-hover:text-white'}`}>
+                          {link.name}
+                        </span>
+                        {link.submenu ? (
+                          <ChevronDown 
+                            className={`text-neutral-500 transition-transform duration-300 ${mobileExpandedIndex === idx ? 'rotate-180' : ''}`} 
+                            size={32} 
+                          />
+                        ) : isExternal ? (
+                          <ExternalLink size={32} className="text-neutral-600" />
+                        ) : null}
+                      </div>
 
-                    <AnimatePresence>
-                      {link.submenu && mobileExpandedIndex === idx && (
-                        <motion.div
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: "auto", opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          className="overflow-hidden"
-                        >
-                          <div className="pl-6 pt-2 flex flex-col gap-3 border-l-2 border-neutral-800 ml-2 my-4">
-                            {link.submenu.map((subItem) => {
-                              const isExternal = subItem.href.startsWith("http");
-                              return (
-                                <NextLink 
-                                  key={subItem.name}
-                                  href={subItem.href}
-                                  target={isExternal ? "_blank" : "_self"}
-                                  rel={isExternal ? "noopener noreferrer" : ""}
-                                  onClick={closeMenu}
-                                  className="text-xl text-neutral-400 hover:text-white font-medium flex items-center gap-3"
-                                >
-                                  {subItem.name}
-                                  {isExternal && <ExternalLink size={16} className="text-neutral-600" />}
-                                </NextLink>
-                              );
-                            })}
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </div>
-                ))}
+                      <AnimatePresence>
+                        {link.submenu && mobileExpandedIndex === idx && (
+                          <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: "auto", opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            className="overflow-hidden"
+                          >
+                            <div className="pl-6 pt-2 flex flex-col gap-3 border-l-2 border-neutral-800 ml-2 my-4">
+                              {link.submenu.map((subItem) => {
+                                const isSubExternal = subItem.href.startsWith("http");
+                                return (
+                                  <NextLink 
+                                    key={subItem.name}
+                                    href={subItem.href}
+                                    target={isSubExternal ? "_blank" : "_self"}
+                                    rel={isSubExternal ? "noopener noreferrer" : ""}
+                                    onClick={closeMenu}
+                                    className="text-xl text-neutral-400 hover:text-white font-medium flex items-center gap-3"
+                                  >
+                                    {subItem.name}
+                                    {isSubExternal && <ExternalLink size={16} className="text-neutral-600" />}
+                                  </NextLink>
+                                );
+                              })}
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                  );
+                })}
               </div>
 
               {/* RESTORED INFO COLUMN */}
