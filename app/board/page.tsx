@@ -130,8 +130,8 @@ Rank History
 Since his relocation to Hawaii Nagel practice Karate under the watchful eyes of Takemori Sensei 9 th DAN, Kiyuna Sensei 8 th DAN, Fong Sensei 8 th DAN and Nishimura Sensei 7 th DAN. In 2018 Nagel tested successfully for 7 th DAN under Kanzcho Kanazawa in Honolulu, Hawaii.`, 
     image: "/manfred_nagel_profil.webp" 
   },
-  { id: 6, name: "Ricardo Neves", title: "Director", rank: "4th Dan", bio: "Bio for Ricardo Neves", image: "/ricardo_profil_bw.webp" },
-  { id: 7, name: "Norman Odani", title: "Director", rank: "2nd Dan", bio: "Bio for Norman Odani", image: "/norman_profil_bw.webp" },
+  { id: 6, name: "Norman Odani", title: "Director", rank: "5th Dan", bio: "Bio for Norman Odani", image: "/norman_profil_bw.webp" },
+  { id: 7, name: "Ricardo Neves", title: "Director", rank: "4th Dan", bio: "Bio for Ricardo Neves", image: "/ricardo_profil_bw.webp" },
 ];
 
 export default function BoardPage() {

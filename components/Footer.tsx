@@ -32,27 +32,23 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* COLUMN 3: CONTACT (Kept original as requested) */}
-          <div className="md:col-span-3">
-            <h4 className="font-bold uppercase tracking-widest mb-6 text-sm text-neutral-500">Contact Us</h4>
-            <ul className="space-y-6 text-neutral-400 text-sm">
-              <li className="flex items-start gap-3">
-                <MapPin className="shrink-0 text-white" size={18} />
-                <span>
-                  P.O. Box 42316<br />
-                  Cincinnati, OH 45242
-                </span>
-              </li>
-              <li className="flex items-center gap-3">
-                <Mail className="shrink-0 text-white" size={18} />
-                <span>skifusa@gmail.com</span>
-              </li>
-              <li className="flex items-center gap-3">
-                <Phone className="shrink-0 text-white" size={18} />
-                <span>+1 (513) 555-0199</span>
-              </li>
-            </ul>
-          </div>
+{/* COLUMN 3: CONTACT (Kept original as requested) */}
+<div className="md:col-span-3">
+  <h4 className="font-bold uppercase tracking-widest mb-6 text-sm text-neutral-500">Contact Us</h4>
+  <ul className="space-y-6 text-neutral-400 text-sm">
+    <li className="flex items-start gap-3">
+      <MapPin className="shrink-0 text-white" size={18} />
+      <span>
+        P.O. Box 42316<br />
+        Cincinnati, OH 45242
+      </span>
+    </li>
+    <li className="flex items-center gap-3">
+      <Mail className="shrink-0 text-white" size={18} />
+      <span>skifusa@gmail.com</span>
+    </li>
+  </ul>
+</div>
 
           {/* COLUMN 4: UPDATES (Kept original as requested) */}
           <div className="md:col-span-3">
