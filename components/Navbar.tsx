@@ -18,7 +18,7 @@ import { motion, AnimatePresence } from "framer-motion";
 const navLinks = [
   { 
     name: "About", 
-    href: "#", // No link, just opens submenu
+    href: "#",
     submenu: [
       { name: "Our History", href: "/history" },
       { name: "Instructors", href: "/instructors" },
@@ -103,7 +103,6 @@ export default function Navbar() {
                   onMouseEnter={() => setHoveredIndex(index)}
                 >
                   {isNoLink ? (
-                    /* Render as a div/span if there is no link to follow */
                     <div
                       className={`px-4 py-2 text-xs font-bold transition-all uppercase tracking-wider rounded-full flex items-center gap-1 cursor-default ${
                         hoveredIndex === index ? "text-white bg-white/10" : "text-neutral-400"
@@ -200,33 +199,37 @@ export default function Navbar() {
                 
                 {navLinks.map((link, idx) => {
                   const isExternal = link.href.startsWith("http");
+                  const hasSubmenu = !!link.submenu;
+
                   return (
                     <div key={link.name} className="flex flex-col">
-                      <div 
-                        className="flex items-center justify-between group cursor-pointer"
-                        onClick={() => {
-                           if (link.submenu) {
-                              setMobileExpandedIndex(mobileExpandedIndex === idx ? null : idx);
-                           } else if (isExternal) {
-                              window.open(link.href, "_blank", "noopener,noreferrer");
-                              closeMenu();
-                           } else {
-                              closeMenu();
-                           }
-                        }}
-                      >
-                        <span className={`text-4xl md:text-6xl font-black uppercase tracking-tighter transition-colors ${mobileExpandedIndex === idx ? 'text-white' : 'text-neutral-400 group-hover:text-white'}`}>
-                          {link.name}
-                        </span>
-                        {link.submenu ? (
+                      {hasSubmenu ? (
+                        <div 
+                          className="flex items-center justify-between group cursor-pointer"
+                          onClick={() => setMobileExpandedIndex(mobileExpandedIndex === idx ? null : idx)}
+                        >
+                          <span className={`text-4xl md:text-6xl font-black uppercase tracking-tighter transition-colors ${mobileExpandedIndex === idx ? 'text-white' : 'text-neutral-400 group-hover:text-white'}`}>
+                            {link.name}
+                          </span>
                           <ChevronDown 
                             className={`text-neutral-500 transition-transform duration-300 ${mobileExpandedIndex === idx ? 'rotate-180' : ''}`} 
                             size={32} 
                           />
-                        ) : isExternal ? (
-                          <ExternalLink size={32} className="text-neutral-600" />
-                        ) : null}
-                      </div>
+                        </div>
+                      ) : (
+                        <NextLink
+                          href={link.href}
+                          target={isExternal ? "_blank" : "_self"}
+                          rel={isExternal ? "noopener noreferrer" : ""}
+                          onClick={closeMenu}
+                          className="flex items-center justify-between group"
+                        >
+                          <span className="text-4xl md:text-6xl font-black uppercase tracking-tighter text-neutral-400 group-hover:text-white transition-colors">
+                            {link.name}
+                          </span>
+                          {isExternal && <ExternalLink size={32} className="text-neutral-600" />}
+                        </NextLink>
+                      )}
 
                       <AnimatePresence>
                         {link.submenu && mobileExpandedIndex === idx && (
