@@ -1,10 +1,55 @@
 "use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { Users, Shield, CheckCircle2, Globe, Award, Send } from "lucide-react";
+import { Users, Shield, CheckCircle2, Globe, Award, Send, Loader2 } from "lucide-react";
 
 export default function MembershipPage() {
+  // 1. State for form data and submission status
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formData, setFormData] = useState({
+    fullName: "",
+    rank: "",
+    selection: "Individual",
+    email: ""
+  });
+
+  // 2. Handle input changes
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  // 3. Handle form submission
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    try {
+      // Send data to the API route
+      const response = await fetch('/api/send', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          formType: 'Membership Application',
+          ...formData
+        }),
+      });
+
+      if (response.ok) {
+        alert('Application submitted successfully!');
+        setFormData({ fullName: "", rank: "", selection: "Individual", email: "" }); // Reset form
+      } else {
+        alert('Failed to send application. Please try again.');
+      }
+    } catch (error) {
+      console.error(error);
+      alert('An error occurred. Please try again later.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <main className="min-h-screen bg-black text-white selection:bg-white selection:text-black pt-32 pb-20 px-6">
       <div className="container mx-auto max-w-6xl">
@@ -103,10 +148,14 @@ export default function MembershipPage() {
               Apply Now <span className="w-8 h-[1px] bg-red-600" />
             </h3>
 
-            <form className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-2">
                 <label className="text-[10px] font-black uppercase tracking-widest text-neutral-500 ml-4">Full Name</label>
                 <input 
+                  required
+                  name="fullName"
+                  value={formData.fullName}
+                  onChange={handleChange}
                   type="text" 
                   placeholder="E.G. ICHIBAN KARATEKA"
                   className="w-full bg-black border border-neutral-800 rounded-2xl px-6 py-4 text-sm focus:outline-none focus:border-red-600 transition-colors placeholder:text-neutral-700 font-bold uppercase"
@@ -117,6 +166,10 @@ export default function MembershipPage() {
                 <div className="space-y-2">
                   <label className="text-[10px] font-black uppercase tracking-widest text-neutral-500 ml-4">Kyu/Dan Grade</label>
                   <input 
+                    required
+                    name="rank"
+                    value={formData.rank}
+                    onChange={handleChange}
                     type="text" 
                     placeholder="E.G. 1ST DAN"
                     className="w-full bg-black border border-neutral-800 rounded-2xl px-6 py-4 text-sm focus:outline-none focus:border-red-600 transition-colors placeholder:text-neutral-700 font-bold uppercase"
@@ -124,9 +177,14 @@ export default function MembershipPage() {
                 </div>
                 <div className="space-y-2">
                   <label className="text-[10px] font-black uppercase tracking-widest text-neutral-500 ml-4">Selection</label>
-                  <select className="w-full bg-black border border-neutral-800 rounded-2xl px-6 py-4 text-sm focus:outline-none focus:border-red-600 transition-colors font-bold uppercase appearance-none text-neutral-400">
-                    <option>Individual</option>
-                    <option>Group / Dojo</option>
+                  <select 
+                    name="selection"
+                    value={formData.selection}
+                    onChange={handleChange}
+                    className="w-full bg-black border border-neutral-800 rounded-2xl px-6 py-4 text-sm focus:outline-none focus:border-red-600 transition-colors font-bold uppercase appearance-none text-neutral-400"
+                  >
+                    <option value="Individual">Individual</option>
+                    <option value="Group / Dojo">Group / Dojo</option>
                   </select>
                 </div>
               </div>
@@ -134,14 +192,26 @@ export default function MembershipPage() {
               <div className="space-y-2">
                 <label className="text-[10px] font-black uppercase tracking-widest text-neutral-500 ml-4">E-Mail Address</label>
                 <input 
+                  required
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
                   type="email" 
                   placeholder="YOUR@EMAIL.COM"
                   className="w-full bg-black border border-neutral-800 rounded-2xl px-6 py-4 text-sm focus:outline-none focus:border-red-600 transition-colors placeholder:text-neutral-700 font-bold uppercase"
                 />
               </div>
 
-              <button className="w-full bg-white text-black hover:bg-red-600 hover:text-white py-5 rounded-2xl font-black uppercase tracking-widest transition-all shadow-xl flex items-center justify-center gap-3 mt-4 group">
-                Submit Inquiry <Send size={18} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+              <button 
+                type="submit" 
+                disabled={isSubmitting}
+                className="w-full bg-white text-black hover:bg-red-600 hover:text-white py-5 rounded-2xl font-black uppercase tracking-widest transition-all shadow-xl flex items-center justify-center gap-3 mt-4 group disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isSubmitting ? (
+                  <>Sending <Loader2 className="animate-spin" size={18} /></>
+                ) : (
+                  <>Submit Inquiry <Send size={18} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" /></>
+                )}
               </button>
             </form>
           </motion.div>

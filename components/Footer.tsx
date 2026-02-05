@@ -1,8 +1,41 @@
-// components/Footer.tsx
+"use client";
+
 import Link from "next/link";
-import { Instagram, Facebook, ArrowUpRight, MapPin, Mail, Phone, X } from "lucide-react";
+import { useState } from "react";
+import { Instagram, Facebook, ArrowUpRight, MapPin, Mail, Loader2, X } from "lucide-react";
 
 export default function Footer() {
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+
+  const handleSubscribe = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email) return;
+    
+    setStatus("loading");
+
+    try {
+      const response = await fetch('/api/send', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          formType: 'Newsletter Subscription',
+          email: email
+        }),
+      });
+
+      if (response.ok) {
+        setStatus("success");
+        setEmail("");
+      } else {
+        setStatus("error");
+      }
+    } catch (error) {
+      console.error(error);
+      setStatus("error");
+    }
+  };
+
   return (
     <footer className="bg-neutral-950 text-white border-t border-neutral-900 pt-20 pb-10">
       <div className="container mx-auto px-6">
@@ -10,7 +43,7 @@ export default function Footer() {
         {/* TOP SECTION: GRID */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-8 mb-20">
           
-          {/* UPDATED LOGO & TITLE SECTION ONLY */}
+          {/* UPDATED LOGO & TITLE SECTION */}
           <div className="md:col-span-6 flex flex-col md:flex-row items-center gap-6 text-center md:text-left">
             {/* Logo */}
             <div className="shrink-0">
@@ -32,39 +65,55 @@ export default function Footer() {
             </div>
           </div>
 
-{/* COLUMN 3: CONTACT (Kept original as requested) */}
-<div className="md:col-span-3">
-  <h4 className="font-bold uppercase tracking-widest mb-6 text-sm text-neutral-500">Contact Us</h4>
-  <ul className="space-y-6 text-neutral-400 text-sm">
-    <li className="flex items-start gap-3">
-      <MapPin className="shrink-0 text-white" size={18} />
-      <span>
-        P.O. Box 42316<br />
-        Cincinnati, OH 45242
-      </span>
-    </li>
-    <li className="flex items-center gap-3">
-      <Mail className="shrink-0 text-white" size={18} />
-      <span>skifusa@gmail.com</span>
-    </li>
-  </ul>
-</div>
+          {/* COLUMN 3: CONTACT */}
+          <div className="md:col-span-3">
+            <h4 className="font-bold uppercase tracking-widest mb-6 text-sm text-neutral-500">Contact Us</h4>
+            <ul className="space-y-6 text-neutral-400 text-sm">
+              <li className="flex items-start gap-3">
+                <MapPin className="shrink-0 text-white" size={18} />
+                <span>
+                  P.O. Box 42316<br />
+                  Cincinnati, OH 45242
+                </span>
+              </li>
+              <li className="flex items-center gap-3">
+                <Mail className="shrink-0 text-white" size={18} />
+                <span>skifusa@gmail.com</span>
+              </li>
+            </ul>
+          </div>
 
-          {/* COLUMN 4: UPDATES (Kept original as requested) */}
+          {/* COLUMN 4: UPDATES (Active Form) */}
           <div className="md:col-span-3">
             <h4 className="font-bold uppercase tracking-widest mb-6 text-sm text-neutral-500">Updates</h4>
             <p className="text-neutral-400 text-sm mb-4">Join the inner circle. No spam, only discipline.</p>
-            <form className="flex flex-col gap-3">
+            
+            <form onSubmit={handleSubscribe} className="flex flex-col gap-3">
               <div className="relative">
                 <input 
                   type="email" 
-                  placeholder="EMAIL ADDRESS" 
-                  className="w-full bg-transparent border-b border-neutral-700 py-3 text-white placeholder:text-neutral-600 focus:outline-none focus:border-white transition-colors uppercase text-sm"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder={status === "success" ? "SUBSCRIBED!" : "EMAIL ADDRESS"}
+                  disabled={status === "success" || status === "loading"}
+                  className="w-full bg-transparent border-b border-neutral-700 py-3 text-white placeholder:text-neutral-600 focus:outline-none focus:border-white transition-colors uppercase text-sm disabled:opacity-50 disabled:cursor-not-allowed"
                 />
-                <button type="button" className="absolute right-0 top-3 text-neutral-400 hover:text-white">
-                  <ArrowUpRight size={20} />
+                <button 
+                  type="submit" 
+                  disabled={status === "success" || status === "loading"}
+                  className="absolute right-0 top-3 text-neutral-400 hover:text-white disabled:opacity-50"
+                >
+                  {status === "loading" ? <Loader2 className="animate-spin" size={20} /> : <ArrowUpRight size={20} />}
                 </button>
               </div>
+              
+              {/* Status Messages */}
+              {status === "success" && (
+                <p className="text-green-500 text-xs font-bold uppercase mt-1">Welcome to the federation.</p>
+              )}
+              {status === "error" && (
+                <p className="text-red-500 text-xs font-bold uppercase mt-1">Error. Please try again.</p>
+              )}
             </form>
           </div>
         </div>
