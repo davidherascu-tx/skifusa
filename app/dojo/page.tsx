@@ -269,7 +269,7 @@ const dojoLocations = [
     city: "Rochester",
     address: "150 Wakefield Street, Rochester, NH 03867",
     phone: "603-312-8414",
-    email: "sdwarren@metrocast.net",
+    email: "sdwarren@rskdojo.com",
     website: "http://www.RSKDojo.com",
     facebook: "https://www.facebook.com/RSKDojo"
   },
