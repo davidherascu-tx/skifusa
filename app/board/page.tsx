@@ -194,7 +194,7 @@ export default function BoardPage() {
           <h2 className="text-red-600 font-bold uppercase tracking-[0.2em] text-sm mb-2">Leadership</h2>
           <h1 className="text-5xl md:text-7xl font-black uppercase tracking-tighter leading-none text-white">Board of <br/>Directors</h1>
           <p className="text-neutral-400 mt-6 text-lg max-w-2xl leading-relaxed">
-            SKIF-USA is operated by a volunteer board of directors who are elected by its members to manage the day-to-day affairs of the organization.
+            SKIF-USA is a member-driven nonprofit led by a volunteer board of directors elected to manage and oversee its ongoing operations.
           </p>
         </motion.div>
 
