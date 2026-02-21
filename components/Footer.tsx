@@ -86,7 +86,7 @@ export default function Footer() {
           {/* COLUMN 4: UPDATES (Active Form) */}
           <div className="md:col-span-3">
             <h4 className="font-bold uppercase tracking-widest mb-6 text-sm text-neutral-500">Updates</h4>
-            <p className="text-neutral-400 text-sm mb-4">Join the inner circle. No spam, only discipline.</p>
+            <p className="text-neutral-400 text-sm mb-4">Join SKIF.USA news. No spam, only discipline.</p>
             
             <form onSubmit={handleSubscribe} className="flex flex-col gap-3">
               <div className="relative">
