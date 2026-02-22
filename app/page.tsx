@@ -21,13 +21,49 @@ import {
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
+// --- SANITY IMPORTS ---
+import { client } from "@/sanity/lib/client";
+import imageUrlBuilder from "@sanity/image-url";
+
+const builder = imageUrlBuilder(client);
+function urlFor(source: any) {
+  return builder.image(source).url();
+}
+// ----------------------
+
 export default function Home() {
   const VIDEO_ID = "uMUaR8ADv58";
   const [isMounted, setIsMounted] = useState(false);
   const [showNotice, setShowNotice] = useState(true);
+  
+  // State to hold our dynamic Sanity events
+  const [events, setEvents] = useState<any[]>([]);
 
   useEffect(() => {
     setIsMounted(true);
+
+    // Fetch the 3 most recent events from Sanity when the page loads
+    const fetchEvents = async () => {
+      try {
+        // Look for both "news" and "event" document types
+        const data = await client.fetch(`
+          *[_type in ["news", "event"]] | order(date desc)[0...3] {
+            _id,
+            _type,
+            title,
+            category,
+            date,
+            location,
+            image
+          }
+        `);
+        setEvents(data);
+      } catch (error) {
+        console.error("Error fetching Sanity events:", error);
+      }
+    };
+
+    fetchEvents();
   }, []);
 
   return (
@@ -87,8 +123,6 @@ export default function Home() {
 
       {/* 1. HERO SECTION */}
       <section className="relative min-h-screen flex flex-col justify-center items-center px-6 pt-32 pb-20 overflow-hidden">
-        
-        {/* --- LAYER 1: BACKGROUND VIDEO --- */}
         <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
             <div className={`absolute inset-0 bg-neutral-900 z-10 transition-opacity duration-1000 ${isMounted ? 'opacity-0' : 'opacity-100'}`}>
                <Image 
@@ -239,7 +273,7 @@ export default function Home() {
          </div>
       </section>
 
-      {/* 4. NEWS & EVENTS SECTION */}
+      {/* 4. NEWS & EVENTS SECTION (Now Dynamic!) */}
       <section id="news" className="py-24 px-6 bg-neutral-950 border-t border-neutral-900">
         <div className="container mx-auto">
           
@@ -260,31 +294,23 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-6">
-            <NewsCard 
-              href="/news"
-              category="Newsletter"
-              date="January 29, 2026"
-              title="Newsletter Fall/Winter 2025" 
-              location="Headquarters"
-              image="/SKIF_Newsletter_Winter_2025.webp" 
-            />
-            <NewsCard 
-              href="/events"
-              category="Seminar"
-              date="January 14, 2026"
-              title="Karate Seminar with Ruben Fung, 6.Dan" 
-              location="Headquarters"
-              image="/seminar_feb_20_21_2026.webp" 
-            />
-            <NewsCard 
-              href="/events"
-              category="Seminar"
-              date="December 30, 2025"
-              title="2026 SKIF Houston Annual Gasshuku" 
-              location="Houston, TX"
-              image="/skif_gasshuku_houston_2026.webp" 
-            />
+<div className="grid md:grid-cols-3 gap-6">
+            {events.length > 0 ? (
+              events.map((item) => (
+                <NewsCard 
+                  key={item._id}
+                  href={item._type === 'news' ? '/news' : '/events'} 
+                  category={item._type === 'news' ? 'News' : (item.category || "Event")}
+                  date={item.date ? new Date(item.date + 'T12:00:00Z').toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : "TBA"}
+                  title={item.title} 
+                  location={item.location || "Headquarters"}
+                  // <-- NEW FALLBACK IMAGE INJECTED HERE
+                  image={item.image ? urlFor(item.image) : "/fall_back_news_events.webp"} 
+                />
+              ))
+            ) : (
+              <div className="col-span-3 text-center text-neutral-500 py-12">Loading latest updates...</div>
+            )}
           </div>
         </div>
       </section>
@@ -351,7 +377,7 @@ export default function Home() {
                   </div>
               </NextLink>
 
-              {/* CARD 3: Merchandise (External Link with Icon) */}
+              {/* CARD 3: Merchandise */}
               <a 
                 href="https://www.skifusa.org/shop" 
                 target="_blank" 

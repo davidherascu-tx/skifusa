@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import NextLink from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation"; // <-- Added this
 import { 
   Menu, 
   X as CloseIcon, 
@@ -44,6 +45,7 @@ const navLinks = [
 ];
 
 export default function Navbar() {
+  const pathname = usePathname(); // <-- Added this
   const [isOpen, setIsOpen] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [mobileExpandedIndex, setMobileExpandedIndex] = useState<number | null>(null);
@@ -60,6 +62,9 @@ export default function Navbar() {
     setIsOpen(false);
     setMobileExpandedIndex(null);
   };
+
+  // <-- Hide Navbar if we are in the Studio
+  if (pathname.startsWith("/studio")) return null; 
 
   return (
     <>
@@ -265,7 +270,6 @@ export default function Navbar() {
                 })}
               </div>
 
-              {/* RESTORED INFO COLUMN */}
               <motion.div 
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
