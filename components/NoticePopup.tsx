@@ -6,42 +6,39 @@ import { X } from "lucide-react";
 
 export default function NoticePopup() {
   const [isMounted, setIsMounted] = useState(false);
-  // We start with the popup HIDDEN so it doesn't flash before checking localStorage
-  const [showNotice, setShowNotice] = useState(false); 
+  const [showNotice, setShowNotice] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
 
-    // 1. Check the user's browser memory when the page loads
-    const dismissedTime = localStorage.getItem("skifusa_notice_dismissed");
-    
-    if (dismissedTime) {
-      const now = new Date().getTime();
-      const dismissedAt = parseInt(dismissedTime, 10);
-      
-      // --- EXPIRATION TIMER ---
-      // 24 Hours = 24 * 60 * 60 * 1000
-      // 10 Minutes = 10 * 60 * 1000
-      const expirationTime = 24 * 60 * 60 * 1000; 
-
-      if (now - dismissedAt < expirationTime) {
-        // They clicked "I understand" recently, keep it hidden!
-        setShowNotice(false);
+    // --- 24-HOUR POPUP TIMER LOGIC ---
+    try {
+      const dismissedTime = window.localStorage.getItem("skifusa_notice_dismissed");
+      if (!dismissedTime) {
+        setShowNotice(true); // Never seen it, show it!
       } else {
-        // It's been longer than 24 hours, clear the memory and show it again
-        localStorage.removeItem("skifusa_notice_dismissed");
-        setShowNotice(true);
+        const now = new Date().getTime();
+        const dismissedAt = parseInt(dismissedTime, 10);
+        // 24 hours in milliseconds
+        if (now - dismissedAt > 24 * 60 * 60 * 1000) {
+          window.localStorage.removeItem("skifusa_notice_dismissed");
+          setShowNotice(true);
+        }
       }
-    } else {
-      // They have never seen it before, show it!
+    } catch (e) {
+      // Fallback if the browser blocks local storage
       setShowNotice(true);
     }
   }, []);
 
-  const handleDismiss = () => {
-    // 2. When they click the button, save the exact time to their browser
-    localStorage.setItem("skifusa_notice_dismissed", new Date().getTime().toString());
-    setShowNotice(false); // Hide the popup instantly
+  // --- SAVE THE TIME WHEN THEY CLICK "I UNDERSTAND" OR "X" ---
+  const handleDismissNotice = () => {
+    try {
+      window.localStorage.setItem("skifusa_notice_dismissed", new Date().getTime().toString());
+    } catch (e) {
+      console.warn("Could not save to local storage.");
+    }
+    setShowNotice(false);
   };
 
   if (!isMounted) return null;
@@ -56,8 +53,9 @@ export default function NoticePopup() {
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             className="relative w-full max-w-3xl bg-neutral-950 border border-red-600/30 p-8 md:p-12 rounded-[2.5rem] shadow-2xl shadow-red-900/20 max-h-[90vh] overflow-y-auto"
           >
+            {/* --- UPDATED 'X' CLOSE BUTTON --- */}
             <button 
-              onClick={handleDismiss} // Use the new save/dismiss function
+              onClick={handleDismissNotice}
               className="absolute top-6 right-6 p-2 bg-neutral-900 hover:bg-red-600 rounded-full transition-all text-white border border-neutral-800"
               aria-label="Close"
             >
@@ -85,8 +83,9 @@ export default function NoticePopup() {
             </div>
             
             <div className="mt-10 pt-6 border-t border-neutral-800 flex justify-end">
+              {/* --- UPDATED 'I UNDERSTAND' BUTTON --- */}
               <button 
-                onClick={handleDismiss} // Use the new save/dismiss function
+                onClick={handleDismissNotice}
                 className="bg-white text-black hover:bg-neutral-200 px-8 py-3 rounded-full font-bold uppercase tracking-wider transition-colors text-xs"
               >
                 I Understand

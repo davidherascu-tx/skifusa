@@ -34,18 +34,38 @@ function urlFor(source: any) {
 export default function Home() {
   const VIDEO_ID = "uMUaR8ADv58";
   const [isMounted, setIsMounted] = useState(false);
-  const [showNotice, setShowNotice] = useState(true);
   
-  // State to hold our dynamic Sanity events
+  // Notice starts hidden to prevent flashing
+  const [showNotice, setShowNotice] = useState(false);
+  
+  // State to hold our dynamic Sanity events & news
   const [events, setEvents] = useState<any[]>([]);
 
   useEffect(() => {
     setIsMounted(true);
 
-    // Fetch the 3 most recent events from Sanity when the page loads
+    // 1. --- NEW 24-HOUR POPUP LOGIC ---
+    try {
+      const dismissedTime = window.localStorage.getItem("skifusa_notice_dismissed");
+      if (!dismissedTime) {
+        setShowNotice(true); // Never seen it, show it!
+      } else {
+        const now = new Date().getTime();
+        const dismissedAt = parseInt(dismissedTime, 10);
+        // 24 hours in milliseconds
+        if (now - dismissedAt > 24 * 60 * 60 * 1000) {
+          window.localStorage.removeItem("skifusa_notice_dismissed");
+          setShowNotice(true);
+        }
+      }
+    } catch (e) {
+      // Fallback if browser blocks local storage
+      setShowNotice(true);
+    }
+
+    // 2. --- FETCH LATEST NEWS & EVENTS FROM SANITY ---
     const fetchEvents = async () => {
       try {
-        // Look for both "news" and "event" document types
         const data = await client.fetch(`
           *[_type in ["news", "event"]] | order(date desc)[0...3] {
             _id,
@@ -56,7 +76,7 @@ export default function Home() {
             location,
             image
           }
-        `);
+        `, {}, { cache: 'no-store' }); // Forces fresh updates
         setEvents(data);
       } catch (error) {
         console.error("Error fetching Sanity events:", error);
@@ -66,11 +86,21 @@ export default function Home() {
     fetchEvents();
   }, []);
 
+  // --- SAVE THE TIME WHEN THEY CLICK "I UNDERSTAND" ---
+  const handleDismissNotice = () => {
+    try {
+      window.localStorage.setItem("skifusa_notice_dismissed", new Date().getTime().toString());
+    } catch (e) {
+      console.warn("Could not save to local storage.");
+    }
+    setShowNotice(false);
+  };
+
   return (
     <main className="min-h-screen bg-black text-white selection:bg-white selection:text-black">
       <Navbar />
 
-      {/* OFFICIAL NOTICE POPUP */}
+      {/* --- OFFICIAL NOTICE POPUP --- */}
       <AnimatePresence>
         {isMounted && showNotice && (
           <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-black/80 backdrop-blur-sm">
@@ -81,7 +111,7 @@ export default function Home() {
               className="relative w-full max-w-3xl bg-neutral-950 border border-red-600/30 p-8 md:p-12 rounded-[2.5rem] shadow-2xl shadow-red-900/20 max-h-[90vh] overflow-y-auto"
             >
               <button 
-                onClick={() => setShowNotice(false)}
+                onClick={handleDismissNotice}
                 className="absolute top-6 right-6 p-2 bg-neutral-900 hover:bg-red-600 rounded-full transition-all text-white border border-neutral-800"
                 aria-label="Close"
               >
@@ -110,7 +140,7 @@ export default function Home() {
               
               <div className="mt-10 pt-6 border-t border-neutral-800 flex justify-end">
                 <button 
-                  onClick={() => setShowNotice(false)}
+                  onClick={handleDismissNotice}
                   className="bg-white text-black hover:bg-neutral-200 px-8 py-3 rounded-full font-bold uppercase tracking-wider transition-colors text-xs"
                 >
                   I Understand
@@ -273,7 +303,7 @@ export default function Home() {
          </div>
       </section>
 
-      {/* 4. NEWS & EVENTS SECTION (Now Dynamic!) */}
+      {/* 4. NEWS & EVENTS SECTION (Dynamic Sanity Data) */}
       <section id="news" className="py-24 px-6 bg-neutral-950 border-t border-neutral-900">
         <div className="container mx-auto">
           
@@ -294,7 +324,7 @@ export default function Home() {
             </p>
           </div>
 
-<div className="grid md:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-3 gap-6">
             {events.length > 0 ? (
               events.map((item) => (
                 <NewsCard 
@@ -304,7 +334,6 @@ export default function Home() {
                   date={item.date ? new Date(item.date + 'T12:00:00Z').toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : "TBA"}
                   title={item.title} 
                   location={item.location || "Headquarters"}
-                  // <-- NEW FALLBACK IMAGE INJECTED HERE
                   image={item.image ? urlFor(item.image) : "/fall_back_news_events.webp"} 
                 />
               ))
@@ -422,7 +451,7 @@ function FeatureCard({ icon, title, desc }: { icon: any, title: string, desc: st
 
 function NewsCard({ href, category, date, title, location, image }: { href: string, category: string, date: string, title: string, location: string, image: string }) {
   return (
-    <NextLink href={href} className="group relative h-[700px] overflow-hidden rounded-3xl border border-neutral-800 bg-neutral-900">
+    <NextLink href={href} className="group relative h-[700px] overflow-hidden rounded-3xl border border-neutral-800 bg-neutral-900 block">
       <div className="absolute inset-0 bg-neutral-900">
          <Image 
             src={image} 
