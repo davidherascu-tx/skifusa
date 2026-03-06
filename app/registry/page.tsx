@@ -792,7 +792,7 @@ export default function BlackBeltRegistry() {
   });
 
   return (
-    <main className="min-h-screen bg-black text-white selection:bg-white selection:text-black pt-32 pb-20 px-6">
+    <main className="min-h-screen bg-[#F5F5F5] text-neutral-900 selection:bg-red-600 selection:text-white pt-28 md:pt-48 pb-20 px-6">
       <div className="container mx-auto max-w-6xl">
         
         {/* --- HEADER --- */}
@@ -801,10 +801,10 @@ export default function BlackBeltRegistry() {
           className="mb-16 border-l-4 border-red-600 pl-6 max-w-4xl"
         >
           <h2 className="text-red-600 font-bold uppercase tracking-[0.2em] text-sm mb-2">Member Verification</h2>
-          <h1 className="text-5xl md:text-7xl font-black uppercase tracking-tighter leading-none">
-            Black Belt <span className="text-neutral-700">Registry</span>
+          <h1 className="text-5xl md:text-7xl font-black uppercase tracking-tighter leading-none text-neutral-900">
+            Black Belt <span className="text-neutral-400">Registry</span>
           </h1>
-          <p className="text-neutral-400 mt-6 text-lg max-w-2xl leading-relaxed">
+          <p className="text-neutral-600 mt-6 text-lg max-w-2xl leading-relaxed">
             Verify official SKIF-USA technical grades and dojo affiliations through the centralized registry.
           </p>
         </motion.div>
@@ -812,22 +812,22 @@ export default function BlackBeltRegistry() {
         {/* --- SEARCH & FILTER SECTION --- */}
         <div className="flex flex-col md:flex-row gap-4 mb-12">
           <div className="relative flex-1 group">
-            <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-neutral-600 group-focus-within:text-red-600 transition-colors" size={20} />
+            <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-neutral-400 group-focus-within:text-red-600 transition-colors" size={20} />
             <input 
               type="text" 
               placeholder="SEARCH BY NAME..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-neutral-900/50 border border-neutral-800 rounded-2xl py-5 pl-14 pr-6 focus:outline-none focus:border-red-600 transition-all font-bold uppercase tracking-widest text-sm placeholder:text-neutral-700"
+              className="w-full bg-white border border-neutral-200 rounded-2xl py-5 pl-14 pr-6 focus:outline-none focus:border-red-600 focus:shadow-md transition-all font-bold uppercase tracking-widest text-sm placeholder:text-neutral-400 text-neutral-900"
             />
           </div>
           
           <div className="relative w-full md:w-80">
-            <Filter className="absolute left-5 top-1/2 -translate-y-1/2 text-neutral-600 pointer-events-none" size={18} />
+            <Filter className="absolute left-5 top-1/2 -translate-y-1/2 text-neutral-400 pointer-events-none" size={18} />
             <select 
               value={selectedDan}
               onChange={(e) => setSelectedDan(e.target.value)}
-              className="w-full h-full bg-neutral-900 border border-neutral-800 rounded-2xl py-5 pl-14 pr-10 focus:outline-none focus:border-red-600 transition-all font-black uppercase tracking-widest text-sm appearance-none cursor-pointer text-neutral-300"
+              className="w-full h-full bg-white border border-neutral-200 rounded-2xl py-5 pl-14 pr-10 focus:outline-none focus:border-red-600 focus:shadow-md transition-all font-black uppercase tracking-widest text-sm appearance-none cursor-pointer text-neutral-900"
             >
               <option value="All">ALL DAN GRADES</option>
               {danGrades.map(grade => (
@@ -844,12 +844,12 @@ export default function BlackBeltRegistry() {
               <motion.div 
                 key="prompt"
                 initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-                className="py-32 text-center border-2 border-dashed border-neutral-900 rounded-[3.5rem] flex flex-col items-center justify-center gap-6"
+                className="py-32 text-center border-2 border-dashed border-neutral-300 bg-white rounded-[3.5rem] flex flex-col items-center justify-center gap-6"
               >
-                <div className="w-16 h-16 bg-neutral-900 rounded-full flex items-center justify-center text-neutral-700">
+                <div className="w-16 h-16 bg-neutral-100 rounded-full flex items-center justify-center text-neutral-400">
                     <ShieldCheck size={32} />
                 </div>
-                <p className="text-neutral-600 uppercase tracking-[0.4em] font-black text-sm">
+                <p className="text-neutral-500 uppercase tracking-[0.4em] font-black text-sm">
                   Enter a name or select a rank to begin verification
                 </p>
               </motion.div>
@@ -857,11 +857,11 @@ export default function BlackBeltRegistry() {
               <motion.div 
                 key="results"
                 initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-                className="overflow-x-auto bg-neutral-950 border border-neutral-900 rounded-[2.5rem] shadow-2xl"
+                className="overflow-x-auto bg-white border border-neutral-200 rounded-[2.5rem] shadow-xl"
               >
                 <table className="w-full text-left border-collapse">
                   <thead>
-                    <tr className="border-b border-neutral-900">
+                    <tr className="border-b border-neutral-200 bg-neutral-50">
                       <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-neutral-500">Last Name</th>
                       <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-neutral-500">First Name</th>
                       <th className="px-8 py-6 text-[10px] font-black uppercase tracking-[0.2em] text-neutral-500">Dojo Name</th>
@@ -870,9 +870,9 @@ export default function BlackBeltRegistry() {
                   </thead>
                   <tbody>
                     {filteredRegistry.map((member, idx) => (
-                      <tr key={idx} className="group hover:bg-neutral-900/40 transition-colors border-b border-neutral-900 last:border-0">
-                        <td className="px-8 py-6 font-black uppercase tracking-tight text-white group-hover:text-red-500 transition-colors">{member.lastName}</td>
-                        <td className="px-8 py-6 font-bold uppercase text-sm text-neutral-400">{member.firstName}</td>
+                      <tr key={idx} className="group hover:bg-neutral-50 transition-colors border-b border-neutral-100 last:border-0">
+                        <td className="px-8 py-6 font-black uppercase tracking-tight text-neutral-900 group-hover:text-red-600 transition-colors">{member.lastName}</td>
+                        <td className="px-8 py-6 font-bold uppercase text-sm text-neutral-600">{member.firstName}</td>
                         <td className="px-8 py-6">
                            <div className="flex items-center gap-2 text-neutral-500 text-xs font-medium uppercase tracking-wide">
                              <MapPin size={14} className="text-red-600" /> {member.dojo}
@@ -880,10 +880,10 @@ export default function BlackBeltRegistry() {
                         </td>
                         <td className="px-8 py-6 text-right">
                           <div className="inline-flex flex-col items-end border-l-2 border-red-600 pl-4 py-1">
-                            <span className="text-white font-black uppercase text-xs tracking-tighter leading-none mb-1">
+                            <span className="text-neutral-900 font-black uppercase text-xs tracking-tighter leading-none mb-1 group-hover:text-red-600 transition-colors">
                               {member.rank.split(' ')[0]}
                             </span>
-                            <span className="text-neutral-500 font-mono text-[9px] font-bold uppercase tracking-widest">
+                            <span className="text-neutral-400 font-mono text-[9px] font-bold uppercase tracking-widest">
                               {member.rank.split(' ')[1]} {member.rank.split(' ')[2]}
                             </span>
                           </div>
@@ -897,16 +897,16 @@ export default function BlackBeltRegistry() {
               <motion.div 
                 key="empty"
                 initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-                className="py-40 text-center border-2 border-dashed border-neutral-900 rounded-[3.5rem]"
+                className="py-40 text-center border-2 border-dashed border-neutral-300 bg-white rounded-[3.5rem]"
               >
-                <p className="text-neutral-600 uppercase tracking-[0.4em] font-black text-sm">No registered members found.</p>
+                <p className="text-neutral-500 uppercase tracking-[0.4em] font-black text-sm">No registered members found.</p>
               </motion.div>
             )}
           </AnimatePresence>
         </div>
 
-        <div className="mt-32 text-center border-t border-neutral-900 pt-16">
-          <p className="text-neutral-500 uppercase tracking-[0.5em] text-[10px] font-mono">
+        <div className="mt-32 text-center border-t border-neutral-200 pt-16">
+          <p className="text-neutral-400 uppercase tracking-[0.5em] text-[10px] font-mono">
             One Style • One Spirit • One Federation
           </p>
         </div>

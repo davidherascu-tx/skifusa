@@ -183,7 +183,8 @@ export default function BoardPage() {
   };
 
   return (
-    <main className="min-h-screen bg-black text-white selection:bg-white selection:text-black pt-32 pb-20 px-6">
+    // Reduced mobile padding (pt-28) but matched desktop padding to History page (md:pt-48)
+    <main className="min-h-screen bg-[#F5F5F5] text-neutral-900 selection:bg-red-600 selection:text-white pt-28 md:pt-48 pb-20 px-6">
       <div className="container mx-auto max-w-7xl">
         
         {/* --- HEADER --- */}
@@ -192,13 +193,13 @@ export default function BoardPage() {
           className="mb-16 border-l-4 border-red-600 pl-6 max-w-4xl mx-auto"
         >
           <h2 className="text-red-600 font-bold uppercase tracking-[0.2em] text-sm mb-2">Leadership</h2>
-          <h1 className="text-5xl md:text-7xl font-black uppercase tracking-tighter leading-none text-white">Board of <br/>Directors</h1>
-          <p className="text-neutral-400 mt-6 text-lg max-w-2xl leading-relaxed">
+          <h1 className="text-5xl md:text-7xl font-black uppercase tracking-tighter leading-none text-neutral-900">Board of <br/>Directors</h1>
+          <p className="text-neutral-600 mt-6 text-lg max-w-2xl leading-relaxed">
             As a nonprofit organization, SKIF-USA is guided by a volunteer board of directors chosen by its members to manage its day-to-day affairs.
           </p>
         </motion.div>
 
-        {/* --- GRID (Restored and Refined) --- */}
+        {/* --- GRID --- */}
         <div className="flex flex-wrap justify-center gap-6 max-w-6xl mx-auto">
           {boardMembers.map((member, idx) => (
             <motion.div
@@ -213,20 +214,20 @@ export default function BoardPage() {
               <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-90 group-hover:opacity-100 transition-opacity" />
               
               <div className="absolute inset-x-0 bottom-0 p-6">
-                <h3 className="text-xl font-black uppercase leading-tight mb-2 group-hover:text-white transition-colors">{member.name}</h3>
+                <h3 className="text-xl font-black uppercase leading-tight mb-2 text-white">{member.name}</h3>
                 
                 {/* Role Badges directly under name */}
                 <div className="flex flex-wrap items-center gap-2">
                   <span className="bg-red-600 text-white text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full">
                     {member.title}
                   </span>
-                  <span className="text-neutral-400 text-[10px] font-mono tracking-tighter uppercase">
+                  <span className="text-neutral-300 text-[10px] font-mono tracking-tighter uppercase">
                     {member.rank}
                   </span>
                 </div>
 
                 <div className="absolute bottom-6 right-6">
-                  <div className="bg-white/10 backdrop-blur-md p-2 rounded-full text-white opacity-0 group-hover:opacity-100 transition-all scale-75 group-hover:scale-100">
+                  <div className="bg-white/20 backdrop-blur-md p-2 rounded-full text-white opacity-0 group-hover:opacity-100 transition-all scale-75 group-hover:scale-100">
                     <Info size={16} />
                   </div>
                 </div>

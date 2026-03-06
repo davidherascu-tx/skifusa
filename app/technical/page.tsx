@@ -33,7 +33,7 @@ const technicalDocs = [
 
 export default function TechnicalPage() {
   return (
-    <main className="min-h-screen bg-black text-white selection:bg-white selection:text-black pt-32 pb-20 px-6">
+    <main className="min-h-screen bg-[#F5F5F5] text-neutral-900 selection:bg-red-600 selection:text-white pt-28 md:pt-48 pb-20 px-6">
       <div className="container mx-auto max-w-6xl">
         
         {/* --- HEADER --- */}
@@ -44,10 +44,10 @@ export default function TechnicalPage() {
           className="mb-16 border-l-4 border-red-600 pl-6 max-w-4xl"
         >
           <h2 className="text-red-600 font-bold uppercase tracking-[0.2em] text-sm mb-2">Technical Registry</h2>
-          <h1 className="text-5xl md:text-7xl font-black uppercase tracking-tighter leading-none text-white">
-            Technical <span className="text-neutral-700">Resources</span>
+          <h1 className="text-5xl md:text-7xl font-black uppercase tracking-tighter leading-none text-neutral-900">
+            Technical <span className="text-neutral-400">Resources</span>
           </h1>
-          <p className="text-neutral-400 mt-6 text-lg max-w-2xl leading-relaxed">
+          <p className="text-neutral-600 mt-6 text-lg max-w-2xl leading-relaxed">
             Access official SKIF-USA documentation and research guidelines for advanced examinations.
           </p>
         </motion.div>
@@ -60,10 +60,11 @@ export default function TechnicalPage() {
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: idx * 0.1 }}
-              className="group relative bg-neutral-900/40 border border-neutral-800 rounded-[2.5rem] p-8 md:p-10 hover:border-red-600 transition-all duration-500 flex flex-col md:flex-row gap-8 items-center"
+              // Clean white cards for the light theme
+              className="group relative bg-white border border-neutral-200 rounded-[2.5rem] p-8 md:p-10 hover:border-red-600/40 hover:shadow-2xl transition-all duration-500 flex flex-col md:flex-row gap-8 items-center shadow-sm"
             >
               {/* Document Icon */}
-              <div className="w-16 h-16 bg-neutral-800 rounded-2xl flex items-center justify-center text-neutral-500 group-hover:bg-red-600 group-hover:text-white transition-colors shrink-0 shadow-xl">
+              <div className="w-16 h-16 bg-neutral-100 rounded-2xl flex items-center justify-center text-neutral-400 group-hover:bg-red-600 group-hover:text-white transition-colors shrink-0 shadow-sm group-hover:shadow-lg">
                 <FileText size={32} />
               </div>
 
@@ -75,7 +76,7 @@ export default function TechnicalPage() {
                   </span>
                 </div>
                 
-                <h3 className="text-2xl font-black uppercase tracking-tight text-white group-hover:text-red-500 transition-colors leading-tight">
+                <h3 className="text-2xl font-black uppercase tracking-tight text-neutral-900 group-hover:text-red-600 transition-colors leading-tight">
                   {doc.title}
                 </h3>
               </div>
@@ -85,7 +86,7 @@ export default function TechnicalPage() {
                 <a 
                   href={doc.fileUrl}
                   download
-                  className="flex items-center justify-center gap-3 bg-neutral-800 hover:bg-white hover:text-black text-white px-8 py-4 rounded-2xl text-xs font-black uppercase tracking-widest transition-all group/btn w-full md:w-auto shadow-lg"
+                  className="flex items-center justify-center gap-3 bg-neutral-900 hover:bg-red-600 text-white px-8 py-4 rounded-2xl text-xs font-black uppercase tracking-widest transition-all group/btn w-full md:w-auto shadow-lg"
                 >
                   Download PDF
                   <Download size={18} className="group-hover/btn:translate-y-0.5 transition-transform" />
@@ -96,8 +97,8 @@ export default function TechnicalPage() {
         </div>
 
         {/* --- FOOTER BANNER --- */}
-        <div className="mt-40 text-center">
-          <p className="text-neutral-600 uppercase tracking-[0.4em] text-[10px] font-mono">
+        <div className="mt-32 text-center border-t border-neutral-200 pt-16">
+          <p className="text-neutral-500 uppercase tracking-[0.4em] text-[10px] font-mono">
             Direct Affiliation • Technical Integrity • SKIF-USA
           </p>
         </div>

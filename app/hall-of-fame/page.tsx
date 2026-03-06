@@ -45,25 +45,25 @@ Shihan Stoddard passed away in June 2017. A year later, Nobuaki Kancho visited S
 
 export default function HallOfFame() {
   return (
-    <main className="min-h-screen bg-black text-white selection:bg-amber-200 selection:text-black pt-32 pb-20 px-6">
+    <main className="min-h-screen bg-[#F5F5F5] text-neutral-900 selection:bg-amber-500 selection:text-white pt-28 md:pt-48 pb-20 px-6">
       <div className="container mx-auto max-w-6xl">
         
-        {/* --- HEADER (Alignment fixed to match Board Page) --- */}
+        {/* --- HEADER --- */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }} 
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           className="mb-16 border-l-4 border-amber-500 pl-6 max-w-4xl"
         >
-          <h2 className="text-amber-500 font-bold uppercase tracking-[0.2em] text-sm mb-2">Honoring Excellence</h2>
-          <h1 className="text-5xl md:text-7xl font-black uppercase tracking-tighter leading-none">
+          <h2 className="text-amber-600 font-bold uppercase tracking-[0.2em] text-sm mb-2">Honoring Excellence</h2>
+          <h1 className="text-5xl md:text-7xl font-black uppercase tracking-tighter leading-none text-neutral-900">
             Hall of <br/>Fame
           </h1>
-          <div className="space-y-6 text-neutral-400 mt-6 text-lg max-w-2xl leading-relaxed">
+          <div className="space-y-6 text-neutral-600 mt-6 text-lg max-w-2xl leading-relaxed">
             <p>
-              In 2019, the SKIF-USA Board of Directors voted to create the <strong className="text-white">SKIF-USA Hall of Fame</strong> to recognize the valuable contributions our members have made to the development of SKIF, SKIF-USA, and Shotokan Karate.
+              In 2019, the SKIF-USA Board of Directors voted to create the <strong className="text-neutral-900 font-bold">SKIF-USA Hall of Fame</strong> to recognize the valuable contributions our members have made to the development of SKIF, SKIF-USA, and Shotokan Karate.
             </p>
-            <p className="text-sm border-t border-neutral-900 pt-6">
+            <p className="text-sm border-t border-neutral-200 pt-6">
               It is with deep honor, respect and gratitude that we enshrine the following karate-ka for their invaluable contributions to our organization.
             </p>
           </div>
@@ -80,21 +80,18 @@ export default function HallOfFame() {
               transition={{ duration: 0.8 }}
               className="relative flex flex-col md:flex-row gap-12 items-start"
             >
-              {/* Image Side with Seamless Gradients */}
-              <div className="relative w-full md:w-[38%] aspect-[4/5] rounded-[2rem] overflow-hidden bg-neutral-900 shrink-0 group shadow-2xl shadow-amber-900/10">
+              {/* Image Side - Crisp white cards for light theme */}
+              <div className="relative w-full md:w-[38%] aspect-[4/5] rounded-[2rem] overflow-hidden bg-white shrink-0 group shadow-xl border border-neutral-200">
                 <Image 
                   src={person.image} 
                   alt={person.name} 
                   fill 
                   className="object-cover object-top grayscale group-hover:grayscale-0 transition-all duration-1000"
                 />
-                {/* Seamless Fade Transitions into Black */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80" />
-                <div className="hidden md:block absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-black via-black/40 to-transparent" />
-                <div className="md:hidden absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black to-transparent" />
+                <div className="absolute inset-0 shadow-[inset_0_0_20px_rgba(0,0,0,0.05)] pointer-events-none" />
                 
                 {/* Year Badge */}
-                <div className="absolute top-6 left-6 flex items-center gap-2 bg-amber-500 text-black px-4 py-2 rounded-full font-black text-[10px] tracking-widest shadow-xl">
+                <div className="absolute top-6 left-6 flex items-center gap-2 bg-amber-500 text-white px-4 py-2 rounded-full font-black text-[10px] tracking-widest shadow-lg">
                   <Star size={12} fill="currentColor" /> INDUCTEE {person.year}
                 </div>
               </div>
@@ -102,25 +99,29 @@ export default function HallOfFame() {
               {/* Bio Content Side */}
               <div className="flex-1 py-4">
                 <div className="flex items-center gap-3 mb-4">
-                   <Award className="text-amber-500" size={18} />
+                   <Award className="text-amber-600" size={18} />
                    <span className="text-neutral-500 font-bold uppercase tracking-[0.2em] text-[10px]">{person.location} // SKIF.USA</span>
                 </div>
                 
-                <h2 className="text-3xl md:text-4xl font-black uppercase tracking-tighter mb-4 text-white">
+                <h2 className="text-3xl md:text-4xl font-black uppercase tracking-tighter mb-4 text-neutral-900">
                   {person.name}
                 </h2>
                 
-                <div className="relative border-l-2 border-neutral-800 pl-8">
+                <div className="relative border-l-2 border-neutral-200 pl-6 md:pl-8">
                   <div className="absolute top-0 left-[-2px] w-[2px] h-12 bg-amber-500" />
-                  <Quote className="absolute -left-6 -top-8 text-neutral-900 opacity-20 pointer-events-none" size={80} />
-                  <div className="text-neutral-300 text-sm md:text-base leading-relaxed whitespace-pre-wrap font-medium relative z-10">
+                  
+                  {/* FIXED OVERLAP: Reduced size, positioned properly inside the box, and lowered opacity */}
+                  <Quote className="absolute top-0 left-4 text-neutral-200/70 pointer-events-none z-0" size={64} />
+                  
+                  {/* Added pt-4 to push text slightly down so the quote beautifully peaks out behind it */}
+                  <div className="text-neutral-700 text-sm md:text-base leading-relaxed whitespace-pre-wrap font-medium relative z-10 pt-4">
                     {person.bio}
                   </div>
                 </div>
 
-                <div className="mt-12 flex items-center gap-6 opacity-20">
+                <div className="mt-12 flex items-center gap-6 opacity-50">
                   <Trophy size={32} className="text-amber-500" />
-                  <div className="h-[1px] flex-1 bg-neutral-800" />
+                  <div className="h-[1px] flex-1 bg-neutral-300" />
                 </div>
               </div>
             </motion.section>
@@ -131,9 +132,9 @@ export default function HallOfFame() {
         <motion.div 
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
-          className="mt-40 text-center py-20 border-t border-neutral-900"
+          className="mt-40 text-center py-20 border-t border-neutral-200"
         >
-          <p className="text-neutral-500 uppercase tracking-[0.5em] text-[10px] font-mono">
+          <p className="text-neutral-400 uppercase tracking-[0.5em] text-[10px] font-mono">
             One Style • One Spirit • One Federation
           </p>
         </motion.div>

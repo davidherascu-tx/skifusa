@@ -416,7 +416,7 @@ export default function FindADojo() {
   });
 
   return (
-    <main className="min-h-screen bg-black text-white selection:bg-white selection:text-black pt-32 pb-20 px-6">
+    <main className="min-h-screen bg-[#F5F5F5] text-neutral-900 selection:bg-red-600 selection:text-white pt-28 md:pt-48 pb-20 px-6">
       <div className="container mx-auto max-w-6xl">
         
         {/* --- HEADER --- */}
@@ -427,10 +427,10 @@ export default function FindADojo() {
           className="mb-16 border-l-4 border-red-600 pl-6 max-w-4xl"
         >
           <h2 className="text-red-600 font-bold uppercase tracking-[0.2em] text-sm mb-2">Dojo Directory</h2>
-          <h1 className="text-5xl md:text-7xl font-black uppercase tracking-tighter leading-none text-white">
-            Find <span className="text-neutral-700">a</span> Dojo
+          <h1 className="text-5xl md:text-7xl font-black uppercase tracking-tighter leading-none text-neutral-900">
+            Find <span className="text-neutral-400">a</span> Dojo
           </h1>
-          <p className="text-neutral-400 mt-6 text-lg max-w-2xl leading-relaxed">
+          <p className="text-neutral-600 mt-6 text-lg max-w-2xl leading-relaxed">
             Use the tools below to locate an official SKIF-USA affiliated dojo in your region.
           </p>
         </motion.div>
@@ -438,22 +438,22 @@ export default function FindADojo() {
         {/* --- SEARCH & FILTER SECTION --- */}
         <div className="flex flex-col md:flex-row gap-4 mb-12">
           <div className="relative flex-1 group">
-            <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-neutral-600 group-focus-within:text-red-600 transition-colors" size={20} />
+            <Search className="absolute left-5 top-1/2 -translate-y-1/2 text-neutral-400 group-focus-within:text-red-600 transition-colors" size={20} />
             <input 
               type="text" 
               placeholder="SEARCH BY DOJO, CITY, OR INSTRUCTOR..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-neutral-900/50 border border-neutral-800 rounded-2xl py-5 pl-14 pr-6 focus:outline-none focus:border-red-600 transition-all font-bold uppercase tracking-widest text-sm placeholder:text-neutral-700"
+              className="w-full bg-white border border-neutral-200 rounded-2xl py-5 pl-14 pr-6 focus:outline-none focus:border-red-600 focus:shadow-md transition-all font-bold uppercase tracking-widest text-sm placeholder:text-neutral-400 text-neutral-900"
             />
           </div>
           
           <div className="relative w-full md:w-64">
-            <Filter className="absolute left-5 top-1/2 -translate-y-1/2 text-neutral-600 pointer-events-none" size={18} />
+            <Filter className="absolute left-5 top-1/2 -translate-y-1/2 text-neutral-400 pointer-events-none" size={18} />
             <select 
               value={selectedState}
               onChange={(e) => setSelectedState(e.target.value)}
-              className="w-full h-full bg-neutral-900 border border-neutral-800 rounded-2xl py-5 pl-14 pr-10 focus:outline-none focus:border-red-600 transition-all font-black uppercase tracking-widest text-sm appearance-none cursor-pointer text-neutral-300"
+              className="w-full h-full bg-white border border-neutral-200 rounded-2xl py-5 pl-14 pr-10 focus:outline-none focus:border-red-600 focus:shadow-md transition-all font-black uppercase tracking-widest text-sm appearance-none cursor-pointer text-neutral-900"
             >
               {states.map(s => <option key={s} value={s}>{s === "All" ? "ALL STATES" : s.toUpperCase()}</option>)}
             </select>
@@ -469,12 +469,12 @@ export default function FindADojo() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="py-32 text-center border-2 border-dashed border-neutral-900 rounded-[3.5rem] flex flex-col items-center justify-center gap-6"
+                className="py-32 text-center border-2 border-dashed border-neutral-300 bg-white rounded-[3.5rem] flex flex-col items-center justify-center gap-6"
               >
-                <div className="w-16 h-16 bg-neutral-900 rounded-full flex items-center justify-center text-neutral-700">
+                <div className="w-16 h-16 bg-neutral-100 rounded-full flex items-center justify-center text-neutral-400">
                     <MapPin size={32} />
                 </div>
-                <p className="text-neutral-600 uppercase tracking-[0.4em] font-black text-sm">
+                <p className="text-neutral-500 uppercase tracking-[0.4em] font-black text-sm">
                   Select a state or type to view affiliated locations
                 </p>
               </motion.div>
@@ -489,34 +489,36 @@ export default function FindADojo() {
                   <motion.div
                     key={dojo.id}
                     layout
-                    className="group bg-neutral-900/40 border border-neutral-800 rounded-[2.5rem] p-8 hover:border-red-600 transition-all duration-500 relative overflow-hidden flex flex-col shadow-xl"
+                    // Updated to white cards with shadow for the light theme
+                    className="group bg-white border border-neutral-200 rounded-[2.5rem] p-8 hover:border-red-600/30 hover:shadow-2xl transition-all duration-500 relative overflow-hidden flex flex-col shadow-md"
                   >
-                    <div className="absolute top-[-15%] right-[-10%] opacity-[0.03] pointer-events-none group-hover:opacity-[0.06] transition-opacity duration-700">
+                    {/* Kept watermark but adjusted opacity/color for light background */}
+                    <div className="absolute top-[-15%] right-[-10%] opacity-[0.03] pointer-events-none group-hover:opacity-[0.08] transition-opacity duration-700 filter invert">
                       <Image src="/skif_kanji.png" alt="SKIF" width={220} height={220} className="rotate-12" />
                     </div>
 
                     <div className="relative z-10 flex-1">
                       <div className="flex items-center justify-between mb-6">
-                        <span className="bg-red-600 text-white text-[9px] font-black px-3 py-1 rounded-full tracking-[0.2em] uppercase">{dojo.state}</span>
-                        <MapPin className="text-neutral-700 group-hover:text-red-600 transition-colors" size={20} />
+                        <span className="bg-red-600/10 text-red-600 border border-red-600/20 text-[9px] font-black px-3 py-1 rounded-full tracking-[0.2em] uppercase">{dojo.state}</span>
+                        <MapPin className="text-neutral-300 group-hover:text-red-600 transition-colors" size={20} />
                       </div>
-                      <h3 className="text-2xl font-black uppercase tracking-tighter leading-tight mb-2 text-white group-hover:text-red-500 transition-colors">{dojo.name}</h3>
-                      <p className="text-neutral-500 text-[10px] font-bold uppercase tracking-widest mb-8 border-b border-neutral-800 pb-4">
-                        Contact: <span className="text-neutral-200">{dojo.instructor}</span>
+                      <h3 className="text-2xl font-black uppercase tracking-tighter leading-tight mb-2 text-neutral-900 group-hover:text-red-600 transition-colors">{dojo.name}</h3>
+                      <p className="text-neutral-500 text-[10px] font-bold uppercase tracking-widest mb-8 border-b border-neutral-200 pb-4">
+                        Contact: <span className="text-neutral-800">{dojo.instructor}</span>
                       </p>
                       <div className="space-y-4">
-                        <div className="flex items-start gap-3 text-neutral-400">
+                        <div className="flex items-start gap-3 text-neutral-600">
                           <MapPin size={16} className="text-red-600 shrink-0 mt-1" />
                           <span className="text-sm font-medium leading-relaxed">{dojo.address}</span>
                         </div>
                         {dojo.phone && (
-                          <div className="flex items-center gap-3 text-neutral-400 font-mono">
+                          <div className="flex items-center gap-3 text-neutral-600 font-mono">
                             <Phone size={16} className="text-red-600 shrink-0" />
                             <span className="text-sm">{dojo.phone}</span>
                           </div>
                         )}
                         {dojo.email && (
-                          <div className="flex items-center gap-3 text-neutral-400">
+                          <div className="flex items-center gap-3 text-neutral-600">
                             <Mail size={16} className="text-red-600 shrink-0" />
                             <span className="text-sm lowercase truncate">{dojo.email}</span>
                           </div>
@@ -524,14 +526,14 @@ export default function FindADojo() {
                       </div>
                     </div>
                     
-                    <div className="mt-8 pt-6 border-t border-neutral-800 relative z-10 flex flex-wrap gap-4">
+                    <div className="mt-8 pt-6 border-t border-neutral-100 relative z-10 flex flex-wrap gap-4">
                       {dojo.website && (
-                        <a href={dojo.website} target="_blank" className="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-white hover:text-red-600 transition-all group/link">
+                        <a href={dojo.website} target="_blank" className="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-neutral-800 hover:text-red-600 transition-all group/link">
                           <Globe size={14} className="text-red-600 group-hover/link:scale-110 transition-transform" /> Website
                         </a>
                       )}
                       {dojo.facebook && (
-                        <a href={dojo.facebook} target="_blank" className="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-white hover:text-red-600 transition-all group/link">
+                        <a href={dojo.facebook} target="_blank" className="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-neutral-800 hover:text-red-600 transition-all group/link">
                           <Facebook size={14} className="text-blue-600 group-hover/link:scale-110 transition-transform" /> Facebook
                         </a>
                       )}
@@ -544,16 +546,16 @@ export default function FindADojo() {
                 key="empty"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className="py-40 text-center border-2 border-dashed border-neutral-900 rounded-[3.5rem]"
+                className="py-40 text-center border-2 border-dashed border-neutral-300 bg-white rounded-[3.5rem]"
               >
-                <p className="text-neutral-600 uppercase tracking-[0.4em] font-black text-sm">No affiliated dojos found matching your criteria.</p>
+                <p className="text-neutral-500 uppercase tracking-[0.4em] font-black text-sm">No affiliated dojos found matching your criteria.</p>
               </motion.div>
             )}
           </AnimatePresence>
         </div>
 
-        <div className="mt-32 text-center">
-          <p className="text-neutral-600 uppercase tracking-[0.4em] text-[10px] font-mono">
+        <div className="mt-32 text-center border-t border-neutral-200 pt-16">
+          <p className="text-neutral-500 uppercase tracking-[0.4em] text-[10px] font-mono">
             Verified SKIF-USA Technical Network
           </p>
         </div>

@@ -4,7 +4,11 @@ import Navbar from "@/components/Navbar";
 import Image from "next/image";
 import NextLink from "next/link";
 import { 
+  Shield, 
+  Target, 
+  Users, 
   ArrowRight, 
+  Mail, 
   Calendar, 
   MapPin, 
   Globe, 
@@ -14,7 +18,7 @@ import {
   ExternalLink,
   X
 } from "lucide-react";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 // --- SANITY IMPORTS ---
@@ -30,11 +34,9 @@ function urlFor(source: any) {
 export default function Home() {
   const VIDEO_ID = "uMUaR8ADv58";
   const [isMounted, setIsMounted] = useState(false);
-  const playerRef = useRef<any>(null);
   
-  // Notice starts hidden to prevent flashing and waiting for scroll
+  // Notice starts hidden to prevent flashing
   const [showNotice, setShowNotice] = useState(false);
-  const noticeShownRef = useRef(false); // Tracks if we already showed it during this session
   
   // State to hold our dynamic Sanity events & news
   const [events, setEvents] = useState<any[]>([]);
@@ -42,45 +44,25 @@ export default function Home() {
   useEffect(() => {
     setIsMounted(true);
 
-    // 1. --- NEW 24-HOUR POPUP LOGIC (ON SCROLL) ---
-    let isEligibleForPopup = false;
+    // 1. --- NEW 24-HOUR POPUP LOGIC ---
     try {
       const dismissedTime = window.localStorage.getItem("skifusa_notice_dismissed");
       if (!dismissedTime) {
-        isEligibleForPopup = true; // Never seen it, eligible!
+        setShowNotice(true); // Never seen it, show it!
       } else {
         const now = new Date().getTime();
         const dismissedAt = parseInt(dismissedTime, 10);
         // 24 hours in milliseconds
         if (now - dismissedAt > 24 * 60 * 60 * 1000) {
           window.localStorage.removeItem("skifusa_notice_dismissed");
-          isEligibleForPopup = true;
+          setShowNotice(true);
         }
       }
     } catch (e) {
       // Fallback if browser blocks local storage
-      isEligibleForPopup = true;
+      setShowNotice(true);
     }
 
-    // Only add the scroll listener if they are eligible to see the popup
-    if (isEligibleForPopup) {
-      const handleScroll = () => {
-        // Wait until they scroll down at least 100px before showing
-        if (window.scrollY > 100 && !noticeShownRef.current) {
-          setShowNotice(true);
-          noticeShownRef.current = true;
-          window.removeEventListener("scroll", handleScroll); // Remove listener once shown
-        }
-      };
-
-      window.addEventListener("scroll", handleScroll, { passive: true });
-      
-      // Cleanup listener on unmount just in case
-      return () => window.removeEventListener("scroll", handleScroll);
-    }
-  }, []);
-
-  useEffect(() => {
     // 2. --- FETCH LATEST NEWS & EVENTS FROM SANITY ---
     const fetchEvents = async () => {
       try {
@@ -102,58 +84,6 @@ export default function Home() {
     };
 
     fetchEvents();
-
-    // 3. --- YOUTUBE IFRAME API FOR PRECISE SEGMENT LOOPING ---
-    // This solves the YouTube bug where "loop=1" ignores the "start" parameter
-    if (!(window as any).YT) {
-      const script = document.createElement('script');
-      script.src = 'https://www.youtube.com/iframe_api';
-      document.body.appendChild(script);
-    }
-
-    const interval = setInterval(() => {
-      if ((window as any).YT && (window as any).YT.Player && document.getElementById('yt-player') && !playerRef.current) {
-        playerRef.current = new (window as any).YT.Player('yt-player', {
-          videoId: VIDEO_ID,
-          playerVars: {
-            autoplay: 1,
-            mute: 1,
-            controls: 0,
-            rel: 0,
-            showinfo: 0,
-            modestbranding: 1,
-            playsinline: 1,
-            disablekb: 1,
-            fs: 0,
-            start: 48, // Start at 0:48
-            end: 94,   // End at 1:34
-          },
-          events: {
-            onReady: (e: any) => {
-              e.target.mute(); // Enforce mute so browser allows autoplay
-              e.target.playVideo();
-            },
-            onStateChange: (e: any) => {
-              // When the video hits the 'end' time, it triggers the ENDED state
-              // We catch it and seek back to the start time immediately
-              if (e.data === (window as any).YT.PlayerState.ENDED) {
-                e.target.seekTo(48);
-                e.target.playVideo();
-              }
-            }
-          }
-        });
-        clearInterval(interval);
-      }
-    }, 100);
-
-    return () => {
-      clearInterval(interval);
-      if (playerRef.current) {
-        playerRef.current.destroy();
-        playerRef.current = null;
-      }
-    };
   }, []);
 
   // --- SAVE THE TIME WHEN THEY CLICK "I UNDERSTAND" ---
@@ -167,7 +97,7 @@ export default function Home() {
   };
 
   return (
-    <main className="min-h-screen bg-[#F5F5F5] text-neutral-900 selection:bg-red-600 selection:text-white">
+    <main className="min-h-screen bg-black text-white selection:bg-white selection:text-black">
       <Navbar />
 
       {/* --- OFFICIAL NOTICE POPUP --- */}
@@ -222,84 +152,140 @@ export default function Home() {
       </AnimatePresence>
 
       {/* 1. HERO SECTION */}
-      <section className="relative min-h-screen bg-[#F5F5F5] flex flex-col justify-center items-center px-6 overflow-hidden text-white">
-        
-        {/* Background Video Layer */}
+      <section className="relative min-h-screen flex flex-col justify-center items-center px-6 pt-32 pb-20 overflow-hidden">
         <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+            <div className={`absolute inset-0 bg-neutral-900 z-10 transition-opacity duration-1000 ${isMounted ? 'opacity-0' : 'opacity-100'}`}>
+               <Image 
+                  src="/skif_kanji.png" 
+                  alt="Background"
+                  fill
+                  className="object-cover opacity-20 blur-sm"
+               />
+            </div>
+
             <div className="relative w-full h-full">
-                {/* The YouTube Iframe API will replace this div with the video */}
-                <div 
-                    id="yt-player"
-                    className="absolute top-1/2 left-1/2 w-[300%] h-[300%] lg:w-[150%] lg:h-[150%] -translate-x-1/2 -translate-y-1/2 object-cover opacity-100"
-                />
+                {isMounted && (
+                    <iframe 
+                        className="absolute top-1/2 left-1/2 w-[300%] h-[300%] -translate-x-1/2 -translate-y-1/2 object-cover opacity-100"
+                        src={`https://www.youtube.com/embed/${VIDEO_ID}?autoplay=1&mute=1&controls=0&loop=1&playlist=${VIDEO_ID}&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&playsinline=1&disablekb=1&fs=0`} 
+                        title="SKIF Background Video"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                    />
+                )}
             </div>
         </div>
 
-        {/* Dark overlay ensuring text is perfectly readable over the video OR the loading background */}
-        <div className="absolute inset-0 z-10 bg-black/60 pointer-events-none" />
+        <div className="absolute inset-0 z-10 bg-black/50 pointer-events-none" />
 
-        <div className="container mx-auto max-w-7xl relative z-20 grid lg:grid-cols-12 gap-8 lg:gap-16 items-center pt-24 lg:pt-0">
+        <div className="container mx-auto max-w-5xl relative z-20 flex flex-col items-center">
           
-          {/* LEFT COLUMN: TEXT & BUTTONS */}
-          <div className="lg:col-span-8 flex flex-col items-center lg:items-start text-center lg:text-left w-full">
-            <h2 className="text-neutral-300 font-medium tracking-[0.2em] mb-4 uppercase text-sm md:text-base animate-pulse drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
-              Karate-Do Way of Life
+          <div className="text-center max-w-4xl mb-12">
+            <h2 className="text-neutral-200 font-medium tracking-[0.2em] mb-4 uppercase text-sm md:text-base animate-pulse drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+              Shotokan Karate-Do International Federation &bull; USA
             </h2>
             
-            <h1 className="flex flex-col uppercase leading-[1.1] drop-shadow-[0_4px_4px_rgba(0,0,0,0.8)] mb-6">
-              <span className="text-5xl md:text-7xl xl:text-[5.5rem] font-black tracking-tight text-white">
-                Shotokan Karate-Do
-              </span>
-              <span className="text-xl md:text-[2rem] lg:text-[2rem] xl:text-4xl font-medium tracking-wide text-transparent bg-clip-text bg-gradient-to-b from-white via-neutral-300 to-neutral-500 mt-2 md:mt-4 whitespace-nowrap">
-                International Federation &bull; USA
+            <h1 className="text-6xl md:text-9xl font-black tracking-tighter mb-8 uppercase leading-[0.9] drop-shadow-[0_4px_4px_rgba(0,0,0,0.8)]">
+              Karate-Do <br /> 
+              <span className="text-transparent bg-clip-text bg-gradient-to-b from-white via-neutral-400 to-black">
+                Way of Life.
               </span>
             </h1>
 
-            <p className="text-neutral-200 text-base md:text-lg leading-relaxed max-w-3xl mb-10 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
-              <strong className="text-white font-semibold">SKIF-USA</strong> is affiliated with SKIF-Japan and is dedicated to the growth and development of SKIF in the United States. SKIF was founded in 1977 by Hirokazu Kanazawa Soke, 10th Dan. It has become one of the world’s largest and finest karate organizations with over <span className="text-white font-semibold">2 million members</span> in more than 100 countries.
+            <p className="text-neutral-100 text-lg md:text-xl leading-relaxed mx-auto drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)]">
+              <strong className="text-white">SKIF</strong> was founded in 1977 by Hirokazu Kanazawa Soke, 10th Dan.
+              It has become one of the world’s largest and finest karate organizations with over 
+              <span className="text-white"> 2 million members</span> in more than 100 countries.
+              SKIF-USA is closely affiliated with SKIF-Japan and is dedicated to the growth and development of SKIF in the United States.
             </p>
+          </div>
+          
+          <div className="grid md:grid-cols-2 gap-6 items-center w-full max-w-4xl">
+            
+            <div className="flex flex-col items-center md:items-start text-center md:text-left space-y-8 bg-neutral-950/90 backdrop-blur-sm border border-neutral-800 text-white p-8 rounded-3xl shadow-2xl shadow-black/50">
+              <div className="space-y-4 text-sm md:text-base w-full">
+                <div className="flex flex-col gap-1">
+                  <h3 className="text-neutral-400 font-black uppercase tracking-widest text-xs mb-1">Headquarters</h3>
+                  <p className="text-neutral-200">St. Paul, Minnesota</p>
+                </div>
+                
+                <div className="flex flex-col gap-1">
+                  <h3 className="text-neutral-400 font-black uppercase tracking-widest text-xs mb-1">Mailing Address</h3>
+                  <p className="text-neutral-200">SKIF-USA, P.O. Box 42316,<br/>Cincinnati, OH 45242</p>
+                </div>
 
-            <div className="flex flex-col sm:flex-row gap-4 w-full md:w-auto justify-center lg:justify-start items-center">
-              <NextLink href="/history" className="bg-white text-center text-black px-10 py-4 font-bold uppercase tracking-wider hover:bg-neutral-200 transition-all text-sm rounded-full shadow-lg">
-                About Us
-              </NextLink>
-              <NextLink href="/events" className="border text-center border-neutral-500 text-neutral-200 px-10 py-4 font-bold uppercase tracking-wider hover:border-red-500 hover:text-red-500 transition-all text-sm rounded-full bg-black/20 backdrop-blur-sm">
-                Events
-              </NextLink>
+                <div className="flex flex-col gap-1 pt-4 border-t border-neutral-800 mt-2">
+                   <h3 className="text-neutral-400 font-black uppercase tracking-widest text-xs mb-1">General Secretary</h3>
+                   <p className="text-neutral-200">Chris Johnson</p>
+                   <a href="mailto:skifusa@gmail.com" className="text-red-500 hover:text-red-400 transition-colors flex items-center justify-center md:justify-start gap-2 font-bold uppercase tracking-wider mt-1">
+                    <Mail size={16} /> skifusa@gmail.com
+                  </a>
+                </div>
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-4 w-full pt-2">
+                <NextLink href="#philosophy" className="bg-white text-center text-black px-6 py-3 font-bold uppercase tracking-wider hover:bg-neutral-200 transition-all text-sm rounded-full w-full sm:w-auto shadow-lg">
+                  About Us
+                </NextLink>
+                <NextLink href="/events" className="border text-center border-neutral-600 text-neutral-300 px-6 py-3 font-bold uppercase tracking-wider hover:border-red-500 hover:text-red-500 transition-all text-sm rounded-full w-full sm:w-auto">
+                  Events
+                </NextLink>
+              </div>
+            </div>
+
+            <div className="flex justify-center md:justify-start pl-0 md:pl-4">
+              <div className="relative w-full max-w-[320px] h-[380px]">
+                  <Image 
+                    src="/skif_kanji.png" 
+                    alt="SKIF Kanji Calligraphy"
+                    fill
+                    className="object-contain drop-shadow-[0_10px_30px_rgba(220,38,38,0.25)]"
+                    priority
+                  />
+              </div>
             </div>
           </div>
-          
-          {/* RIGHT COLUMN: IMAGE */}
-          <div className="lg:col-span-4 flex justify-center lg:justify-end items-center w-full mt-8 lg:mt-0">
-            <div className="relative w-full max-w-[200px] sm:max-w-[250px] md:max-w-[320px] lg:max-w-[400px] aspect-[4/5] drop-shadow-[0_20px_50px_rgba(220,38,38,0.25)]">
-                <Image 
-                  src="/skif_kanji.png" 
-                  alt="SKIF Kanji Calligraphy"
-                  fill
-                  className="object-contain"
-                  priority
-                />
-            </div>
-          </div>
-          
         </div>
       </section>
 
-      {/* 2. FIND A DOJO SECTION */}
-      <section id="find-dojo" className="py-24 px-6 bg-[#F5F5F5] relative overflow-hidden border-t border-neutral-200 shadow-[0_-8px_15px_rgba(0,0,0,0.03)] z-10">
+      {/* 2. PHILOSOPHY GRID */}
+      <section id="philosophy" className="py-24 px-6 border-t border-neutral-900 bg-black scroll-mt-24">
+        <div className="container mx-auto">
+          <div className="grid md:grid-cols-3 gap-8">
+            <FeatureCard 
+              icon={<Shield size={32} />}
+              title="Defense"
+              desc="Learn to protect yourself and others with practical, high-impact techniques refined over generations."
+            />
+            <FeatureCard 
+              icon={<Target size={32} />}
+              title="Focus"
+              desc="Martial arts is 10% physical and 90% mental. Sharpen your mind and eliminate distractions."
+            />
+            <FeatureCard 
+              icon={<Users size={32} />}
+              title="Community"
+              desc="Join a brotherhood and sisterhood of warriors dedicated to mutual growth and respect."
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* 3. FIND A DOJO SECTION */}
+      <section id="find-dojo" className="py-24 px-6 bg-neutral-900 border-t border-neutral-800 relative overflow-hidden">
          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-red-600/5 rounded-full blur-[100px] -z-10" />
 
          <div className="container mx-auto max-w-5xl">
-            <div className="bg-[#2A2C2C] rounded-[3rem] p-8 md:p-16 border border-neutral-800 relative overflow-hidden flex flex-col md:flex-row items-center gap-12 shadow-2xl">
-                <div className="absolute inset-0 opacity-20 pointer-events-none" style={{ backgroundImage: 'radial-gradient(#555 1px, transparent 1px)', backgroundSize: '24px 24px' }}></div>
-                <div className="flex-1 relative z-10 text-center md:text-left flex flex-col items-center md:items-start text-white">
-                    <div className="inline-flex items-center gap-2 text-red-500 font-bold uppercase tracking-widest text-xs mb-4 bg-red-600/10 px-4 py-2 rounded-full">
+            <div className="bg-black rounded-[3rem] p-8 md:p-16 border border-neutral-800 relative overflow-hidden flex flex-col md:flex-row items-center gap-12 shadow-2xl">
+                <div className="absolute inset-0 opacity-20 pointer-events-none" style={{ backgroundImage: 'radial-gradient(#333 1px, transparent 1px)', backgroundSize: '24px 24px' }}></div>
+                <div className="flex-1 relative z-10 text-center md:text-left flex flex-col items-center md:items-start">
+                    <div className="inline-flex items-center gap-2 text-red-600 font-bold uppercase tracking-widest text-xs mb-4 bg-red-600/10 px-4 py-2 rounded-full">
                         <Globe size={14} /> National Network
                     </div>
                     <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter mb-4 text-white">
                         Find a Dojo <br/> Near You
                     </h2>
-                    <p className="text-neutral-300 text-lg leading-relaxed mb-8">
+                    <p className="text-neutral-400 text-lg leading-relaxed mb-8">
                         Join the SKIF family. Locate an affiliated dojo in your state and train with certified instructors committed to the traditional way.
                     </p>
                     <NextLink href="/dojo" className="bg-white text-black hover:bg-neutral-200 px-8 py-4 rounded-full font-bold uppercase tracking-wider transition-colors shadow-lg flex items-center justify-center gap-2 w-fit">
@@ -308,32 +294,32 @@ export default function Home() {
                 </div>
 
                 <div className="relative z-10 w-full md:w-1/3 flex justify-center">
-                    <div className="relative w-48 h-48 md:w-64 md:h-64 bg-neutral-900 rounded-full flex items-center justify-center border border-neutral-700 shadow-2xl animate-[pulse_4s_ease-in-out_infinite]">
-                        <div className="absolute inset-4 border border-dashed border-neutral-600 rounded-full animate-[spin_20s_linear_infinite]" />
-                        <MapPin size={80} className="text-red-500 drop-shadow-[0_0_15px_rgba(220,38,38,0.5)]" />
+                    <div className="relative w-48 h-48 md:w-64 md:h-64 bg-neutral-900 rounded-full flex items-center justify-center border border-neutral-800 shadow-2xl animate-[pulse_4s_ease-in-out_infinite]">
+                        <div className="absolute inset-4 border border-dashed border-neutral-700 rounded-full animate-[spin_20s_linear_infinite]" />
+                        <MapPin size={80} className="text-red-600 drop-shadow-[0_0_15px_rgba(220,38,38,0.5)]" />
                     </div>
                 </div>
             </div>
          </div>
       </section>
 
-      {/* 3. NEWS & EVENTS SECTION */}
-      <section id="news" className="py-24 px-6 bg-[#5F6368] border-t border-neutral-200 shadow-[0_-8px_15px_rgba(0,0,0,0.03)] relative z-20">
+      {/* 4. NEWS & EVENTS SECTION (Dynamic Sanity Data) */}
+      <section id="news" className="py-24 px-6 bg-neutral-950 border-t border-neutral-900">
         <div className="container mx-auto">
           
           <div className="flex flex-col items-center text-center mb-16 relative">
             <span className="absolute -top-12 opacity-5 text-[10rem] font-black text-white select-none pointer-events-none hidden md:block leading-none z-0">
-                02
+                03
             </span>
-            <div className="inline-flex items-center gap-3 text-white font-bold uppercase tracking-widest text-xs mb-4 relative z-10">
-                <span className="w-8 h-[2px] bg-white"></span>
+            <div className="inline-flex items-center gap-3 text-red-600 font-bold uppercase tracking-widest text-xs mb-4 relative z-10">
+                <span className="w-8 h-[2px] bg-red-600"></span>
                 Federation Updates
-                <span className="w-8 h-[2px] bg-white"></span>
+                <span className="w-8 h-[2px] bg-red-600"></span>
             </div>
             <h2 className="text-5xl md:text-7xl font-black uppercase tracking-tighter text-white mb-6 relative z-10">
-                News <span className="text-neutral-300 mx-2">&bull;</span> Events
+                News <span className="text-neutral-700 mx-2">&bull;</span> Events
             </h2>
-            <p className="text-neutral-100 max-w-xl text-lg leading-relaxed relative z-10 drop-shadow-md">
+            <p className="text-neutral-400 max-w-xl text-lg leading-relaxed relative z-10">
                 The latest announcements, seminar schedules, and championship results from SKIF-USA headquarters.
             </p>
           </div>
@@ -352,28 +338,28 @@ export default function Home() {
                 />
               ))
             ) : (
-              <div className="col-span-3 text-center text-neutral-200 py-12">Loading latest updates...</div>
+              <div className="col-span-3 text-center text-neutral-500 py-12">Loading latest updates...</div>
             )}
           </div>
         </div>
       </section>
 
-      {/* 4. MEMBER RESOURCES SECTION */}
-      <section id="resources" className="py-32 px-6 bg-[#F5F5F5] border-t border-neutral-300 shadow-[0_-8px_15px_rgba(0,0,0,0.03)] relative z-30 overflow-hidden">
+      {/* 5. MEMBER RESOURCES SECTION */}
+      <section id="resources" className="py-32 px-6 bg-neutral-200 border-t border-neutral-300 relative overflow-hidden">
         <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#000 1px, transparent 1px)', backgroundSize: '20px 20px' }}></div>
         
         <div className="container mx-auto max-w-6xl relative z-10">
            <div className="flex flex-col items-center text-center mb-16 relative">
-            <span className="absolute -top-12 opacity-[0.03] text-[10rem] font-black text-black select-none pointer-events-none hidden md:block leading-none z-0">
-                03
+            <span className="absolute -top-12 opacity-5 text-[10rem] font-black text-black select-none pointer-events-none hidden md:block leading-none z-0">
+                04
             </span>
             <div className="inline-flex items-center gap-3 text-red-600 font-bold uppercase tracking-widest text-xs mb-4 relative z-10">
                 <span className="w-8 h-[2px] bg-red-600"></span>
                 Quick Access
                 <span className="w-8 h-[2px] bg-red-600"></span>
             </div>
-            <h2 className="text-5xl md:text-7xl font-black uppercase tracking-tighter text-neutral-900 mb-6 relative z-10">
-                Member <span className="text-neutral-400 mx-2">&bull;</span> Resources
+            <h2 className="text-5xl md:text-7xl font-black uppercase tracking-tighter text-black mb-6 relative z-10">
+                Member <span className="text-neutral-500 mx-2">&bull;</span> Resources
             </h2>
             <p className="text-neutral-600 max-w-xl text-lg leading-relaxed relative z-10">
                 Verify black belt credentials, download official technical syllabi, or purchase authentic federation merchandise.
@@ -383,12 +369,12 @@ export default function Home() {
            <div className="grid md:grid-cols-3 gap-8">
               
               {/* CARD 1: Black Belt Registry */}
-              <NextLink href="/registry" className="group relative h-[350px] bg-neutral-900 rounded-3xl overflow-hidden transition-all duration-500 flex flex-col p-8 shadow-xl hover:-translate-y-2">
+              <NextLink href="/registry" className="group relative h-[350px] bg-neutral-900 border border-neutral-800 hover:border-red-600 rounded-3xl overflow-hidden transition-all duration-500 flex flex-col p-8 shadow-2xl shadow-neutral-900/20 hover:shadow-red-900/20 hover:-translate-y-2">
                   <div className="w-12 h-12 bg-neutral-800 rounded-full flex items-center justify-center mb-6 group-hover:bg-red-600 transition-colors">
                       <ScrollText size={20} className="text-white" />
                   </div>
                   <div className="flex-1">
-                      <h3 className="text-3xl font-bold uppercase text-white mb-4 leading-none">
+                      <h3 className="text-3xl font-black uppercase text-white mb-4 leading-none">
                           Black Belt <br/><span className="text-neutral-500 group-hover:text-white transition-colors">Registry</span>
                       </h3>
                       <p className="text-neutral-400 text-sm leading-relaxed">
@@ -402,16 +388,16 @@ export default function Home() {
               </NextLink>
 
               {/* CARD 2: Technical Docs */}
-              <NextLink href="/technical" className="group relative h-[350px] bg-neutral-900 rounded-3xl overflow-hidden transition-all duration-500 flex flex-col p-8 shadow-xl hover:-translate-y-2">
+              <NextLink href="/technical" className="group relative h-[350px] bg-neutral-900 border border-neutral-800 hover:border-red-600 rounded-3xl overflow-hidden transition-all duration-500 flex flex-col p-8 shadow-2xl shadow-neutral-900/20 hover:shadow-red-900/20 hover:-translate-y-2">
                   <div className="w-12 h-12 bg-neutral-800 rounded-full flex items-center justify-center mb-6 group-hover:bg-red-600 transition-colors">
                       <FileText size={20} className="text-white" />
                   </div>
                   <div className="flex-1">
-                      <h3 className="text-3xl font-bold uppercase text-white mb-4 leading-none">
+                      <h3 className="text-3xl font-black uppercase text-white mb-4 leading-none">
                           Technical <br/><span className="text-neutral-500 group-hover:text-white transition-colors">Docs</span>
                       </h3>
                       <p className="text-neutral-400 text-sm leading-relaxed">
-                         Downloads for grading syllabi, tournament rules, and official instructor manuals.
+                          Downloads for grading syllabi, tournament rules, and official instructor manuals.
                       </p>
                   </div>
                   <div className="mt-auto border-t border-neutral-800 pt-6 flex items-center justify-between text-white font-bold uppercase tracking-widest text-xs">
@@ -425,13 +411,13 @@ export default function Home() {
                 href="https://www.skifusa.org/shop" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="group relative h-[350px] bg-neutral-900 rounded-3xl overflow-hidden transition-all duration-500 flex flex-col p-8 shadow-xl hover:-translate-y-2"
+                className="group relative h-[350px] bg-neutral-900 border border-neutral-800 hover:border-red-600 rounded-3xl overflow-hidden transition-all duration-500 flex flex-col p-8 shadow-2xl shadow-neutral-900/20 hover:shadow-red-900/20 hover:-translate-y-2"
               >
                   <div className="w-12 h-12 bg-neutral-800 rounded-full flex items-center justify-center mb-6 group-hover:bg-red-600 transition-colors">
                       <ShoppingBag size={20} className="text-white" />
                   </div>
                   <div className="flex-1">
-                      <h3 className="text-3xl font-bold uppercase text-white mb-4 leading-none">
+                      <h3 className="text-3xl font-black uppercase text-white mb-4 leading-none">
                           Official <br/><span className="text-neutral-500 group-hover:text-white transition-colors">Merch</span>
                       </h3>
                       <p className="text-neutral-400 text-sm leading-relaxed">
@@ -453,15 +439,25 @@ export default function Home() {
 
 // --- SUB-COMPONENTS ---
 
+function FeatureCard({ icon, title, desc }: { icon: any, title: string, desc: string }) {
+  return (
+    <div className="p-8 border border-neutral-900 hover:border-red-600/50 transition-colors duration-300 group">
+      <div className="mb-6 text-neutral-500 group-hover:text-red-500 transition-colors">{icon}</div>
+      <h3 className="text-xl font-bold uppercase mb-4 tracking-wide">{title}</h3>
+      <p className="text-neutral-400 leading-relaxed">{desc}</p>
+    </div>
+  );
+}
+
 function NewsCard({ href, category, date, title, location, image }: { href: string, category: string, date: string, title: string, location: string, image: string }) {
   return (
-    <NextLink href={href} className="group relative h-[700px] overflow-hidden rounded-3xl bg-neutral-900 block shadow-xl hover:shadow-2xl transition-shadow duration-300 text-white">
+    <NextLink href={href} className="group relative h-[700px] overflow-hidden rounded-3xl border border-neutral-800 bg-neutral-900 block">
       <div className="absolute inset-0 bg-neutral-900">
          <Image 
             src={image} 
             alt={title}
             fill
-            className="object-cover transition-transform duration-700 group-hover:scale-105 opacity-90 group-hover:opacity-100"
+            className="object-cover transition-transform duration-700 group-hover:scale-105"
          />
       </div>
       <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black via-black/80 to-transparent" />

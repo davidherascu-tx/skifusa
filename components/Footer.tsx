@@ -2,15 +2,15 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { usePathname } from "next/navigation"; // <-- Added this
+import { usePathname } from "next/navigation";
 import { Instagram, Facebook, ArrowUpRight, MapPin, Mail, Loader2, X } from "lucide-react";
 
 export default function Footer() {
-  const pathname = usePathname(); // <-- Added this
+  const pathname = usePathname();
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
 
-  // <-- Hide Footer if we are in the Studio
+  // Hide Footer if we are in the Studio
   if (pathname.startsWith("/studio")) return null; 
 
   const handleSubscribe = async (e: React.FormEvent) => {
@@ -52,10 +52,12 @@ export default function Footer() {
               <img src="/skifusa_logo.webp" alt="SKIF USA Logo" className="h-28 md:h-36 w-auto object-contain" />
             </div>
             <div className="flex flex-col items-center md:items-start">
+              {/* Changed SKIF.USA to SKIF-USA */}
               <Link href="/" className="text-4xl md:text-5xl font-black tracking-tighter uppercase leading-none mb-3 block">
-                SKIF.<span className="text-neutral-600">USA</span>
+                SKIF-<span className="text-neutral-600">USA</span>
               </Link>
-              <p className="text-neutral-400 text-sm md:text-base uppercase tracking-[0.2em] whitespace-nowrap">
+              {/* Reduced font size to text-xs md:text-sm */}
+              <p className="text-neutral-400 text-xs md:text-sm uppercase tracking-[0.2em] whitespace-nowrap">
                 One Style. One Spirit. One Federation.
               </p>
             </div>
@@ -77,7 +79,8 @@ export default function Footer() {
 
           <div className="md:col-span-3">
             <h4 className="font-bold uppercase tracking-widest mb-6 text-sm text-neutral-500">Updates</h4>
-            <p className="text-neutral-400 text-sm mb-4">Join SKIF.USA news. No spam, only discipline.</p>
+            {/* Changed SKIF.USA to SKIF-USA */}
+            <p className="text-neutral-400 text-sm mb-4">Join SKIF-USA news. No spam, only discipline.</p>
             
             <form onSubmit={handleSubscribe} className="flex flex-col gap-3">
               <div className="relative">
@@ -100,7 +103,8 @@ export default function Footer() {
         </div>
 
         <div className="border-t border-neutral-900 pt-8 flex flex-col md:flex-row justify-between items-center gap-6">
-          <p className="text-neutral-600 text-xs uppercase tracking-wider">&copy; {new Date().getFullYear()} SKIF.USA. All rights reserved.</p>
+          {/* Changed SKIF.USA to SKIF-USA */}
+          <p className="text-neutral-600 text-xs uppercase tracking-wider">&copy; {new Date().getFullYear()} SKIF-USA. All rights reserved.</p>
           <div className="flex gap-6">
             <SocialLink href="https://facebook.com/groups/skifusa" icon={<Facebook size={20} />} />
             <SocialLink href="https://x.com/skif_usa" icon={<X size={20} />} />

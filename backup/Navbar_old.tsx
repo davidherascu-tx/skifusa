@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import NextLink from "next/link";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
+import { usePathname } from "next/navigation"; // <-- Added this
 import { 
   Menu, 
   X as CloseIcon, 
@@ -22,18 +22,19 @@ const navLinks = [
     href: "#",
     submenu: [
       { name: "Our History", href: "/history" },
-      { name: "Board of Directors", href: "/board" },
       { name: "Instructors", href: "/instructors" },
       { name: "Philosophy", href: "/philosophy" },
+      { name: "Board of Directors", href: "/board" },
       { name: "Hall of Fame", href: "/hall-of-fame" },
     ]
   },
   { name: "News", href: "/news" },
-  { name: "Events", href: "/events" }, 
+  { name: "Events/Calendar", href: "/events" }, 
   { 
     name: "Resources", 
     href: "#",
     submenu: [
+        { name: "Membership", href: "/membership" },
         { name: "Black Belt Registry", href: "/registry" },    
         { name: "Find a Dojo", href: "/dojo" },
         { name: "Technical", href: "/technical" },
@@ -44,48 +45,11 @@ const navLinks = [
 ];
 
 export default function Navbar() {
-  const pathname = usePathname();
+  const pathname = usePathname(); // <-- Added this
   const [isOpen, setIsOpen] = useState(false);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [mobileExpandedIndex, setMobileExpandedIndex] = useState<number | null>(null);
-  
-  // --- SCROLL STATE ---
-  const [isVisible, setIsVisible] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
 
-  // Hide/Show Navbar on Scroll
-  useEffect(() => {
-    const handleScroll = () => {
-      if (typeof window !== "undefined") {
-        const currentScrollY = window.scrollY;
-
-        // Don't hide the navbar if the mobile menu is open
-        if (isOpen) {
-          setIsVisible(true);
-          setLastScrollY(currentScrollY);
-          return;
-        }
-
-        // Always show at the very top of the page
-        if (currentScrollY < 50) {
-          setIsVisible(true);
-        } else if (currentScrollY > lastScrollY) {
-          // Scrolling down
-          setIsVisible(false);
-        } else {
-          // Scrolling up
-          setIsVisible(true);
-        }
-
-        setLastScrollY(currentScrollY);
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [lastScrollY, isOpen]);
-
-  // Body overflow toggle for mobile menu
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
@@ -99,7 +63,7 @@ export default function Navbar() {
     setMobileExpandedIndex(null);
   };
 
-  // Hide Navbar if we are in the Studio
+  // <-- Hide Navbar if we are in the Studio
   if (pathname.startsWith("/studio")) return null; 
 
   return (
@@ -107,37 +71,31 @@ export default function Navbar() {
       {/* --- FLOATING PILL NAVBAR --- */}
       <motion.nav
         initial={{ y: -100, opacity: 0 }}
-        // Animate up and down based on isVisible state
-        animate={{ 
-          y: isVisible ? 0 : -120, 
-          opacity: isVisible ? 1 : 0 
-        }}
-        transition={{ duration: 0.4, ease: "easeInOut" }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
         className="fixed top-4 inset-x-0 max-w-7xl mx-auto px-4 z-[60]"
       >
         <div 
-          // REMOVED `overflow-hidden` so submenus can drop down again!
-          className="bg-neutral-900/90 backdrop-blur-xl border border-neutral-800 rounded-full pl-0 pr-3 py-0 flex justify-between items-center shadow-2xl shadow-black/50"
+          className="bg-neutral-900/90 backdrop-blur-xl border border-neutral-800 rounded-full pl-6 pr-2 py-2 flex justify-between items-center shadow-2xl shadow-black/50"
           onMouseLeave={() => setHoveredIndex(null)}
         >
-          {/* Logo Section */}
-          <NextLink href="/" className="flex items-center gap-2 relative z-50 shrink-0 group" onClick={closeMenu}>
-            <div className="relative h-14 w-14 md:h-16 md:w-16 lg:h-20 lg:w-20 transition-all">
+          <NextLink href="/" className="flex items-center gap-3 mr-4 relative z-50 shrink-0 group" onClick={closeMenu}>
+            <div className="relative h-8 w-8 md:h-9 md:w-9">
               <Image 
                 src="/skifusa_logo.webp"
                 alt="SKIF USA Logo" 
                 fill 
                 className="object-contain"
-                sizes="(max-width: 768px) 56px, (max-width: 1024px) 64px, 80px"
+                sizes="(max-width: 768px) 32px, 36px"
               />
             </div>
-            <span className="text-xl md:text-2xl font-black tracking-tighter text-white uppercase group-hover:text-neutral-300 transition-colors">
-              SKIF-<span className="text-neutral-500">USA</span>
+            <span className="text-xl font-black tracking-tighter text-white uppercase group-hover:text-neutral-300 transition-colors">
+              SKIF.<span className="text-neutral-500">USA</span>
             </span>
           </NextLink>
 
           {/* DESKTOP LINKS */}
-          <div className="flex items-center gap-0 lg:gap-1 h-full ml-2">
+          <div className="hidden lg:flex items-center gap-1 h-full">
             {navLinks.map((link, index) => {
               const isExternal = link.href.startsWith("http");
               const hasSubmenu = !!link.submenu;
@@ -146,30 +104,30 @@ export default function Navbar() {
               return (
                 <div 
                   key={link.name} 
-                  className="relative h-full flex items-center hidden lg:flex"
+                  className="relative h-full flex items-center"
                   onMouseEnter={() => setHoveredIndex(index)}
                 >
                   {isNoLink ? (
                     <div
-                      className={`px-3 py-2 text-sm lg:text-base font-bold transition-all uppercase tracking-wider rounded-full flex items-center gap-1 cursor-default ${
+                      className={`px-4 py-2 text-xs font-bold transition-all uppercase tracking-wider rounded-full flex items-center gap-1 cursor-default ${
                         hoveredIndex === index ? "text-white bg-white/10" : "text-neutral-400"
                       }`}
                     >
                       {link.name}
-                      {hasSubmenu && <ChevronDown size={16} />}
+                      {hasSubmenu && <ChevronDown size={12} />}
                     </div>
                   ) : (
                     <NextLink
                       href={link.href}
                       target={isExternal ? "_blank" : "_self"}
                       rel={isExternal ? "noopener noreferrer" : ""}
-                      className={`px-3 py-2 text-sm lg:text-base font-bold transition-all uppercase tracking-wider rounded-full flex items-center gap-1 ${
+                      className={`px-4 py-2 text-xs font-bold transition-all uppercase tracking-wider rounded-full flex items-center gap-1 ${
                         hoveredIndex === index ? "text-white bg-white/10" : "text-neutral-400 hover:text-white"
                       }`}
                     >
                       {link.name}
-                      {hasSubmenu && <ChevronDown size={16} />}
-                      {isExternal && <ExternalLink size={14} className="opacity-50" />}
+                      {hasSubmenu && <ChevronDown size={12} />}
+                      {isExternal && <ExternalLink size={12} className="opacity-50" />}
                     </NextLink>
                   )}
 
@@ -180,7 +138,7 @@ export default function Navbar() {
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 10, scale: 0.95 }}
                         transition={{ duration: 0.2 }}
-                        className="absolute top-full left-0 mt-3 w-60 bg-neutral-900 border border-neutral-800 rounded-2xl p-2 shadow-xl overflow-hidden"
+                        className="absolute top-full left-0 mt-4 w-60 bg-neutral-900 border border-neutral-800 rounded-2xl p-2 shadow-xl overflow-hidden"
                       >
                         <div className="flex flex-col gap-1">
                           {link.submenu.map((subItem) => {
@@ -192,10 +150,10 @@ export default function Navbar() {
                                 target={isSubExternal ? "_blank" : "_self"}
                                 rel={isSubExternal ? "noopener noreferrer" : ""}
                                 onClick={() => setHoveredIndex(null)}
-                                className="text-neutral-400 hover:text-white hover:bg-white/10 px-3 py-2.5 rounded-xl text-base font-medium transition-colors flex items-center justify-between group/item"
+                                className="text-neutral-400 hover:text-white hover:bg-white/10 px-4 py-2.5 rounded-xl text-sm font-medium transition-colors flex items-center justify-between group/item"
                               >
                                 {subItem.name}
-                                {isSubExternal && <ExternalLink size={14} className="opacity-50 group-hover/item:opacity-100 transition-opacity" />}
+                                {isSubExternal && <ExternalLink size={12} className="opacity-50 group-hover/item:opacity-100 transition-opacity" />}
                               </NextLink>
                             );
                           })}
@@ -208,34 +166,18 @@ export default function Navbar() {
             })}
           </div>
 
-          <div className="flex items-center gap-3 relative z-50">
-            {/* Desktop Social Icons */}
-            <div className="hidden sm:flex items-center gap-3 mr-1">
-              <a href="https://facebook.com/groups/skifusa" target="_blank" rel="noopener noreferrer" className="text-neutral-400 hover:text-[#1877F2] transition-colors">
-                <Facebook size={20} />
-              </a>
-              <a href="https://x.com/skif_usa" target="_blank" rel="noopener noreferrer" className="text-neutral-400 hover:text-white transition-colors">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932 6.064-6.932zm-1.294 19.497h2.039L6.486 3.24H4.298l13.31 17.41z" />
-                </svg>
-              </a>
-              <a href="https://instagram.com/skif_usa" target="_blank" rel="noopener noreferrer" className="text-neutral-400 hover:text-[#ee2a7b] transition-colors">
-                <Instagram size={20} />
-              </a>
-            </div>
-
+          <div className="flex items-center gap-2 relative z-50">
             <NextLink 
               href="/membership" 
-              className="hidden sm:flex bg-white text-black px-5 py-2.5 rounded-full text-sm font-bold uppercase tracking-wide hover:bg-neutral-200 transition-colors items-center gap-2"
+              className="hidden sm:flex bg-white text-black px-5 py-2.5 rounded-full text-xs font-bold uppercase tracking-wide hover:bg-neutral-200 transition-colors items-center gap-2"
               onClick={closeMenu}
             >
-              Join <ArrowRight size={16} />
+              Join <ArrowRight size={14} />
             </NextLink>
 
-            {/* Hamburger Button */}
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="bg-neutral-800 hover:bg-neutral-700 text-white p-3 rounded-full transition-colors border border-neutral-700 relative z-[70] lg:hidden my-1.5"
+              className="bg-neutral-800 hover:bg-neutral-700 text-white p-3 rounded-full transition-colors border border-neutral-700 relative z-[70]"
               aria-label="Toggle Menu"
             >
               {isOpen ? <CloseIcon size={18} /> : <Menu size={18} />}

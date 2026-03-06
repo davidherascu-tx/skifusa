@@ -11,19 +11,20 @@ const builder = imageUrlBuilder(client);
 function urlFor(source: any) { return builder.image(source).url(); }
 
 function formatEventDate(start: string, end?: string) {
-  if (!start) return { month: "TBA", day: "TBA", full: "Dates to be announced" };
+  if (!start) return { month: "TBA", day: "TBA", year: "", full: "Dates to be announced" };
   const startDate = new Date(start + 'T12:00:00Z');
   const month = startDate.toLocaleString('default', { month: 'short' });
   const fullMonth = startDate.toLocaleString('default', { month: 'long' });
   let day = startDate.getDate().toString();
-  let full = `${fullMonth} ${day}, ${startDate.getFullYear()}`;
+  const year = startDate.getFullYear().toString();
+  let full = `${fullMonth} ${day}, ${year}`;
 
   if (end && end !== start) {
     const endDate = new Date(end + 'T12:00:00Z');
     day = `${startDate.getDate()}-${endDate.getDate()}`;
     full = `${fullMonth} ${startDate.getDate()} - ${endDate.getDate()}, ${startDate.getFullYear()}`;
   }
-  return { month, day, full };
+  return { month, day, year, full };
 }
 
 export default function CalendarPage() {
@@ -47,23 +48,25 @@ export default function CalendarPage() {
   const filteredEvents = events.filter(event => filter === "All" ? true : event.category === filter);
 
   return (
-    <main className="min-h-screen bg-black text-white selection:bg-white selection:text-black pt-32 pb-20 px-6">
+    <main className="min-h-screen bg-[#F5F5F5] text-neutral-900 selection:bg-red-600 selection:text-white pt-28 md:pt-48 pb-20 px-6">
       <div className="container mx-auto max-w-6xl">
         
+        {/* --- HEADER --- */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }} className="mb-16 border-l-4 border-red-600 pl-6 max-w-4xl">
           <h2 className="text-red-600 font-bold uppercase tracking-[0.2em] text-sm mb-2">Federation Schedule</h2>
-          <h1 className="text-5xl md:text-7xl font-black uppercase tracking-tighter leading-none text-white">
-            Event <span className="text-neutral-700">Calendar</span>
+          <h1 className="text-5xl md:text-7xl font-black uppercase tracking-tighter leading-none text-neutral-900">
+            Our <span className="text-neutral-400">Events</span>
           </h1>
         </motion.div>
 
-        <div className="flex flex-wrap gap-2 mb-12 border-b border-neutral-900 pb-8">
+        {/* --- FILTERS --- */}
+        <div className="flex flex-wrap gap-2 mb-12 border-b border-neutral-200 pb-8">
           {["All", "Seminar", "Tournament"].map((type) => (
             <button
               key={type}
               onClick={() => setFilter(type)}
               className={`px-6 py-2 rounded-full text-xs font-black uppercase tracking-widest transition-all ${
-                filter === type ? "bg-red-600 text-white" : "bg-neutral-900 text-neutral-500 hover:text-white border border-neutral-800"
+                filter === type ? "bg-red-600 text-white shadow-md" : "bg-white text-neutral-500 hover:text-neutral-900 border border-neutral-200 shadow-sm hover:shadow-md"
               }`}
             >
               {type === "All" ? "All Events" : type + "s"}
@@ -71,6 +74,7 @@ export default function CalendarPage() {
           ))}
         </div>
 
+        {/* --- EVENT LIST --- */}
         <div className="space-y-4">
           <AnimatePresence mode="popLayout">
             {filteredEvents.length > 0 ? (
@@ -78,15 +82,17 @@ export default function CalendarPage() {
                 const dateDisplay = formatEventDate(event.eventStartDate, event.eventEndDate);
                 return (
                   <motion.div key={event._id} layout initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }}
-                    className="group relative bg-neutral-950 border border-neutral-900 rounded-3xl p-6 md:p-8 hover:border-red-600 transition-all flex flex-col md:flex-row gap-8 items-center md:items-start shadow-xl"
+                    className="group relative bg-white border border-neutral-200 rounded-[2rem] p-6 md:p-8 hover:border-red-600/30 transition-all flex flex-col md:flex-row gap-8 items-center md:items-start shadow-sm hover:shadow-xl"
                   >
-                    <div className="flex flex-col items-center justify-center bg-neutral-900 rounded-2xl w-24 h-24 shrink-0 border border-neutral-800 group-hover:bg-red-600 transition-colors">
-                      <span className="text-[10px] font-black text-neutral-500 group-hover:text-white uppercase tracking-tighter">{dateDisplay.month}</span>
-                      <span className="text-xl font-black group-hover:text-white leading-none mt-1">{dateDisplay.day}</span>
+                    {/* CUSTOM #A1A1A1 Date Badge - All White Text & Added Year */}
+                    <div className="flex flex-col items-center justify-center bg-[#A1A1A1] rounded-2xl w-24 h-24 shrink-0 shadow-md group-hover:bg-red-600 transition-all duration-300">
+                      <span className="text-[11px] font-black text-white uppercase tracking-widest transition-colors">{dateDisplay.month}</span>
+                      <span className="text-2xl font-black text-white leading-none my-1 transition-colors">{dateDisplay.day}</span>
+                      <span className="text-[10px] font-bold text-white/90 uppercase tracking-widest transition-colors">{dateDisplay.year}</span>
                     </div>
 
-                    {/* Small Image Thumbnail in List (With Fallback) */}
-                    <div className="relative w-full md:w-32 h-32 rounded-xl overflow-hidden shrink-0 border border-neutral-800 hidden md:block bg-neutral-900">
+                    {/* Small Image Thumbnail in List */}
+                    <div className="relative w-full md:w-32 h-32 rounded-xl overflow-hidden shrink-0 border border-neutral-100 hidden md:block bg-neutral-100">
                       <Image 
                         src={event.image ? urlFor(event.image) : "/fall_back_news_events.webp"} 
                         alt={event.title} 
@@ -95,23 +101,25 @@ export default function CalendarPage() {
                       />
                     </div>
 
+                    {/* Event Details */}
                     <div className="flex-1 space-y-4 w-full">
                       <div className="flex items-center gap-3">
                         <span className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest text-red-600 bg-red-600/10 px-2.5 py-1 rounded-md">
                           <GraduationCap size={12} /> {event.category}
                         </span>
                       </div>
-                      <h3 className="text-xl md:text-2xl font-black uppercase tracking-tight text-white">{event.title}</h3>
-                      <p className="text-neutral-400 text-sm line-clamp-2 max-w-2xl">{event.shortDescription || "Click event details for more information."}</p>
+                      <h3 className="text-xl md:text-2xl font-black uppercase tracking-tight text-neutral-900">{event.title}</h3>
+                      <p className="text-neutral-600 text-sm line-clamp-2 max-w-2xl leading-relaxed">{event.shortDescription || "Click event details for more information."}</p>
                       
-                      <div className="flex items-center gap-2 text-neutral-400">
+                      <div className="flex items-center gap-2 text-neutral-500">
                         <MapPin size={16} className="text-red-600" />
                         <span className="text-sm font-medium">{event.location || "Location TBA"}</span>
                       </div>
                     </div>
 
+                    {/* Action Button */}
                     <div className="shrink-0 w-full md:w-auto self-center">
-                       <button onClick={() => setSelectedEvent(event)} className="flex items-center justify-center gap-2 w-full md:w-auto bg-neutral-900 hover:bg-white hover:text-black text-white px-8 py-4 rounded-2xl text-xs font-black uppercase tracking-widest transition-all group/btn">
+                       <button onClick={() => setSelectedEvent(event)} className="flex items-center justify-center gap-2 w-full md:w-auto bg-neutral-900 hover:bg-red-600 text-white px-8 py-4 rounded-2xl text-xs font-black uppercase tracking-widest transition-all group/btn shadow-lg">
                          Event Details <ChevronRight size={16} className="group-hover/btn:translate-x-1 transition-transform" />
                        </button>
                     </div>
@@ -119,30 +127,39 @@ export default function CalendarPage() {
                 );
               })
             ) : (
-              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="py-32 text-center border-2 border-dashed border-neutral-900 rounded-[3.5rem]">
-                <p className="text-neutral-600 uppercase tracking-[0.4em] font-black text-sm">No scheduled events found.</p>
+              <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="py-32 text-center border-2 border-dashed border-neutral-300 bg-white rounded-[3.5rem]">
+                <p className="text-neutral-400 uppercase tracking-[0.4em] font-black text-sm">No scheduled events found.</p>
               </motion.div>
             )}
           </AnimatePresence>
         </div>
 
-        {/* --- FULL EVENT DETAILS OVERLAY (SIDE-BY-SIDE DESIGN) --- */}
+        {/* --- FULL EVENT DETAILS OVERLAY --- */}
         {selectedEvent && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-xl flex flex-col overflow-y-auto">
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="fixed inset-0 z-[100] flex flex-col overflow-y-auto">
             
-            <div className="sticky top-0 z-50 flex items-center justify-between p-6 bg-gradient-to-b from-black/90 to-transparent">
-              <div /> 
-              <button onClick={() => setSelectedEvent(null)} className="p-3 bg-neutral-900/80 backdrop-blur-md hover:bg-red-600 text-white rounded-full transition-all border border-neutral-700 hover:border-red-500 shadow-2xl">
-                <X size={24} />
+            {/* Clickable Backdrop to close modal */}
+            <div 
+              className="fixed inset-0 bg-black/95 backdrop-blur-xl -z-10 cursor-pointer" 
+              onClick={() => setSelectedEvent(null)}
+              title="Click to close"
+            />
+            
+            {/* Highly Visible Top Sticky Close Button */}
+            <div className="sticky top-0 z-50 flex items-center justify-end p-6 bg-gradient-to-b from-black/90 via-black/40 to-transparent pointer-events-none">
+              <button 
+                onClick={() => setSelectedEvent(null)} 
+                className="pointer-events-auto flex items-center gap-2 px-6 py-3 bg-red-600 hover:bg-red-700 text-white rounded-full transition-all border border-red-500 shadow-[0_0_20px_rgba(220,38,38,0.4)]"
+              >
+                <span className="text-xs font-black uppercase tracking-widest">Close</span>
+                <X size={20} />
               </button>
             </div>
             
-            <div className="flex-1 w-full max-w-6xl mx-auto px-4 pb-24">
+            <div className="relative z-10 flex-1 w-full max-w-6xl mx-auto px-4 pb-12 cursor-default">
               
-              {/* Top Section: Split Layout */}
               <div className="flex flex-col lg:flex-row gap-12 items-start mb-16">
                 
-                {/* Left: Text Content */}
                 <div className="flex-1 space-y-6 pt-4 text-center lg:text-left">
                   <span className="inline-block bg-red-600/10 text-red-500 border border-red-600/20 px-4 py-1.5 rounded-full font-bold uppercase tracking-widest text-xs">
                     {selectedEvent.category}
@@ -162,7 +179,6 @@ export default function CalendarPage() {
                   </div>
                 </div>
 
-                {/* Right: Uncropped Image with Fallback */}
                 <div className="w-full lg:w-[45%] shrink-0">
                   <div className="relative w-full aspect-[4/5] sm:aspect-square lg:aspect-[3/4] rounded-[2rem] overflow-hidden border border-neutral-800 bg-neutral-900/50 shadow-2xl">
                     <Image 
@@ -176,10 +192,8 @@ export default function CalendarPage() {
 
               </div>
 
-              {/* Wide Content Area */}
               <div className="max-w-4xl mx-auto space-y-16">
                 
-                {/* Full Description */}
                 <div className="space-y-6">
                   <h4 className="text-2xl font-black uppercase tracking-tight border-b border-neutral-800 pb-4 text-white">
                     Event Overview
@@ -189,7 +203,6 @@ export default function CalendarPage() {
                   </p>
                 </div>
 
-                {/* Schedule */}
                 {selectedEvent.schedule && selectedEvent.schedule.length > 0 && (
                   <div className="space-y-6">
                     <h4 className="text-2xl font-black uppercase tracking-tight border-b border-neutral-800 pb-4 text-white">
@@ -208,7 +221,6 @@ export default function CalendarPage() {
                   </div>
                 )}
 
-                {/* Embedded PDF */}
                 {selectedEvent.pdfUrl && (
                   <div className="space-y-6 pt-8">
                     <div className="flex items-center justify-between border-b border-neutral-800 pb-4">
@@ -222,6 +234,17 @@ export default function CalendarPage() {
                     <iframe src={`${selectedEvent.pdfUrl}#toolbar=0`} className="w-full h-[800px] rounded-3xl border border-neutral-800 bg-neutral-950 shadow-2xl" />
                   </div>
                 )}
+                
+                {/* Secondary Bottom Close Button */}
+                <div className="pt-12 pb-8 flex justify-center border-t border-neutral-800 mt-16">
+                   <button 
+                     onClick={() => setSelectedEvent(null)} 
+                     className="px-10 py-4 bg-neutral-900 border border-neutral-700 hover:bg-red-600 hover:border-red-500 text-white rounded-full font-black uppercase tracking-widest transition-colors flex items-center gap-3"
+                   >
+                      <X size={18} /> Close Event Details
+                   </button>
+                </div>
+
               </div>
 
             </div>
