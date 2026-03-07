@@ -65,8 +65,8 @@ export default function InstructorsPage() {
         </motion.div>
 
         {/* --- DYNAMIC INTERACTIVE HERO --- */}
-        {/* FIX: Lowered z-index from z-40 to z-10 so it stays beneath the mobile navigation menu */}
-        <div className="sticky top-24 md:top-auto md:relative z-10 aspect-video md:aspect-[21/9] rounded-[2rem] md:rounded-[3rem] overflow-hidden border border-neutral-200 bg-white shadow-2xl mb-8 md:mb-12">
+        {/* FIX: Mobile gets z-20 so it stays above the names, but below your z-40/50 mobile menu. md:relative resets it for desktop. */}
+        <div className="sticky top-24 md:top-auto md:relative z-20 md:z-10 aspect-video md:aspect-[21/9] rounded-[2rem] md:rounded-[3rem] overflow-hidden border border-neutral-200 bg-white shadow-2xl mb-8 md:mb-12">
           
           {/* Layer 1: Background (Clear Black & White) */}
           <div className="absolute inset-0 grayscale contrast-115">
@@ -102,7 +102,7 @@ export default function InstructorsPage() {
           {/* Layer 3: Subtle Gradient for text legibility */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent z-20 pointer-events-none" />
           
-          <div className="absolute bottom-4 left-4 md:bottom-8 md:left-8 z-20">
+          <div className="absolute bottom-4 left-4 md:bottom-8 md:left-8 z-30">
             <span className="bg-red-600 text-white text-[10px] md:text-sm font-black px-4 py-2 md:px-6 md:py-3 rounded-full tracking-[0.2em] uppercase shadow-xl border border-red-700">
               {hoveredId 
                 ? `Highlighting: ${technicalLeaders.find(l => l.id === hoveredId)?.name}` 
@@ -112,7 +112,8 @@ export default function InstructorsPage() {
         </div>
 
         {/* --- INSTRUCTOR LIST --- */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 relative z-10">
+        {/* FIX: Set to z-0 so it scrolls cleanly UNDER the sticky hero image on mobile */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 relative z-0">
           {technicalLeaders.map((leader) => (
             <div
               key={leader.id}
@@ -120,7 +121,7 @@ export default function InstructorsPage() {
               onClick={() => setHoveredId(leader.id)} 
               onMouseEnter={() => setHoveredId(leader.id)} 
               onMouseLeave={() => setHoveredId(null)}
-              className={`instructor-card group bg-white border rounded-[1.5rem] md:rounded-3xl p-5 md:p-6 transition-all duration-300 flex items-center gap-4 md:gap-5 cursor-crosshair ${
+              className={`instructor-card group bg-white border rounded-[1.5rem] md:rounded-3xl p-5 md:p-6 transition-all duration-300 flex items-center gap-4 md:gap-5 cursor-pointer ${
                 hoveredId === leader.id ? "border-red-600 shadow-xl translate-y-[-4px]" : "border-neutral-200 shadow-sm opacity-80 hover:opacity-100"
               }`}
             >
