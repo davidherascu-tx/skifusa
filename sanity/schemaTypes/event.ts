@@ -72,6 +72,14 @@ export default defineType({
       type: 'file',
       options: { accept: '.pdf' }
     }),
+    // --- NEW REGISTRATION LINK FIELD ---
+    defineField({
+      name: 'registrationLink',
+      title: 'Registration Link (Optional)',
+      type: 'url',
+      description: 'Add a link to Eventbrite, Google Forms, or an external registration page.',
+    }),
+    // -----------------------------------
     defineField({
       name: 'shortDescription',
       title: 'Short Description (Shows on the Event List)',
