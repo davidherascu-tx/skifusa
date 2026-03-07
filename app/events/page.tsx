@@ -37,6 +37,7 @@ export default function CalendarPage() {
       const data = await client.fetch(`
         *[_type == "event"] | order(eventStartDate asc) {
           _id, title, category, date, eventStartDate, eventEndDate, location, shortDescription, description, schedule, image,
+          registrationLink,
           "pdfUrl": pdfDocument.asset->url
         }
       `, {}, { cache: 'no-store' });
@@ -84,7 +85,7 @@ export default function CalendarPage() {
                   <motion.div key={event._id} layout initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }}
                     className="group relative bg-white border border-neutral-200 rounded-[2rem] p-6 md:p-8 hover:border-red-600/30 transition-all flex flex-col md:flex-row gap-8 items-center md:items-start shadow-sm hover:shadow-xl"
                   >
-                    {/* CUSTOM Date Badge - Now solid black */}
+                    {/* CUSTOM Date Badge - Solid black */}
                     <div className="flex flex-col items-center justify-center bg-black rounded-2xl w-24 h-24 shrink-0 shadow-md group-hover:bg-red-600 transition-all duration-300">
                       <span className="text-[11px] font-black text-white uppercase tracking-widest transition-colors">{dateDisplay.month}</span>
                       <span className="text-2xl font-black text-white leading-none my-1 transition-colors">{dateDisplay.day}</span>
@@ -177,6 +178,22 @@ export default function CalendarPage() {
                       {selectedEvent.location || "Location TBA"}
                     </div>
                   </div>
+
+                  {/* --- NEW REGISTRATION BUTTON --- */}
+                  {selectedEvent.registrationLink && (
+                    <div className="pt-6 flex justify-center lg:justify-start">
+                      <a 
+                        href={selectedEvent.registrationLink} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-3 bg-red-600 hover:bg-red-500 text-white px-10 py-4 rounded-full font-black uppercase tracking-widest transition-all shadow-[0_0_30px_rgba(220,38,38,0.4)] hover:shadow-[0_0_40px_rgba(220,38,38,0.6)] hover:-translate-y-1"
+                      >
+                        Register Now <ExternalLink size={18} />
+                      </a>
+                    </div>
+                  )}
+                  {/* ------------------------------- */}
+
                 </div>
 
                 <div className="w-full lg:w-[45%] shrink-0">
