@@ -65,8 +65,8 @@ export default function InstructorsPage() {
         </motion.div>
 
         {/* --- DYNAMIC INTERACTIVE HERO --- */}
-        {/* FIX: Used `sticky md:relative` to ensure the absolute images don't break out of the container on Desktop! */}
-        <div className="sticky top-24 md:top-auto md:relative z-40 aspect-video md:aspect-[21/9] rounded-[2rem] md:rounded-[3rem] overflow-hidden border border-neutral-200 bg-white shadow-2xl mb-8 md:mb-12">
+        {/* FIX: Lowered z-index from z-40 to z-10 so it stays beneath the mobile navigation menu */}
+        <div className="sticky top-24 md:top-auto md:relative z-10 aspect-video md:aspect-[21/9] rounded-[2rem] md:rounded-[3rem] overflow-hidden border border-neutral-200 bg-white shadow-2xl mb-8 md:mb-12">
           
           {/* Layer 1: Background (Clear Black & White) */}
           <div className="absolute inset-0 grayscale contrast-115">
@@ -102,7 +102,7 @@ export default function InstructorsPage() {
           {/* Layer 3: Subtle Gradient for text legibility */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent z-20 pointer-events-none" />
           
-          <div className="absolute bottom-4 left-4 md:bottom-8 md:left-8 z-30">
+          <div className="absolute bottom-4 left-4 md:bottom-8 md:left-8 z-20">
             <span className="bg-red-600 text-white text-[10px] md:text-sm font-black px-4 py-2 md:px-6 md:py-3 rounded-full tracking-[0.2em] uppercase shadow-xl border border-red-700">
               {hoveredId 
                 ? `Highlighting: ${technicalLeaders.find(l => l.id === hoveredId)?.name}` 

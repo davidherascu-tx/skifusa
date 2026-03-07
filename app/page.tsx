@@ -32,11 +32,9 @@ export default function Home() {
   const [isMounted, setIsMounted] = useState(false);
   const playerRef = useRef<any>(null);
   
-  // Notice starts hidden to prevent flashing and waiting for scroll
   const [showNotice, setShowNotice] = useState(false);
-  const noticeShownRef = useRef(false); // Tracks if we already showed it during this session
+  const noticeShownRef = useRef(false); 
   
-  // State to hold our dynamic Sanity events & news
   const [events, setEvents] = useState<any[]>([]);
 
   useEffect(() => {
@@ -47,35 +45,29 @@ export default function Home() {
     try {
       const dismissedTime = window.localStorage.getItem("skifusa_notice_dismissed");
       if (!dismissedTime) {
-        isEligibleForPopup = true; // Never seen it, eligible!
+        isEligibleForPopup = true; 
       } else {
         const now = new Date().getTime();
         const dismissedAt = parseInt(dismissedTime, 10);
-        // 24 hours in milliseconds
         if (now - dismissedAt > 24 * 60 * 60 * 1000) {
           window.localStorage.removeItem("skifusa_notice_dismissed");
           isEligibleForPopup = true;
         }
       }
     } catch (e) {
-      // Fallback if browser blocks local storage
       isEligibleForPopup = true;
     }
 
-    // Only add the scroll listener if they are eligible to see the popup
     if (isEligibleForPopup) {
       const handleScroll = () => {
-        // Wait until they scroll down at least 100px before showing
         if (window.scrollY > 100 && !noticeShownRef.current) {
           setShowNotice(true);
           noticeShownRef.current = true;
-          window.removeEventListener("scroll", handleScroll); // Remove listener once shown
+          window.removeEventListener("scroll", handleScroll); 
         }
       };
 
       window.addEventListener("scroll", handleScroll, { passive: true });
-      
-      // Cleanup listener on unmount just in case
       return () => window.removeEventListener("scroll", handleScroll);
     }
   }, []);
@@ -94,7 +86,7 @@ export default function Home() {
             location,
             image
           }
-        `, {}, { cache: 'no-store' }); // Forces fresh updates
+        `, {}, { cache: 'no-store' });
         setEvents(data);
       } catch (error) {
         console.error("Error fetching Sanity events:", error);
@@ -104,7 +96,6 @@ export default function Home() {
     fetchEvents();
 
     // 3. --- YOUTUBE IFRAME API FOR PRECISE SEGMENT LOOPING ---
-    // This solves the YouTube bug where "loop=1" ignores the "start" parameter
     if (!(window as any).YT) {
       const script = document.createElement('script');
       script.src = 'https://www.youtube.com/iframe_api';
@@ -125,17 +116,15 @@ export default function Home() {
             playsinline: 1,
             disablekb: 1,
             fs: 0,
-            start: 48, // Start at 0:48
-            end: 94,   // End at 1:34
+            start: 48, 
+            end: 94,   
           },
           events: {
             onReady: (e: any) => {
-              e.target.mute(); // Enforce mute so browser allows autoplay
+              e.target.mute(); 
               e.target.playVideo();
             },
             onStateChange: (e: any) => {
-              // When the video hits the 'end' time, it triggers the ENDED state
-              // We catch it and seek back to the start time immediately
               if (e.data === (window as any).YT.PlayerState.ENDED) {
                 e.target.seekTo(48);
                 e.target.playVideo();
@@ -156,7 +145,6 @@ export default function Home() {
     };
   }, []);
 
-  // --- SAVE THE TIME WHEN THEY CLICK "I UNDERSTAND" ---
   const handleDismissNotice = () => {
     try {
       window.localStorage.setItem("skifusa_notice_dismissed", new Date().getTime().toString());
@@ -178,11 +166,11 @@ export default function Home() {
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="relative w-full max-w-3xl bg-neutral-950 border border-red-600/30 p-8 md:p-12 rounded-[2.5rem] shadow-2xl shadow-red-900/20 max-h-[90vh] overflow-y-auto"
+              className="relative w-full max-w-3xl bg-white border border-red-600/30 p-8 md:p-12 rounded-[20px] shadow-2xl max-h-[90vh] overflow-y-auto text-neutral-900"
             >
               <button 
                 onClick={handleDismissNotice}
-                className="absolute top-6 right-6 p-2 bg-neutral-900 hover:bg-red-600 rounded-full transition-all text-white border border-neutral-800"
+                className="absolute top-6 right-6 p-2 bg-neutral-100 hover:bg-red-600 hover:text-white rounded-full transition-all text-neutral-500 border border-neutral-200"
                 aria-label="Close"
               >
                 <X size={20} />
@@ -193,9 +181,9 @@ export default function Home() {
                 <h2 className="text-red-600 font-bold uppercase tracking-widest text-sm">Official Notice</h2>
               </div>
               
-              <div className="space-y-6 text-neutral-300 text-sm md:text-base leading-relaxed">
+              <div className="space-y-6 text-neutral-700 text-sm md:text-base leading-relaxed font-medium">
                 <p>
-                  <strong className="text-white">SKIF-USA</strong> and <strong className="text-white">SKI-USF</strong> are the only recognized representative bodies of SKIF-Japan in the United States of America and own all rights, title, and interest in and to the SKIF name and the trademarked logos associated with SKIF.
+                  <strong className="text-neutral-900">SKIF-USA</strong> and <strong className="text-neutral-900">SKI-USF</strong> are the only recognized representative bodies of SKIF-Japan in the United States of America and own all rights, title, and interest in and to the SKIF name and the trademarked logos associated with SKIF.
                 </p>
                 <p>
                   Any use of the SKIF name or these logos without the express permission of these two bodies, or SKIF Japan itself, constitutes trademark infringement, dilution, and misrepresentation in violation of federal and state laws.
@@ -203,15 +191,15 @@ export default function Home() {
                 <p>
                   As a Federation, each member-country representative has oversight of the hosting of official SKIF seminars, tournaments, and Dan grading taken in a given country.
                 </p>
-                <p className="text-red-400 font-medium">
+                <p className="text-red-600 font-bold">
                   Please be advised that if anyone has received Dan grading during an unofficial event, i.e., that was not sponsored by either SKIF-USA or SKI-USF, that rank will not be recognized by SKIF-Japan and will be considered invalid.
                 </p>
               </div>
               
-              <div className="mt-10 pt-6 border-t border-neutral-800 flex justify-end">
+              <div className="mt-10 pt-6 border-t border-neutral-200 flex justify-end">
                 <button 
                   onClick={handleDismissNotice}
-                  className="bg-white text-black hover:bg-neutral-200 px-8 py-3 rounded-full font-bold uppercase tracking-wider transition-colors text-xs"
+                  className="bg-neutral-900 text-white hover:bg-red-600 px-8 py-3 rounded-[20px] font-bold uppercase tracking-wider transition-colors text-xs shadow-lg"
                 >
                   I Understand
                 </button>
@@ -221,13 +209,11 @@ export default function Home() {
         )}
       </AnimatePresence>
 
-      {/* 1. HERO SECTION */}
+{/* 1. HERO SECTION */}
       <section className="relative min-h-screen bg-[#F5F5F5] flex flex-col justify-center items-center px-6 overflow-hidden text-white">
         
-        {/* Background Video Layer */}
         <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
             <div className="relative w-full h-full">
-                {/* The YouTube Iframe API will replace this div with the video */}
                 <div 
                     id="yt-player"
                     className="absolute top-1/2 left-1/2 w-[300%] h-[300%] lg:w-[150%] lg:h-[150%] -translate-x-1/2 -translate-y-1/2 object-cover opacity-100"
@@ -235,12 +221,10 @@ export default function Home() {
             </div>
         </div>
 
-        {/* Dark overlay ensuring text is perfectly readable over the video OR the loading background */}
         <div className="absolute inset-0 z-10 bg-black/60 pointer-events-none" />
 
         <div className="container mx-auto max-w-7xl relative z-20 grid lg:grid-cols-12 gap-8 lg:gap-16 items-center pt-24 lg:pt-0">
           
-          {/* LEFT COLUMN: TEXT & BUTTONS */}
           <div className="lg:col-span-8 flex flex-col items-center lg:items-start text-center lg:text-left w-full">
             <h2 className="text-neutral-300 font-medium tracking-[0.2em] mb-4 uppercase text-sm md:text-base animate-pulse drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
               Karate-Do Way of Life
@@ -269,9 +253,9 @@ export default function Home() {
             </div>
           </div>
           
-          {/* RIGHT COLUMN: IMAGE */}
           <div className="lg:col-span-4 flex justify-center lg:justify-end items-center w-full mt-8 lg:mt-0">
-            <div className="relative w-full max-w-[200px] sm:max-w-[250px] md:max-w-[320px] lg:max-w-[400px] aspect-[4/5] drop-shadow-[0_20px_50px_rgba(220,38,38,0.25)]">
+            {/* UPDATED MAX-WIDTHS: max-w-[130px] for mobile, scales up nicely for tablet/desktop */}
+            <div className="relative w-full max-w-[130px] sm:max-w-[180px] md:max-w-[320px] lg:max-w-[400px] aspect-[4/5] drop-shadow-[0_20px_50px_rgba(220,38,38,0.25)]">
                 <Image 
                   src="/skif_kanji.png" 
                   alt="SKIF Kanji Calligraphy"
@@ -285,60 +269,72 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 2. FIND A DOJO SECTION */}
-      <section id="find-dojo" className="py-24 px-6 bg-[#F5F5F5] relative overflow-hidden border-t border-neutral-200 shadow-[0_-8px_15px_rgba(0,0,0,0.03)] z-10">
+{/* 2. FIND A DOJO SECTION */}
+      <section id="find-dojo" className="py-24 px-6 bg-white relative overflow-hidden border-t border-neutral-200 shadow-[0_-8px_15px_rgba(0,0,0,0.03)] z-10">
          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-red-600/5 rounded-full blur-[100px] -z-10" />
 
          <div className="container mx-auto max-w-5xl">
-            <div className="bg-[#2A2C2C] rounded-[3rem] p-8 md:p-16 border border-neutral-800 relative overflow-hidden flex flex-col md:flex-row items-center gap-12 shadow-2xl">
-                <div className="absolute inset-0 opacity-20 pointer-events-none" style={{ backgroundImage: 'radial-gradient(#555 1px, transparent 1px)', backgroundSize: '24px 24px' }}></div>
-                <div className="flex-1 relative z-10 text-center md:text-left flex flex-col items-center md:items-start text-white">
-                    <div className="inline-flex items-center gap-2 text-red-500 font-bold uppercase tracking-widest text-xs mb-4 bg-red-600/10 px-4 py-2 rounded-full">
+            {/* Box changed to Light Grey (#F6F6F6) with subtle borders */}
+            <div className="bg-[#F6F6F6] rounded-[20px] p-8 md:p-16 border border-neutral-200 relative overflow-hidden flex flex-col md:flex-row items-center gap-12 shadow-sm">
+                
+                {/* Updated background dot pattern color to light grey */}
+                <div className="absolute inset-0 opacity-40 pointer-events-none" style={{ backgroundImage: 'radial-gradient(#c4c4c4 1px, transparent 1px)', backgroundSize: '24px 24px' }}></div>
+                
+                <div className="flex-1 relative z-10 text-center md:text-left flex flex-col items-center md:items-start">
+                    <div className="inline-flex items-center gap-2 text-red-600 font-bold uppercase tracking-widest text-xs mb-4 bg-red-600/10 px-4 py-2 rounded-full border border-red-600/10">
                         <Globe size={14} /> National Network
                     </div>
-                    <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter mb-4 text-white">
+                    
+                    {/* Text changed to dark neutral-900 */}
+                    <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter mb-4 text-neutral-900">
                         Find a Dojo <br/> Near You
                     </h2>
-                    <p className="text-neutral-300 text-lg leading-relaxed mb-8">
+                    
+                    {/* Paragraph changed to medium grey */}
+                    <p className="text-neutral-600 text-lg leading-relaxed mb-8 font-medium">
                         Join the SKIF family. Locate an affiliated dojo in your state and train with certified instructors committed to the traditional way.
                     </p>
-                    <NextLink href="/dojo" className="bg-white text-black hover:bg-neutral-200 px-8 py-4 rounded-full font-bold uppercase tracking-wider transition-colors shadow-lg flex items-center justify-center gap-2 w-fit">
+                    
+                    {/* Button inverted to dark background */}
+                    <NextLink href="/dojo" className="bg-neutral-900 text-white hover:bg-red-600 px-8 py-4 rounded-full font-bold uppercase tracking-wider transition-colors shadow-lg flex items-center justify-center gap-2 w-fit">
                         <MapPin size={20} /> View Dojo Directory
                     </NextLink>
                 </div>
 
                 <div className="relative z-10 w-full md:w-1/3 flex justify-center">
-                    <div className="relative w-48 h-48 md:w-64 md:h-64 bg-neutral-900 rounded-full flex items-center justify-center border border-neutral-700 shadow-2xl animate-[pulse_4s_ease-in-out_infinite]">
-                        <div className="absolute inset-4 border border-dashed border-neutral-600 rounded-full animate-[spin_20s_linear_infinite]" />
-                        <MapPin size={80} className="text-red-500 drop-shadow-[0_0_15px_rgba(220,38,38,0.5)]" />
+                    {/* Spinning pulse circle inverted to white with light borders */}
+                    <div className="relative w-48 h-48 md:w-64 md:h-64 bg-white rounded-full flex items-center justify-center border border-neutral-200 shadow-xl animate-[pulse_4s_ease-in-out_infinite]">
+                        <div className="absolute inset-4 border border-dashed border-neutral-300 rounded-full animate-[spin_20s_linear_infinite]" />
+                        <MapPin size={80} className="text-red-600 drop-shadow-[0_0_15px_rgba(220,38,38,0.2)]" />
                     </div>
                 </div>
             </div>
          </div>
       </section>
 
-      {/* 3. NEWS & EVENTS SECTION */}
-      <section id="news" className="py-24 px-6 bg-[#5F6368] border-t border-neutral-200 shadow-[0_-8px_15px_rgba(0,0,0,0.03)] relative z-20">
+      {/* 3. NEWS & EVENTS SECTION - NO BORDERS, 20PX ROUNDING, FULL WIDTH UNCROPPED IMAGES, EQUAL HEIGHT CARDS */}
+      <section id="news" className="py-24 px-6 bg-[#F6F6F6] border-t border-neutral-200 shadow-[0_-8px_15px_rgba(0,0,0,0.03)] relative z-20">
         <div className="container mx-auto">
           
           <div className="flex flex-col items-center text-center mb-16 relative">
-            <span className="absolute -top-12 opacity-5 text-[10rem] font-black text-white select-none pointer-events-none hidden md:block leading-none z-0">
+            <span className="absolute -top-12 opacity-[0.03] text-[10rem] font-black text-black select-none pointer-events-none hidden md:block leading-none z-0">
                 02
             </span>
-            <div className="inline-flex items-center gap-3 text-white font-bold uppercase tracking-widest text-xs mb-4 relative z-10">
-                <span className="w-8 h-[2px] bg-white"></span>
+            <div className="inline-flex items-center gap-3 text-red-600 font-bold uppercase tracking-widest text-xs mb-4 relative z-10">
+                <span className="w-8 h-[2px] bg-red-600"></span>
                 Federation Updates
-                <span className="w-8 h-[2px] bg-white"></span>
+                <span className="w-8 h-[2px] bg-red-600"></span>
             </div>
-            <h2 className="text-5xl md:text-7xl font-black uppercase tracking-tighter text-white mb-6 relative z-10">
+            <h2 className="text-5xl md:text-7xl font-black uppercase tracking-tighter text-neutral-900 mb-6 relative z-10">
                 News <span className="text-neutral-300 mx-2">&bull;</span> Events
             </h2>
-            <p className="text-neutral-100 max-w-xl text-lg leading-relaxed relative z-10 drop-shadow-md">
+            <p className="text-neutral-600 max-w-xl text-lg leading-relaxed relative z-10">
                 The latest announcements, seminar schedules, and championship results from SKIF-USA headquarters.
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-6">
+          {/* CSS Grid defaults to items-stretch, meaning all cards in the row will match the height of the tallest card */}
+          <div className="grid md:grid-cols-3 gap-8">
             {events.length > 0 ? (
               events.map((item) => (
                 <NewsCard 
@@ -352,15 +348,15 @@ export default function Home() {
                 />
               ))
             ) : (
-              <div className="col-span-3 text-center text-neutral-200 py-12">Loading latest updates...</div>
+              <div className="col-span-3 text-center text-neutral-500 font-bold py-12">Loading latest updates...</div>
             )}
           </div>
         </div>
       </section>
 
-      {/* 4. MEMBER RESOURCES SECTION */}
-      <section id="resources" className="py-32 px-6 bg-[#F5F5F5] border-t border-neutral-300 shadow-[0_-8px_15px_rgba(0,0,0,0.03)] relative z-30 overflow-hidden">
-        <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#000 1px, transparent 1px)', backgroundSize: '20px 20px' }}></div>
+      {/* 4. MEMBER RESOURCES SECTION - BLACK BORDER, NO BACKGROUND, SOFT SHADOW, 20px ROUNDING */}
+      <section id="resources" className="py-32 px-6 bg-white border-t border-neutral-200 shadow-[0_-8px_15px_rgba(0,0,0,0.03)] relative z-30 overflow-hidden">
+        <div className="absolute inset-0 opacity-[0.02] pointer-events-none" style={{ backgroundImage: 'radial-gradient(#000 1px, transparent 1px)', backgroundSize: '20px 20px' }}></div>
         
         <div className="container mx-auto max-w-6xl relative z-10">
            <div className="flex flex-col items-center text-center mb-16 relative">
@@ -373,7 +369,7 @@ export default function Home() {
                 <span className="w-8 h-[2px] bg-red-600"></span>
             </div>
             <h2 className="text-5xl md:text-7xl font-black uppercase tracking-tighter text-neutral-900 mb-6 relative z-10">
-                Member <span className="text-neutral-400 mx-2">&bull;</span> Resources
+                Member <span className="text-neutral-300 mx-2">&bull;</span> Resources
             </h2>
             <p className="text-neutral-600 max-w-xl text-lg leading-relaxed relative z-10">
                 Verify black belt credentials, download official technical syllabi, or purchase authentic federation merchandise.
@@ -383,40 +379,40 @@ export default function Home() {
            <div className="grid md:grid-cols-3 gap-8">
               
               {/* CARD 1: Black Belt Registry */}
-              <NextLink href="/registry" className="group relative h-[350px] bg-neutral-900 rounded-3xl overflow-hidden transition-all duration-500 flex flex-col p-8 shadow-xl hover:-translate-y-2">
-                  <div className="w-12 h-12 bg-neutral-800 rounded-full flex items-center justify-center mb-6 group-hover:bg-red-600 transition-colors">
-                      <ScrollText size={20} className="text-white" />
+              <NextLink href="/registry" className="group relative h-[350px] bg-transparent border border-neutral-900 rounded-[20px] overflow-hidden transition-all duration-300 flex flex-col p-8 hover:shadow-xl hover:-translate-y-1 hover:border-red-600">
+                  <div className="w-14 h-14 bg-transparent border border-neutral-900 rounded-full flex items-center justify-center mb-6 group-hover:border-red-600 transition-colors">
+                      <ScrollText size={24} className="text-neutral-900 group-hover:text-red-600 transition-colors" />
                   </div>
                   <div className="flex-1">
-                      <h3 className="text-3xl font-bold uppercase text-white mb-4 leading-none">
-                          Black Belt <br/><span className="text-neutral-500 group-hover:text-white transition-colors">Registry</span>
+                      <h3 className="text-3xl font-black uppercase text-neutral-900 mb-4 leading-none">
+                          Black Belt <br/><span className="text-neutral-500 group-hover:text-red-600 transition-colors">Registry</span>
                       </h3>
-                      <p className="text-neutral-400 text-sm leading-relaxed">
+                      <p className="text-neutral-600 text-sm leading-relaxed font-medium">
                          Official database of SKIF-USA Yudansha members. Verify ranks and certification status.
                       </p>
                   </div>
-                  <div className="mt-auto border-t border-neutral-800 pt-6 flex items-center justify-between text-white font-bold uppercase tracking-widest text-xs">
+                  <div className="mt-auto border-t border-neutral-900 pt-6 flex items-center justify-between text-neutral-900 font-bold uppercase tracking-widest text-xs group-hover:border-red-600 transition-colors">
                       <span>Search Database</span>
-                      <ArrowRight className="text-neutral-500 group-hover:text-red-600 group-hover:translate-x-1 transition-all duration-300" size={18} />
+                      <ArrowRight className="text-neutral-900 group-hover:text-red-600 transition-colors" size={18} />
                   </div>
               </NextLink>
 
               {/* CARD 2: Technical Docs */}
-              <NextLink href="/technical" className="group relative h-[350px] bg-neutral-900 rounded-3xl overflow-hidden transition-all duration-500 flex flex-col p-8 shadow-xl hover:-translate-y-2">
-                  <div className="w-12 h-12 bg-neutral-800 rounded-full flex items-center justify-center mb-6 group-hover:bg-red-600 transition-colors">
-                      <FileText size={20} className="text-white" />
+              <NextLink href="/technical" className="group relative h-[350px] bg-transparent border border-neutral-900 rounded-[20px] overflow-hidden transition-all duration-300 flex flex-col p-8 hover:shadow-xl hover:-translate-y-1 hover:border-red-600">
+                  <div className="w-14 h-14 bg-transparent border border-neutral-900 rounded-full flex items-center justify-center mb-6 group-hover:border-red-600 transition-colors">
+                      <FileText size={24} className="text-neutral-900 group-hover:text-red-600 transition-colors" />
                   </div>
                   <div className="flex-1">
-                      <h3 className="text-3xl font-bold uppercase text-white mb-4 leading-none">
-                          Technical <br/><span className="text-neutral-500 group-hover:text-white transition-colors">Docs</span>
+                      <h3 className="text-3xl font-black uppercase text-neutral-900 mb-4 leading-none">
+                          Technical <br/><span className="text-neutral-500 group-hover:text-red-600 transition-colors">Docs</span>
                       </h3>
-                      <p className="text-neutral-400 text-sm leading-relaxed">
+                      <p className="text-neutral-600 text-sm leading-relaxed font-medium">
                          Downloads for grading syllabi, tournament rules, and official instructor manuals.
                       </p>
                   </div>
-                  <div className="mt-auto border-t border-neutral-800 pt-6 flex items-center justify-between text-white font-bold uppercase tracking-widest text-xs">
+                  <div className="mt-auto border-t border-neutral-900 pt-6 flex items-center justify-between text-neutral-900 font-bold uppercase tracking-widest text-xs group-hover:border-red-600 transition-colors">
                       <span>View Files</span>
-                      <ArrowRight className="text-neutral-500 group-hover:text-red-600 group-hover:translate-x-1 transition-all duration-300" size={18} />
+                      <ArrowRight className="text-neutral-900 group-hover:text-red-600 transition-colors" size={18} />
                   </div>
               </NextLink>
 
@@ -425,22 +421,22 @@ export default function Home() {
                 href="https://www.skifusa.org/shop" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="group relative h-[350px] bg-neutral-900 rounded-3xl overflow-hidden transition-all duration-500 flex flex-col p-8 shadow-xl hover:-translate-y-2"
+                className="group relative h-[350px] bg-transparent border border-neutral-900 rounded-[20px] overflow-hidden transition-all duration-300 flex flex-col p-8 hover:shadow-xl hover:-translate-y-1 hover:border-red-600"
               >
-                  <div className="w-12 h-12 bg-neutral-800 rounded-full flex items-center justify-center mb-6 group-hover:bg-red-600 transition-colors">
-                      <ShoppingBag size={20} className="text-white" />
+                  <div className="w-14 h-14 bg-transparent border border-neutral-900 rounded-full flex items-center justify-center mb-6 group-hover:border-red-600 transition-colors">
+                      <ShoppingBag size={24} className="text-neutral-900 group-hover:text-red-600 transition-colors" />
                   </div>
                   <div className="flex-1">
-                      <h3 className="text-3xl font-bold uppercase text-white mb-4 leading-none">
-                          Official <br/><span className="text-neutral-500 group-hover:text-white transition-colors">Merch</span>
+                      <h3 className="text-3xl font-black uppercase text-neutral-900 mb-4 leading-none">
+                          Official <br/><span className="text-neutral-500 group-hover:text-red-600 transition-colors">Merch</span>
                       </h3>
-                      <p className="text-neutral-400 text-sm leading-relaxed">
+                      <p className="text-neutral-600 text-sm leading-relaxed font-medium">
                           Purchase authentic SKIF-USA gi, patches, belts, and branded apparel.
                       </p>
                   </div>
-                  <div className="mt-auto border-t border-neutral-800 pt-6 flex items-center justify-between text-white font-bold uppercase tracking-widest text-xs">
+                  <div className="mt-auto border-t border-neutral-900 pt-6 flex items-center justify-between text-neutral-900 font-bold uppercase tracking-widest text-xs group-hover:border-red-600 transition-colors">
                       <span className="flex items-center gap-2">Go to Store <ExternalLink size={14} /></span>
-                      <ArrowRight className="text-neutral-500 group-hover:text-red-600 group-hover:translate-x-1 transition-all duration-300" size={18} />
+                      <ArrowRight className="text-neutral-900 group-hover:text-red-600 transition-colors" size={18} />
                   </div>
               </a>
 
@@ -455,37 +451,44 @@ export default function Home() {
 
 function NewsCard({ href, category, date, title, location, image }: { href: string, category: string, date: string, title: string, location: string, image: string }) {
   return (
-    <NextLink href={href} className="group relative h-[700px] overflow-hidden rounded-3xl bg-neutral-900 block shadow-xl hover:shadow-2xl transition-shadow duration-300 text-white">
-      <div className="absolute inset-0 bg-neutral-900">
-         <Image 
+    <NextLink 
+      href={href} 
+      // Parent: 20px rounding, shadow on hover, no border, h-full ensures all cards stretch to same height
+      className="group relative flex flex-col overflow-hidden rounded-[20px] bg-white transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 shadow-sm text-neutral-900 h-full border-none"
+    >
+      
+      {/* Top Image Section - Full width, height auto. Image scales naturally so the WHOLE image is visible. */}
+      <div className="relative w-full shrink-0 bg-white">
+         <img 
             src={image} 
             alt={title}
-            fill
-            className="object-cover transition-transform duration-700 group-hover:scale-105 opacity-90 group-hover:opacity-100"
+            // w-full makes it edge-to-edge, h-auto preserves aspect ratio naturally!
+            className="w-full h-auto block transition-transform duration-700 group-hover:scale-105 origin-center"
          />
+         {/* Category Badge overlay */}
+         <div className="absolute top-5 left-5 bg-neutral-900 text-white text-[10px] font-black px-4 py-2 rounded-[20px] uppercase tracking-widest shadow-lg group-hover:bg-red-600 transition-colors z-10">
+            {category}
+         </div>
       </div>
-      <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black via-black/80 to-transparent" />
-      <div className="absolute inset-0 p-6 flex flex-col justify-end z-20">
-         <div className="flex items-end justify-between w-full gap-4">
-             <div className="flex flex-col items-start flex-1 pr-2">
-                 <div className="flex flex-wrap items-center gap-3 mb-3">
-                     <span className="bg-red-600 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow-lg">
-                        {category}
-                     </span>
-                     <span className="text-neutral-300 text-xs font-mono flex items-center gap-1">
-                        <Calendar size={12} /> {date}
-                     </span>
-                 </div>
-                 <h3 className="text-xl md:text-2xl font-black uppercase leading-tight drop-shadow-md mb-2">
-                    {title}
-                 </h3>
-                 <div className="flex items-center gap-2 text-neutral-400 text-sm font-medium">
-                    <MapPin size={14} /> {location}
-                 </div>
-             </div>
-             <div className="bg-white text-black p-3 rounded-full shadow-lg shrink-0 transition-all duration-300 ease-out md:opacity-0 md:translate-y-4 md:group-hover:opacity-100 md:group-hover:translate-y-0">
-                <ArrowRight size={24} />
-             </div>
+      
+      {/* Bottom Text Section - flex-1 pushes bottom div down, aligning the heights of all cards! */}
+      <div className="p-8 flex flex-col flex-1 text-left bg-white relative z-20">
+         <div className="flex items-center gap-2 text-neutral-500 text-xs font-bold uppercase tracking-widest mb-3">
+            <Calendar size={14} className="text-red-600" /> {date}
+         </div>
+         
+         <h3 className="text-xl md:text-2xl font-black uppercase tracking-tight leading-tight mb-6 group-hover:text-red-600 transition-colors line-clamp-3">
+            {title}
+         </h3>
+         
+         <div className="mt-auto flex items-center justify-between border-t border-neutral-100 pt-5">
+            <div className="flex items-center gap-2 text-neutral-900 font-bold text-xs uppercase tracking-widest">
+              <MapPin size={14} className="text-red-600" /> {location}
+            </div>
+            
+            <div className="text-neutral-400 group-hover:text-red-600 transition-all duration-300">
+               <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+            </div>
          </div>
       </div>
     </NextLink>
