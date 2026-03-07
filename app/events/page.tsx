@@ -84,20 +84,20 @@ export default function CalendarPage() {
                   <motion.div key={event._id} layout initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }}
                     className="group relative bg-white border border-neutral-200 rounded-[2rem] p-6 md:p-8 hover:border-red-600/30 transition-all flex flex-col md:flex-row gap-8 items-center md:items-start shadow-sm hover:shadow-xl"
                   >
-                    {/* CUSTOM #A1A1A1 Date Badge - All White Text & Added Year */}
-                    <div className="flex flex-col items-center justify-center bg-[#A1A1A1] rounded-2xl w-24 h-24 shrink-0 shadow-md group-hover:bg-red-600 transition-all duration-300">
+                    {/* CUSTOM Date Badge - Now solid black */}
+                    <div className="flex flex-col items-center justify-center bg-black rounded-2xl w-24 h-24 shrink-0 shadow-md group-hover:bg-red-600 transition-all duration-300">
                       <span className="text-[11px] font-black text-white uppercase tracking-widest transition-colors">{dateDisplay.month}</span>
                       <span className="text-2xl font-black text-white leading-none my-1 transition-colors">{dateDisplay.day}</span>
                       <span className="text-[10px] font-bold text-white/90 uppercase tracking-widest transition-colors">{dateDisplay.year}</span>
                     </div>
 
-                    {/* Small Image Thumbnail in List */}
-                    <div className="relative w-full md:w-32 h-32 rounded-xl overflow-hidden shrink-0 border border-neutral-100 hidden md:block bg-neutral-100">
+                    {/* Image Thumbnail in List - object-contain to show whole image */}
+                    <div className="relative w-full md:w-32 md:h-32 aspect-square rounded-xl overflow-hidden shrink-0 border border-neutral-100 hidden md:block bg-neutral-50 p-2">
                       <Image 
                         src={event.image ? urlFor(event.image) : "/fall_back_news_events.webp"} 
                         alt={event.title} 
                         fill 
-                        className="object-cover group-hover:scale-105 transition-transform duration-500" 
+                        className="object-contain p-2 group-hover:scale-105 transition-transform duration-500" 
                       />
                     </div>
 
