@@ -1,15 +1,26 @@
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer"; // Import Footer here
-import "./globals.css";
+import type { Metadata } from 'next';
+import './globals.css';
+import Footer from '@/components/Footer';
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export const metadata: Metadata = {
+  title: 'SKIF-USA | Shotokan Karate-Do International Federation',
+  description: 'Official United States branch of the Shotokan Karate-Do International Federation.',
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
     <html lang="en">
-      <body className="bg-black text-white">
-        {/* Navbar and Footer here ensure they are on EVERY page */}
-        <Navbar />
+      <head>
+        {/* ADD THIS LINE FOR LCP SAVINGS */}
+        <link rel="preconnect" href="https://zil3k1gj.api.sanity.io" />
+      </head>
+      <body className="antialiased">
         {children}
-        <Footer /> 
+        <Footer />
       </body>
     </html>
   );

@@ -95,7 +95,7 @@ export default function Home() {
 
     fetchEvents();
 
-    // 3. --- YOUTUBE IFRAME API FOR PRECISE SEGMENT LOOPING ---
+// 3. --- YOUTUBE IFRAME API FOR PRECISE SEGMENT LOOPING ---
     if (!(window as any).YT) {
       const script = document.createElement('script');
       script.src = 'https://www.youtube.com/iframe_api';
@@ -106,6 +106,7 @@ export default function Home() {
       if ((window as any).YT && (window as any).YT.Player && document.getElementById('yt-player') && !playerRef.current) {
         playerRef.current = new (window as any).YT.Player('yt-player', {
           videoId: VIDEO_ID,
+          host: 'https://www.youtube-nocookie.com', // Forces YouTube into privacy/no-cookie mode
           playerVars: {
             autoplay: 1,
             mute: 1,
@@ -253,15 +254,15 @@ export default function Home() {
             </div>
           </div>
           
-          <div className="lg:col-span-4 flex justify-center lg:justify-end items-center w-full mt-8 lg:mt-0">
-            {/* UPDATED MAX-WIDTHS: max-w-[130px] for mobile, scales up nicely for tablet/desktop */}
+        <div className="lg:col-span-4 flex justify-center lg:justify-end items-center w-full mt-8 lg:mt-0">
             <div className="relative w-full max-w-[130px] sm:max-w-[180px] md:max-w-[320px] lg:max-w-[400px] aspect-[4/5] drop-shadow-[0_20px_50px_rgba(220,38,38,0.25)]">
                 <Image 
                   src="/skif_kanji.png" 
                   alt="SKIF Kanji Calligraphy"
                   fill
                   className="object-contain"
-                  priority
+                  priority // Ensures it isn't lazy loaded
+                  fetchPriority="high" // ADD THIS LINE: Tells browser this is the most important image
                 />
             </div>
           </div>
@@ -449,29 +450,28 @@ export default function Home() {
 
 // --- SUB-COMPONENTS ---
 
+// FINAL NEWS CARD: Uses Next.js Image for massive payload savings while maintaining layout
 function NewsCard({ href, category, date, title, location, image }: { href: string, category: string, date: string, title: string, location: string, image: string }) {
   return (
     <NextLink 
       href={href} 
-      // Parent: 20px rounding, shadow on hover, no border, h-full ensures all cards stretch to same height
       className="group relative flex flex-col overflow-hidden rounded-[20px] bg-white transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 shadow-sm text-neutral-900 h-full border-none"
     >
       
-      {/* Top Image Section - Full width, height auto. Image scales naturally so the WHOLE image is visible. */}
-      <div className="relative w-full shrink-0 bg-white">
-         <img 
+      <div className="relative w-full shrink-0 bg-white aspect-[4/5]"> {/* Set aspect ratio so Next Image knows how to render */}
+         {/* CHANGED BACK TO NEXT/IMAGE FOR OPTIMIZATION */}
+         <Image 
             src={image} 
             alt={title}
-            // w-full makes it edge-to-edge, h-auto preserves aspect ratio naturally!
-            className="w-full h-auto block transition-transform duration-700 group-hover:scale-105 origin-center"
+            fill
+            sizes="(max-width: 768px) 100vw, 33vw" // Tells Next.js to serve smaller images
+            className="object-contain block transition-transform duration-700 group-hover:scale-105 origin-center"
          />
-         {/* Category Badge overlay */}
          <div className="absolute top-5 left-5 bg-neutral-900 text-white text-[10px] font-black px-4 py-2 rounded-[20px] uppercase tracking-widest shadow-lg group-hover:bg-red-600 transition-colors z-10">
             {category}
          </div>
       </div>
       
-      {/* Bottom Text Section - flex-1 pushes bottom div down, aligning the heights of all cards! */}
       <div className="p-8 flex flex-col flex-1 text-left bg-white relative z-20">
          <div className="flex items-center gap-2 text-neutral-500 text-xs font-bold uppercase tracking-widest mb-3">
             <Calendar size={14} className="text-red-600" /> {date}
