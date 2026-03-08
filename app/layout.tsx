@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
+import Navbar from '@/components/Navbar'; // <-- IMPORTED NAVBAR
 import Footer from '@/components/Footer';
 
 export const metadata: Metadata = {
@@ -15,11 +16,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        {/* ADDED crossOrigin="anonymous" TO FIX LIGHTHOUSE WARNING */}
         <link rel="preconnect" href="https://zil3k1gj.api.sanity.io" crossOrigin="anonymous" />
         <link rel="preconnect" href="https://www.youtube-nocookie.com" />
       </head>
       <body className="antialiased">
+        <Navbar /> {/* <-- ADDED BACK HERE */}
         {children}
         <Footer />
       </body>
