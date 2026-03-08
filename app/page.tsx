@@ -95,10 +95,11 @@ export default function Home() {
 
     fetchEvents();
 
-// 3. --- YOUTUBE IFRAME API FOR PRECISE SEGMENT LOOPING ---
+// 3. --- YOUTUBE IFRAME API FOR PRECISE SEGMENT LOOPING (COOKIE-FREE) ---
     if (!(window as any).YT) {
       const script = document.createElement('script');
       script.src = 'https://www.youtube.com/iframe_api';
+      script.async = true; // Added async to prevent render blocking
       document.body.appendChild(script);
     }
 
@@ -106,7 +107,7 @@ export default function Home() {
       if ((window as any).YT && (window as any).YT.Player && document.getElementById('yt-player') && !playerRef.current) {
         playerRef.current = new (window as any).YT.Player('yt-player', {
           videoId: VIDEO_ID,
-          host: 'https://www.youtube-nocookie.com', // Forces YouTube into privacy/no-cookie mode
+          host: 'https://www.youtube-nocookie.com',
           playerVars: {
             autoplay: 1,
             mute: 1,
@@ -118,7 +119,10 @@ export default function Home() {
             disablekb: 1,
             fs: 0,
             start: 48, 
-            end: 94,   
+            end: 94,
+            // Added strictest privacy parameters
+            iv_load_policy: 3, 
+            widget_referrer: window.location.origin
           },
           events: {
             onReady: (e: any) => {

@@ -15,8 +15,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        {/* ADD THIS LINE FOR LCP SAVINGS */}
-        <link rel="preconnect" href="https://zil3k1gj.api.sanity.io" />
+        {/* ADDED crossOrigin="anonymous" TO FIX LIGHTHOUSE WARNING */}
+        <link rel="preconnect" href="https://zil3k1gj.api.sanity.io" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://www.youtube-nocookie.com" />
       </head>
       <body className="antialiased">
         {children}
