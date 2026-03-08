@@ -9,14 +9,10 @@ const nextConfig: NextConfig = {
       }
     ],
   },
-  // Tells Next.js NOT to compile for legacy browsers, saving JS bundle size
+  // Removes console.logs in production to save a bit of bundle size
   compiler: {
     removeConsole: process.env.NODE_ENV === "production",
   },
-  experimental: {
-    // This removes the legacy browser polyfills (Array.flat, etc.) flagged by Lighthouse
-    legacyBrowsers: false,
-  }
 };
 
 export default nextConfig;
