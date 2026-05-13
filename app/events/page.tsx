@@ -42,6 +42,16 @@ export default function CalendarPage() {
         }
       `, {}, { cache: 'no-store' });
       setEvents(data);
+
+      // Auto-open the details modal for a specific event when arriving via ?id=...
+      if (typeof window !== 'undefined') {
+        const params = new URLSearchParams(window.location.search);
+        const targetId = params.get('id');
+        if (targetId) {
+          const match = data.find((e: any) => e._id === targetId);
+          if (match) setSelectedEvent(match);
+        }
+      }
     };
     fetchEvents();
   }, []);

@@ -30,6 +30,16 @@ export default function NewsPage() {
         }
       `, {}, { cache: 'no-store' }); // Forces fresh updates
       setNewsItems(data);
+
+      // Auto-open the PDF for a specific post when arriving via ?id=...
+      if (typeof window !== 'undefined') {
+        const params = new URLSearchParams(window.location.search);
+        const targetId = params.get('id');
+        if (targetId) {
+          const match = data.find((n: any) => n._id === targetId);
+          if (match?.pdfUrl) setSelectedPdf(match.pdfUrl);
+        }
+      }
     };
     fetchNews();
   }, []);

@@ -342,9 +342,9 @@ export default function Home() {
           <div className="grid md:grid-cols-3 gap-8">
             {events.length > 0 ? (
               events.map((item) => (
-                <NewsCard 
+                <NewsCard
                   key={item._id}
-                  href={item._type === 'news' ? '/news' : '/events'} 
+                  href={item._type === 'news' ? `/news?id=${item._id}` : `/events?id=${item._id}`}
                   category={item._type === 'news' ? 'News' : (item.category || "Event")}
                   date={item.date ? new Date(item.date + 'T12:00:00Z').toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : "TBA"}
                   title={item.title} 
