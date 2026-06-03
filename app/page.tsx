@@ -25,6 +25,24 @@ const builder = imageUrlBuilder(client);
 function urlFor(source: any) {
   return builder.image(source).url();
 }
+
+// Card dates: always returns the publish date. For events with an eventStartDate,
+// also returns the event date (start, or "start – end" for multi-day) shown beneath.
+function formatCardDates(item: any): { publish: string; event?: string } {
+  const opts: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+  const fmt = (iso: string) => new Date(iso + 'T12:00:00Z').toLocaleDateString('en-US', opts);
+
+  const publish = item.date ? fmt(item.date) : 'TBA';
+
+  if (item._type === 'event' && item.eventStartDate) {
+    const start = fmt(item.eventStartDate);
+    const event = item.eventEndDate && item.eventEndDate !== item.eventStartDate
+      ? `${start} – ${fmt(item.eventEndDate)}`
+      : start;
+    return { publish, event };
+  }
+  return { publish };
+}
 // ----------------------
 
 export default function Home() {
@@ -83,6 +101,8 @@ export default function Home() {
             title,
             category,
             date,
+            eventStartDate,
+            eventEndDate,
             location,
             image
           }
@@ -341,17 +361,21 @@ export default function Home() {
           {/* CSS Grid defaults to items-stretch, meaning all cards in the row will match the height of the tallest card */}
           <div className="grid md:grid-cols-3 gap-8">
             {events.length > 0 ? (
-              events.map((item) => (
-                <NewsCard
-                  key={item._id}
-                  href={item._type === 'news' ? `/news?id=${item._id}` : `/events?id=${item._id}`}
-                  category={item._type === 'news' ? 'News' : (item.category || "Event")}
-                  date={item.date ? new Date(item.date + 'T12:00:00Z').toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : "TBA"}
-                  title={item.title} 
-                  location={item.location || "Headquarters"}
-                  image={item.image ? urlFor(item.image) : "/fall_back_news_events.webp"} 
-                />
-              ))
+              events.map((item) => {
+                const dates = formatCardDates(item);
+                return (
+                  <NewsCard
+                    key={item._id}
+                    href={item._type === 'news' ? `/news?id=${item._id}` : `/events?id=${item._id}`}
+                    category={item._type === 'news' ? 'News' : (item.category || "Event")}
+                    publishDate={dates.publish}
+                    eventDate={dates.event}
+                    title={item.title}
+                    location={item.location || "Headquarters"}
+                    image={item.image ? urlFor(item.image) : "/fall_back_news_events.webp"}
+                  />
+                );
+              })
             ) : (
               <div className="col-span-3 text-center text-neutral-500 font-bold py-12">Loading latest updates...</div>
             )}
@@ -455,7 +479,7 @@ export default function Home() {
 // --- SUB-COMPONENTS ---
 
 // FINAL NEWS CARD: Uses Next.js Image for massive payload savings while maintaining layout
-function NewsCard({ href, category, date, title, location, image }: { href: string, category: string, date: string, title: string, location: string, image: string }) {
+function NewsCard({ href, category, publishDate, eventDate, title, location, image }: { href: string, category: string, publishDate: string, eventDate?: string, title: string, location: string, image: string }) {
   return (
     <NextLink 
       href={href} 
@@ -477,8 +501,15 @@ function NewsCard({ href, category, date, title, location, image }: { href: stri
       </div>
       
       <div className="p-8 flex flex-col flex-1 text-left bg-white relative z-20">
-         <div className="flex items-center gap-2 text-neutral-500 text-xs font-bold uppercase tracking-widest mb-3">
-            <Calendar size={14} className="text-red-600" /> {date}
+         <div className="flex flex-col gap-1 mb-3">
+            <div className="flex items-center gap-2 text-neutral-500 text-xs font-bold uppercase tracking-widest">
+               <Calendar size={14} className="text-red-600" /> Published: {publishDate}
+            </div>
+            {eventDate && (
+               <div className="flex items-center gap-2 text-neutral-900 text-xs font-black uppercase tracking-widest">
+                  <Calendar size={14} className="text-red-600" /> Event Date: {eventDate}
+               </div>
+            )}
          </div>
          
          <h3 className="text-xl md:text-2xl font-black uppercase tracking-tight leading-tight mb-6 group-hover:text-red-600 transition-colors line-clamp-3">
