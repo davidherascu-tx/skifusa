@@ -274,17 +274,6 @@ const dojoLocations = [
     facebook: "https://www.facebook.com/RSKDojo"
   },
   {
-    id: 25,
-    name: "Black Scorpio Karate Intl",
-    instructor: "Benjamin Selormey, Sensei",
-    state: "New Hampshire",
-    city: "Nashua",
-    address: "Nashua New Hampshire 03063",
-    phone: "603-943-1557",
-    email: "blackscorpiokarate@yahoo.com",
-    website: ""
-  },
-  {
     id: 26,
     name: "SKIF New York",
     instructor: "Ricardo Neves / Angelo Skordos, Sensei",
@@ -395,6 +384,51 @@ const dojoLocations = [
     email: "madisonshotokan@gmail.com; tim.blindauer@gmail.com",
     website: "https://shoto.madcitykarate.com/",
     facebook: "https://www.facebook.com/madisonshotokan/"
+  },
+  {
+    id: 36,
+    name: "Tora Dento Martial Arts",
+    instructor: "Amy Blackwell",
+    state: "Illinois",
+    city: "Elk Grove Village",
+    address: "629 Meacham Road, Elk Grove Village, IL 60007",
+    phone: "(847) 230-9505",
+    email: "ToraDento@gmail.com",
+    website: "https://TDMartialArts.com"
+  },
+  {
+    id: 37,
+    name: "Martial Arts University",
+    instructor: "Juan Rafael Guzman Diaz",
+    state: "Florida",
+    city: "",
+    address: "",
+    phone: "954-681-0725",
+    email: "martialartsuniversity@gmail.com",
+    website: ""
+  },
+  {
+    id: 38,
+    name: "Nashville Shotokan Karate Club",
+    instructor: "Dr. Nataliya Pidkovka",
+    state: "Tennessee",
+    city: "Nashville",
+    address: "3955 Nolensville Pk, Nashville, TN 37211, USA",
+    phone: "615-566-7178",
+    email: "karatenashville@gmail.com",
+    website: "https://nashvilleshotokan.com/",
+    facebook: "https://www.facebook.com/share/181CbzevQU/"
+  },
+  {
+    id: 39,
+    name: "Dojo SK",
+    instructor: "Vitalli Ovsiannikov",
+    state: "Florida",
+    city: "",
+    address: "",
+    phone: "954-599-2420",
+    email: "vovsiannikov9005@gmail.com",
+    website: ""
   }
 ];
 
