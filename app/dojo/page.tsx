@@ -107,6 +107,18 @@ const dojoLocations = [
     website: "https://www.SKFFlorida.com"
   },
   {
+    id: 40,
+    name: "Nami No Hibiki Dojo",
+    instructor: "Attila Zoard Toth",
+    state: "Florida",
+    city: "Jacksonville",
+    address: "Downtown Jacksonville YMCA, Jacksonville, FL 32202",
+    phone: "",
+    email: "naminohibikidojo@gmail.com",
+    website: "",
+    facebook: "https://facebook.com/naminohibikidojo"
+  },
+  {
     id: 10,
     name: "SKIF Hawaii – Kona",
     instructor: "Gilbert Taira, Sensei",
