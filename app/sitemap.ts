@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next';
 
-const SITE_URL = 'https://www.skifusa.org';
+const SITE_URL = 'https://skifusa.org';
 
 const routes: Array<{
   path: string;

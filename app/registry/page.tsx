@@ -57,7 +57,7 @@ const registryData = [
   { lastName: "Blackman", firstName: "Carlton", dojo: "Shockness Shotokan", rank: "Shodan (1. Dan)" },
   { lastName: "Blanchard", firstName: "Keith", dojo: "Austin Shotokan", rank: "Shodan (1. Dan)" },
   { lastName: "Blanchard", firstName: "Shannon", dojo: "Rochester Shotokan Karate Dojo", rank: "Shodan (1. Dan)" },
-  { lastName: "Bonell", firstName: "Sandra", dojo: "S.K.I.F - Miami", rank: "Shodan (1. Dan)" },
+  { lastName: "Bonell", firstName: "Sandra", dojo: "S.K.I.F. - Miami", rank: "Shodan (1. Dan)" },
   { lastName: "Booker", firstName: "Imani N.", dojo: "Mt. Vernon Traditional Shotokan", rank: "Shodan (1. Dan)" },
   { lastName: "Booker Jr.", firstName: "Diamond T.", dojo: "Mt. Vernon Traditional Shotokan", rank: "Shodan (1. Dan)" },
   { lastName: "Boyd", firstName: "Alex", dojo: "Shotokan Karate-Do Center Houston", rank: "Shodan (1. Dan)" },
@@ -67,7 +67,6 @@ const registryData = [
   { lastName: "Brickham", firstName: "Charles", dojo: "SKIF of Maine – Millinocket", rank: "Shodan (1. Dan)" },
   { lastName: "Bui", firstName: "Khanh", dojo: "Satsuma Dojo", rank: "Shodan (1. Dan)" },
   { lastName: "Burke", firstName: "Chris", dojo: "Shotokan Karate Juku - CKA", rank: "Shodan (1. Dan)" },
-  { lastName: "Burruso", firstName: "Joseph", dojo: "S.K.I.F. Hawaii - Pearl City", rank: "Shodan (1. Dan)" },
   { lastName: "Cadena", firstName: "Alexandra", dojo: "Shotokan Karate-Do Center Houston", rank: "Shodan (1. Dan)" },
   { lastName: "Calloway", firstName: "Dennis", dojo: "Shotokan Karate-Do Center Houston", rank: "Shodan (1. Dan)" },
   { lastName: "Cambia", firstName: "Princeton", dojo: "Reigikai SKIF Las Vegas", rank: "Shodan (1. Dan)" },
@@ -88,7 +87,7 @@ const registryData = [
   { lastName: "Cisnero", firstName: "Jorge", dojo: "Texas A & M Shotokan", rank: "Shodan (1. Dan)" },
   { lastName: "Cocucci", firstName: "Franco", dojo: "Shotokan-Ryu Karate", rank: "Shodan (1. Dan)" },
   { lastName: "Concepcion", firstName: "Edwin", dojo: "Mt. Vernon Traditional Shotokan", rank: "Shodan (1. Dan)" },
-  { lastName: "Consuegra", firstName: "Luis", dojo: "S.K.I.F - Miami", rank: "Shodan (1. Dan)" },
+  { lastName: "Consuegra", firstName: "Luis", dojo: "S.K.I.F. - Miami", rank: "Shodan (1. Dan)" },
   { lastName: "Correia Da Silva", firstName: "Sophia", dojo: "S.K.I.F. Samurai", rank: "Shodan (1. Dan)" },
   { lastName: "Cortez", firstName: "Ana", dojo: "Shotokan Karate-Do Center Houston", rank: "Shodan (1. Dan)" },
   { lastName: "Creznic", firstName: "Alex", dojo: "Maine Shotokan", rank: "Shodan (1. Dan)" },
@@ -100,7 +99,7 @@ const registryData = [
   { lastName: "Dandenaeau", firstName: "Bryan", dojo: "Rochester Shotokan", rank: "Shodan (1. Dan)" },
   { lastName: "Davidson", firstName: "Richard", dojo: "Shotokan Karate-Do Center Houston", rank: "Shodan (1. Dan)" },
   { lastName: "Davis", firstName: "Fred S", dojo: "Affiliated Member", rank: "Shodan (1. Dan)" },
-  { lastName: "DeLaCruz", firstName: "L Felipe", dojo: "S.K.I.F - Miami", rank: "Shodan (1. Dan)" },
+  { lastName: "DeLaCruz", firstName: "L Felipe", dojo: "S.K.I.F. - Miami", rank: "Shodan (1. Dan)" },
   { lastName: "Delelis", firstName: "Marc", dojo: "S.K.I.F. Samurai", rank: "Shodan (1. Dan)" },
   { lastName: "Delewis", firstName: "Pierre", dojo: "Shotokan Karate-Do Center Houston", rank: "Shodan (1. Dan)" },
   { lastName: "Dell’Aquila", firstName: "Alyssa", dojo: "Long Island Shotokan", rank: "Shodan (1. Dan)" },
@@ -144,10 +143,9 @@ const registryData = [
   { lastName: "Garcia", firstName: "Jose", dojo: "Long Island Shotokan", rank: "Shodan (1. Dan)" },
   { lastName: "Garza", firstName: "David", dojo: "RGV Shotokan", rank: "Shodan (1. Dan)" },
   { lastName: "Gaulin", firstName: "Trisha", dojo: "Rochester Shotokan", rank: "Shodan (1. Dan)" },
-  { lastName: "Gavira", firstName: "Alejandro", dojo: "S.K.I.F - Miami", rank: "Shodan (1. Dan)" },
+  { lastName: "Gavira", firstName: "Alejandro", dojo: "S.K.I.F. - Miami", rank: "Shodan (1. Dan)" },
   { lastName: "Gaw", firstName: "Jonathan", dojo: "Shotokan Karate-Do Center Houston", rank: "Shodan (1. Dan)" },
   { lastName: "Geiger", firstName: "Cameron", dojo: "Seishin Shotokan", rank: "Shodan (1. Dan)" },
-  { lastName: "Gilbert", firstName: "William", dojo: "Independent Member", rank: "Shodan (1. Dan)" },
   { lastName: "Ginter", firstName: "Emily", dojo: "YMCA Shotokan Karate", rank: "Shodan (1. Dan)" },
   { lastName: "Glenn", firstName: "Norm", dojo: "Shotokan Karate Keiko Dojo", rank: "Shodan (1. Dan)" },
   { lastName: "Glover", firstName: "Chelsea", dojo: "Shotokan Karate-Do Center Houston", rank: "Shodan (1. Dan)" },
@@ -177,8 +175,8 @@ const registryData = [
   { lastName: "Hutnik", firstName: "Markus", dojo: "YMCA Shotokan Karate", rank: "Shodan (1. Dan)" },
   { lastName: "Hutnik", firstName: "Nate", dojo: "YMCA Shotokan Karate", rank: "Shodan (1. Dan)" },
   { lastName: "Ingerson", firstName: "Marc", dojo: "SKIF of Maine – Millinocket", rank: "Shodan (1. Dan)" },
-  { lastName: "Iobst", firstName: "Christopher", dojo: "S.K.I.F - Miami", rank: "Shodan (1. Dan)" },
-  { lastName: "Iobst", firstName: "Nina", dojo: "S.K.I.F - Miami", rank: "Shodan (1. Dan)" },
+  { lastName: "Iobst", firstName: "Christopher", dojo: "S.K.I.F. - Miami", rank: "Shodan (1. Dan)" },
+  { lastName: "Iobst", firstName: "Nina", dojo: "S.K.I.F. - Miami", rank: "Shodan (1. Dan)" },
   { lastName: "Ishida", firstName: "Terrence", dojo: "S.K.I.F. - Hawaii", rank: "Shodan (1. Dan)" },
   { lastName: "Ishii", firstName: "Rebeca", dojo: "Affiliated Member", rank: "Shodan (1. Dan)" },
   { lastName: "Jain", firstName: "Pryia", dojo: "Peak Performance Shotokan", rank: "Shodan (1. Dan)" },
@@ -221,7 +219,7 @@ const registryData = [
   { lastName: "Levy", firstName: "Peter", dojo: "Long Island Shotokan", rank: "Shodan (1. Dan)" },
   { lastName: "Levy", firstName: "Spencer", dojo: "Shotokan Karate Juku - CKA", rank: "Shodan (1. Dan)" },
   { lastName: "Libby", firstName: "Hunter", dojo: "Rochester Shotokan", rank: "Shodan (1. Dan)" },
-  { lastName: "Locaile", firstName: "Carlos", dojo: "S.K.I.F - Miami", rank: "Shodan (1. Dan)" },
+  { lastName: "Locaile", firstName: "Carlos", dojo: "S.K.I.F. - Miami", rank: "Shodan (1. Dan)" },
   { lastName: "Loetzerich", firstName: "Karl", dojo: "Shotokan Karate-Do Center Houston", rank: "Shodan (1. Dan)" },
   { lastName: "Loetzerich", firstName: "Ronda", dojo: "Shotokan Karate-Do Center Houston", rank: "Shodan (1. Dan)" },
   { lastName: "Loveje", firstName: "Klevin", dojo: "Long Island Shotokan", rank: "Shodan (1. Dan)" },
@@ -232,7 +230,7 @@ const registryData = [
   { lastName: "Lyons", firstName: "David", dojo: "Rochester Shotokan", rank: "Shodan (1. Dan)" },
   { lastName: "Lytz", firstName: "Walt", dojo: "Shotokan Karate-Do Center Houston", rank: "Shodan (1. Dan)" },
   { lastName: "MacDonald", firstName: "Abigail", dojo: "Shotokan Karate Academy - ME", rank: "Shodan (1. Dan)" },
-  { lastName: "Macedo", firstName: "Christopher", dojo: "S.K.I.F - Miami", rank: "Shodan (1. Dan)" },
+  { lastName: "Macedo", firstName: "Christopher", dojo: "S.K.I.F. - Miami", rank: "Shodan (1. Dan)" },
   { lastName: "Maddux", firstName: "Daniel", dojo: "Shotokan Karate-Do Center Houston", rank: "Shodan (1. Dan)" },
   { lastName: "Madia", firstName: "Richard", dojo: "Long Island Shotokan", rank: "Shodan (1. Dan)" },
   { lastName: "Magdaleno", firstName: "Madeleine", dojo: "Shotokan Karate-Do Center Houston", rank: "Shodan (1. Dan)" },
@@ -256,7 +254,7 @@ const registryData = [
   { lastName: "McGovney", firstName: "James", dojo: "Shotokan Karate-Do Center Houston", rank: "Shodan (1. Dan)" },
   { lastName: "McQueen", firstName: "Sheila", dojo: "Mt. Vernon Traditional Shotokan", rank: "Shodan (1. Dan)" },
   { lastName: "Medrano", firstName: "Joseph", dojo: "Shockness Shotokan", rank: "Shodan (1. Dan)" },
-  { lastName: "Mendoza", firstName: "Daniel", dojo: "S.K.I.F - Miami", rank: "Shodan (1. Dan)" },
+  { lastName: "Mendoza", firstName: "Daniel", dojo: "S.K.I.F. - Miami", rank: "Shodan (1. Dan)" },
   { lastName: "Meniri", firstName: "Khalid", dojo: "S.K.I.F. - New York", rank: "Shodan (1. Dan)" },
   { lastName: "Menocal", firstName: "Laura", dojo: "Long Island Shotokan", rank: "Shodan (1. Dan)" },
   { lastName: "Mercado Jr.", firstName: "Angel", dojo: "Affiliated Member", rank: "Shodan (1. Dan)" },
@@ -265,7 +263,6 @@ const registryData = [
   { lastName: "Meza", firstName: "Guillermo", dojo: "Brickell Shotokan Karate", rank: "Shodan (1. Dan)" },
   { lastName: "Milanes", firstName: "Justin", dojo: "Brickell Shotokan Karate", rank: "Shodan (1. Dan)" },
   { lastName: "Miles", firstName: "Robert", dojo: "Long Island Shotokan", rank: "Shodan (1. Dan)" },
-  { lastName: "Millan", firstName: "Jorge", dojo: "Brickell Shotokan Karate", rank: "Shodan (1. Dan)" },
   { lastName: "Miller", firstName: "Ariel", dojo: "Shotokan Karate Academy - ME", rank: "Shodan (1. Dan)" },
   { lastName: "Mittal", firstName: "Pallavi", dojo: "Rochester Shotokan", rank: "Shodan (1. Dan)" },
   { lastName: "Moeller", firstName: "Mark", dojo: "Rochester Shotokan", rank: "Shodan (1. Dan)" },
@@ -273,7 +270,7 @@ const registryData = [
   { lastName: "Moreno", firstName: "Victor", dojo: "Shotokan Karate Juku - CKA", rank: "Shodan (1. Dan)" },
   { lastName: "Morita", firstName: "Mark", dojo: "Satsuma Dojo", rank: "Shodan (1. Dan)" },
   { lastName: "Muniz", firstName: "Henry", dojo: "Brickell Shotokan Karate", rank: "Shodan (1. Dan)" },
-  { lastName: "Munoz", firstName: "Henry", dojo: "S.K.I.F - Miami", rank: "Shodan (1. Dan)" },
+  { lastName: "Munoz", firstName: "Henry", dojo: "S.K.I.F. - Miami", rank: "Shodan (1. Dan)" },
   { lastName: "Munroe", firstName: "Josiah Antwan", dojo: "S.K.I.F. Samurai", rank: "Shodan (1. Dan)" },
   { lastName: "Murawaski", firstName: "Robert", dojo: "Long Island Shotokan", rank: "Shodan (1. Dan)" },
   { lastName: "Mwara", firstName: "Kamwana", dojo: "University of Houston Shotokan", rank: "Shodan (1. Dan)" },
@@ -327,7 +324,7 @@ const registryData = [
   { lastName: "Ramaker", firstName: "Brent", dojo: "Peak Performance Shotokan", rank: "Shodan (1. Dan)" },
   { lastName: "Ramic", firstName: "Elvis", dojo: "Keiko Shin Karate Academy", rank: "Shodan (1. Dan)" },
   { lastName: "Ramic", firstName: "Sabina", dojo: "Keiko Shin Karate Academy", rank: "Shodan (1. Dan)" },
-  { lastName: "Ramon", firstName: "Guillermo", dojo: "S.K.I.F - Miami", rank: "Shodan (1. Dan)" },
+  { lastName: "Ramon", firstName: "Guillermo", dojo: "S.K.I.F. - Miami", rank: "Shodan (1. Dan)" },
   { lastName: "Reggeti", firstName: "Ivan", dojo: "S.K.I.F. Samurai", rank: "Shodan (1. Dan)" },
   { lastName: "Relacion", firstName: "Jonathan", dojo: "Kauai Dojo", rank: "Shodan (1. Dan)" },
   { lastName: "Reyes", firstName: "Antonella", dojo: "Brickell Shotokan Karate", rank: "Shodan (1. Dan)" },
@@ -349,7 +346,7 @@ const registryData = [
   { lastName: "Rugama", firstName: "Zael", dojo: "S.K.I.F. Samurai", rank: "Shodan (1. Dan)" },
   { lastName: "Ruiz", firstName: "Edward", dojo: "Shotokan Karate-Do Center Houston", rank: "Shodan (1. Dan)" },
   { lastName: "Ruttimann", firstName: "Marco", dojo: "Affiliated Member", rank: "Shodan (1. Dan)" },
-  { lastName: "Ruttmann", firstName: "Alejandra", dojo: "S.K.I.F - Miami", rank: "Shodan (1. Dan)" },
+  { lastName: "Ruttmann", firstName: "Alejandra", dojo: "S.K.I.F. - Miami", rank: "Shodan (1. Dan)" },
   { lastName: "Salman", firstName: "Joshua", dojo: "S.K.I.F. Samurai", rank: "Shodan (1. Dan)" },
   { lastName: "Salman", firstName: "Luke Jennings", dojo: "S.K.I.F. Samurai", rank: "Shodan (1. Dan)" },
   { lastName: "Salman", firstName: "Jake Davis", dojo: "S.K.I.F. Samurai", rank: "Shodan (1. Dan)" },
@@ -357,7 +354,7 @@ const registryData = [
   { lastName: "Sampson", firstName: "Rachel", dojo: "S.K.I.F. Hawaii - Pearl City", rank: "Shodan (1. Dan)" },
   { lastName: "Sanchez Hernande", firstName: "Joaquin", dojo: "Shotokan Karate-Do Center Houston", rank: "Shodan (1. Dan)" },
   { lastName: "Sanchis Sr.", firstName: "John", dojo: "Affiliated Member", rank: "Shodan (1. Dan)" },
-  { lastName: "Santiago", firstName: "Ulloa", dojo: "S.K.I.F - Miami", rank: "Shodan (1. Dan)" },
+  { lastName: "Santiago", firstName: "Ulloa", dojo: "S.K.I.F. - Miami", rank: "Shodan (1. Dan)" },
   { lastName: "Santori", firstName: "Gina", dojo: "Independent Member", rank: "Shodan (1. Dan)" },
   { lastName: "Saputo", firstName: "Michael", dojo: "Rochester Shotokan", rank: "Shodan (1. Dan)" },
   { lastName: "Sardesai", firstName: "Amol", dojo: "Shotokan Karate-Do Center Houston", rank: "Shodan (1. Dan)" },
@@ -373,7 +370,6 @@ const registryData = [
   { lastName: "Sciacca", firstName: "Alex", dojo: "Shotokan Karate Academy - ME", rank: "Shodan (1. Dan)" },
   { lastName: "Seeley", firstName: "Michal", dojo: "Long Island Shotokan", rank: "Shodan (1. Dan)" },
   { lastName: "Segarra", firstName: "Alexander", dojo: "Brickell Shotokan Karate", rank: "Shodan (1. Dan)" },
-  { lastName: "Shamzad", firstName: "Khosravi", dojo: "Hillsboro Shotokan", rank: "Shodan (1. Dan)" },
   { lastName: "Sherman", firstName: "Andrew", dojo: "Seishin Shotokan", rank: "Shodan (1. Dan)" },
   { lastName: "Sherman", firstName: "Joseph", dojo: "Seishin Shotokan", rank: "Shodan (1. Dan)" },
   { lastName: "Shockness", firstName: "Angela", dojo: "Shockness Shotokan", rank: "Shodan (1. Dan)" },
@@ -407,7 +403,6 @@ const registryData = [
   { lastName: "Thompson", firstName: "Evan", dojo: "Keiko Shin Karate Academy", rank: "Shodan (1. Dan)" },
   { lastName: "Thompson", firstName: "Wayne", dojo: "Mt. Vernon Traditional Shotokan", rank: "Shodan (1. Dan)" },
   { lastName: "Tihou", firstName: "Pierre", dojo: "D-Dojo", rank: "Shodan (1. Dan)" },
-  { lastName: "Tokloka", firstName: "Abe", dojo: "Affiliated Member", rank: "Shodan (1. Dan)" },
   { lastName: "Torres", firstName: "Joseph", dojo: "S.K.I.F. - Hawaii - Iwilei", rank: "Shodan (1. Dan)" },
   { lastName: "Tran", firstName: "Kegan", dojo: "S.K.I.F. Hawaii - Pearl City", rank: "Shodan (1. Dan)" },
   { lastName: "Tyau-Beam", firstName: "Andrew", dojo: "SKIF-Kaneohe", rank: "Shodan (1. Dan)" },
@@ -426,7 +421,6 @@ const registryData = [
   { lastName: "Vissichelli", firstName: "Lisa", dojo: "Long Island Shotokan", rank: "Shodan (1. Dan)" },
   { lastName: "Vissichelli", firstName: "Nicole", dojo: "Long Island Shotokan", rank: "Shodan (1. Dan)" },
   { lastName: "Vo", firstName: "Andrew", dojo: "Keiko Shin Karate Academy", rank: "Shodan (1. Dan)" },
-  { lastName: "Vrushab", firstName: "Karthik", dojo: "Hillsboro Shotokan", rank: "Shodan (1. Dan)" },
   { lastName: "Wajanakunakorn", firstName: "Supranee", dojo: "Satsuma Dojo", rank: "Shodan (1. Dan)" },
   { lastName: "Walker", firstName: "Jessica", dojo: "RGV Shotokan", rank: "Shodan (1. Dan)" },
   { lastName: "Wasiq", firstName: "Rehan", dojo: "Katy/Richmond Karate-dō", rank: "Shodan (1. Dan)" },
@@ -437,7 +431,7 @@ const registryData = [
   { lastName: "Winsted", firstName: "Andrew", dojo: "Shotokan Karate-Do Center Houston", rank: "Shodan (1. Dan)" },
   { lastName: "Wong", firstName: "Daniel", dojo: "Shotokan Karate-Do Center Houston", rank: "Shodan (1. Dan)" },
   { lastName: "Wong", firstName: "Phillip", dojo: "Shotokan Karate Juku - CKA", rank: "Shodan (1. Dan)" },
-  { lastName: "Wong", firstName: "Liliana", dojo: "S.K.I.F - Miami", rank: "Shodan (1. Dan)" },
+  { lastName: "Wong", firstName: "Liliana", dojo: "S.K.I.F. - Miami", rank: "Shodan (1. Dan)" },
   { lastName: "Woyak", firstName: "Cody", dojo: "WI Shotokan", rank: "Shodan (1. Dan)" },
   { lastName: "Wu", firstName: "Paul", dojo: "SKIF-Kaneohe", rank: "Shodan (1. Dan)" },
   { lastName: "Wu", firstName: "Tina", dojo: "Shotokan Karate Juku - CKA", rank: "Shodan (1. Dan)" },
@@ -446,7 +440,7 @@ const registryData = [
   { lastName: "Yarberry", firstName: "William", dojo: "Texas A & M Shotokan", rank: "Shodan (1. Dan)" },
   { lastName: "Zabre", firstName: "Erika", dojo: "University of Houston Shotokan", rank: "Shodan (1. Dan)" },
   { lastName: "Zachary", firstName: "Robert", dojo: "New England Shotokan", rank: "Shodan (1. Dan)" },
-  { lastName: "Zanardo", firstName: "Livio", dojo: "S.K.I.F - Miami", rank: "Shodan (1. Dan)" },
+  { lastName: "Zanardo", firstName: "Livio", dojo: "S.K.I.F. - Miami", rank: "Shodan (1. Dan)" },
   { lastName: "Zapata", firstName: "Daniella", dojo: "Shotokan Karate-Do Florida “SKF”", rank: "Shodan (1. Dan)" },
   { lastName: "Zhao", firstName: "Jun", dojo: "Shockness Shotokan", rank: "Shodan (1. Dan)" },
   { lastName: "Zoard", firstName: "Attila", dojo: "Independent Member", rank: "Shodan (1. Dan)" },
@@ -482,7 +476,7 @@ const registryData = [
   { lastName: "Concha", firstName: "Jerry", dojo: "Shotokan Karate Juku - CKA", rank: "Nidan (2. Dan)" },
   { lastName: "Crader", firstName: "Joan", dojo: "Long Island Shotokan", rank: "Nidan (2. Dan)" },
   { lastName: "Cuizon", firstName: "Dennis", dojo: "Kaumakapili Dojo", rank: "Nidan (2. Dan)" },
-  { lastName: "Davila", firstName: "Jeffrey", dojo: "S.K.I.F - Miami", rank: "Nidan (2. Dan)" },
+  { lastName: "Davila", firstName: "Jeffrey", dojo: "S.K.I.F. - Miami", rank: "Nidan (2. Dan)" },
   { lastName: "Debeer", firstName: "Richard", dojo: "S.K.I.F. - Hawaii - Kona", rank: "Nidan (2. Dan)" },
   { lastName: "Dent", firstName: "Aric", dojo: "Stevens Point Shotokan", rank: "Nidan (2. Dan)" },
   { lastName: "Diarra", firstName: "Molissa", dojo: "University of Houston Shotokan", rank: "Nidan (2. Dan)" },
@@ -501,7 +495,7 @@ const registryData = [
   { lastName: "Galarza", firstName: "Zion", dojo: "SKIF Windward Oahu Foundation", rank: "Nidan (2. Dan)" },
   { lastName: "Gauthier", firstName: "Keith", dojo: "New England Shotokan Karate-Do", rank: "Nidan (2. Dan)" },
   { lastName: "Gennosa", firstName: "John", dojo: "Long Island Shotokan", rank: "Nidan (2. Dan)" },
-  { lastName: "Gomez-Silva", firstName: "Julio", dojo: "S.K.I.F - Miami", rank: "Nidan (2. Dan)" },
+  { lastName: "Gomez-Silva", firstName: "Julio", dojo: "S.K.I.F. - Miami", rank: "Nidan (2. Dan)" },
   { lastName: "Grube", firstName: "Mike", dojo: "Rochester Shotokan Karate Dojo", rank: "Nidan (2. Dan)" },
   { lastName: "Guiso", firstName: "Mike", dojo: "Satsuma Dojo", rank: "Nidan (2. Dan)" },
   { lastName: "Hernaez", firstName: "Gabe", dojo: "Shotokan Karate-Do Center Houston", rank: "Nidan (2. Dan)" },
@@ -526,7 +520,7 @@ const registryData = [
   { lastName: "Lee", firstName: "William", dojo: "Satsuma Dojo", rank: "Nidan (2. Dan)" },
   { lastName: "Lev", firstName: "Sharon", dojo: "Satsuma Dojo", rank: "Nidan (2. Dan)" },
   { lastName: "Lim", firstName: "Kelli", dojo: "S.K.I.F. - Hawaii - Iwilei", rank: "Nidan (2. Dan)" },
-  { lastName: "Lorion", firstName: "Anne-Marie", dojo: "S.K.I.F - Miami", rank: "Nidan (2. Dan)" },
+  { lastName: "Lorion", firstName: "Anne-Marie", dojo: "S.K.I.F. - Miami", rank: "Nidan (2. Dan)" },
   { lastName: "Lucchesi", firstName: "Lisa", dojo: "Hillsboro Shotokan Karate Club", rank: "Nidan (2. Dan)" },
   { lastName: "Luciano", firstName: "Michael", dojo: "Long Island Shotokan", rank: "Nidan (2. Dan)" },
   { lastName: "Lulley", firstName: "Frank", dojo: "Long Island Shotokan", rank: "Nidan (2. Dan)" },
@@ -544,7 +538,7 @@ const registryData = [
   { lastName: "Natanasabapathy", firstName: "Gautham", dojo: "Satsuma Dojo", rank: "Nidan (2. Dan)" },
   { lastName: "Neglia", firstName: "Joseph", dojo: "Peak Performance Shotokan Karate-Do", rank: "Nidan (2. Dan)" },
   { lastName: "Nene", firstName: "Clifford", dojo: "S.K.I.F. - Hawaii", rank: "Nidan (2. Dan)" },
-  { lastName: "Ors", firstName: "Fernando", dojo: "S.K.I.F - Miami", rank: "Nidan (2. Dan)" },
+  { lastName: "Ors", firstName: "Fernando", dojo: "S.K.I.F. - Miami", rank: "Nidan (2. Dan)" },
   { lastName: "Ortiz", firstName: "Maria", dojo: "Rochester Shotokan Karate Dojo", rank: "Nidan (2. Dan)" },
   { lastName: "Panayotov", firstName: "Valentin", dojo: "Austin Shotokan", rank: "Nidan (2. Dan)" },
   { lastName: "Parker", firstName: "Claire", dojo: "Shotokan Karate-Do Center Houston", rank: "Nidan (2. Dan)" },
@@ -588,7 +582,7 @@ const registryData = [
   { lastName: "Wainwright", firstName: "Alex", dojo: "Shotokan Karate-Do Center Houston", rank: "Nidan (2. Dan)" },
   { lastName: "Walker", firstName: "Jeremiah", dojo: "RGV Shotokan", rank: "Nidan (2. Dan)" },
   { lastName: "Weelborg", firstName: "Brad", dojo: "MSU Karate Club", rank: "Nidan (2. Dan)" },
-  { lastName: "William", firstName: "Gilbert", dojo: "Independent Member", rank: "Nidan (2. Dan)" },
+  { lastName: "Gilbert", firstName: "William", dojo: "Independent Member", rank: "Nidan (2. Dan)" },
   { lastName: "Willner", firstName: "Stewart", dojo: "Shotokan Karate Juku - CKA", rank: "Nidan (2. Dan)" },
   { lastName: "Wilson", firstName: "Maribel", dojo: "RGV Shotokan", rank: "Nidan (2. Dan)" },
   { lastName: "Yasuhiro", firstName: "Louis", dojo: "San Francisco Shotokan", rank: "Nidan (2. Dan)" },
@@ -632,7 +626,7 @@ const registryData = [
   { lastName: "Hiyoshi", firstName: "Ryuji", dojo: "Mt. Vernon Traditional Shotokan", rank: "Sandan (3. Dan)" },
   { lastName: "Johnson", firstName: "Wesley", dojo: "Peak Performance Shotokan Karate-Do", rank: "Sandan (3. Dan)" },
   { lastName: "Jorden", firstName: "Corpuz", dojo: "S.K.I.F. Hawaii - Pearl City", rank: "Sandan (3. Dan)" },
-  { lastName: "Kakuda", firstName: "Leslie", dojo: "S.K.I.F. Hawaii - Susannah Wesley Dojo", rank: "Sandan (3. Dan)" },
+  { lastName: "Kakuda", firstName: "Leslie", dojo: "S.K.I.F. Hawaii - Susannah Wesley", rank: "Sandan (3. Dan)" },
   { lastName: "Kaneko", firstName: "Carly", dojo: "S.K.I.F. - Hawaii - Iwilei", rank: "Sandan (3. Dan)" },
   { lastName: "Kreuter", firstName: "Urs", dojo: "Shotokan Karate-Do Center Houston", rank: "Sandan (3. Dan)" },
   { lastName: "Lentz", firstName: "Colin", dojo: "Rochester Shotokan Karate Dojo", rank: "Sandan (3. Dan)" },
@@ -656,10 +650,9 @@ const registryData = [
   { lastName: "Rios", firstName: "Juan", dojo: "Mt. Vernon Traditional Shotokan", rank: "Sandan (3. Dan)" },
   { lastName: "Rosado Sr", firstName: "Rudolph", dojo: "New Roc Shotokan Karate", rank: "Sandan (3. Dan)" },
   { lastName: "Salibi", firstName: "Kamal", dojo: "Kauai Dojo", rank: "Sandan (3. Dan)" },
-  { lastName: "Sanehira", firstName: "Todd", dojo: "S.K.I.F. Hawaii - Susannah Wesley Dojo", rank: "Sandan (3. Dan)" },
+  { lastName: "Sanehira", firstName: "Todd", dojo: "S.K.I.F. Hawaii - Susannah Wesley", rank: "Sandan (3. Dan)" },
   { lastName: "Sasano", firstName: "Clifford", dojo: "Kaumakapili Dojo", rank: "Sandan (3. Dan)" },
   { lastName: "Shirazi-Fard", firstName: "Yasaman", dojo: "Shotokan Karate-Do Center Houston", rank: "Sandan (3. Dan)" },
-  { lastName: "Slausen", firstName: "Kevin", dojo: "Satsuma Dojo", rank: "Sandan (3. Dan)" },
   { lastName: "Stenhouse", firstName: "John B.", dojo: "CSUN Karate Club", rank: "Sandan (3. Dan)" },
   { lastName: "Takahashi", firstName: "Ross", dojo: "SKIF-Kaneohe", rank: "Sandan (3. Dan)" },
   { lastName: "Teoh", firstName: "H.B.", dojo: "Satsuma Dojo", rank: "Sandan (3. Dan)" },
@@ -713,7 +706,7 @@ const registryData = [
   { lastName: "Tretyak", firstName: "Yuriy", dojo: "Independent Member", rank: "Yondan (4. Dan)" },
   { lastName: "Turner", firstName: "Lisa", dojo: "Maine Shotokan Karate Association", rank: "Yondan (4. Dan)" },
   { lastName: "Valentin", firstName: "Charles", dojo: "Shotokan-Ryu Karate", rank: "Yondan (4. Dan)" },
-  { lastName: "Vargas", firstName: "Jorge", dojo: "S.K.I.F - Miami", rank: "Yondan (4. Dan)" },
+  { lastName: "Vargas", firstName: "Jorge", dojo: "S.K.I.F. - Miami", rank: "Yondan (4. Dan)" },
   { lastName: "Villanueva", firstName: "Jerry", dojo: "SKIF Windward Oahu Foundation", rank: "Yondan (4. Dan)" },
   { lastName: "Wilkinson", firstName: "Tom", dojo: "New England Shotokan Karate-Do", rank: "Yondan (4. Dan)" },
   { lastName: "Wong", firstName: "Steven", dojo: "S.K.I.F. Hawaii - Susannah Wesley", rank: "Yondan (4. Dan)" },
@@ -764,7 +757,7 @@ const registryData = [
   { lastName: "Ono", firstName: "Stanley", dojo: "S.K.I.F. - Hawaii", rank: "Rokudan (6. Dan)" },
   { lastName: "Rodriguez", firstName: "Roddy", dojo: "Satsuma Dojo", rank: "Rokudan (6. Dan)" },
   { lastName: "Sakai", firstName: "Stuart", dojo: "Satsuma Dojo", rank: "Rokudan (6. Dan)" },
-  { lastName: "Seigo Nakano", firstName: "Seigo Nakano", dojo: "D-Dojo", rank: "Rokudan (6. Dan)" },
+  { lastName: "Nakano", firstName: "Seigo", dojo: "D-Dojo", rank: "Rokudan (6. Dan)" },
   { lastName: "Smith", firstName: "Eugene", dojo: "Peak Performance Shotokan Karate-Do", rank: "Rokudan (6. Dan)" },
   { lastName: "Warren", firstName: "Steven", dojo: "Rochester Shotokan Karate Dojo", rank: "Rokudan (6. Dan)" },
   { lastName: "Zoraster", firstName: "Richard", dojo: "SKIF Windward Oahu Foundation", rank: "Rokudan (6. Dan)" },
@@ -783,12 +776,35 @@ const registryData = [
   { lastName: "Castellano", firstName: "Jay", dojo: "Satsuma Dojo", rank: "Hachidan (8. Dan)" },
   { lastName: "Fong", firstName: "Francis", dojo: "S.K.I.F. Hawaii - Salt Lake", rank: "Hachidan (8. Dan)" },
   { lastName: "Fujishima", firstName: "Hiroyasu", dojo: "Shotokan Karate Juku - CKA", rank: "Hachidan (8. Dan)" },
-  { lastName: "Kiyuna", firstName: "Edward", dojo: "S.K.I.F. Hawaii - Susannah Wesley Dojo", rank: "Hachidan (8. Dan)" },
+  { lastName: "Kiyuna", firstName: "Edward", dojo: "S.K.I.F. Hawaii - Susannah Wesley", rank: "Hachidan (8. Dan)" },
   { lastName: "Stoddard", firstName: "Glenn", dojo: "Wisconsin Shotokan", rank: "Hachidan (8. Dan)" },
 
   // --- KUDAN (9. DAN) ---
   { lastName: "Takemori", firstName: "Victor", dojo: "S.K.I.F. Hawaii - Pearl City", rank: "Kudan (9. Dan)" },
 ];
+
+// The registry array is maintained by hand and new members are appended to the
+// end of their rank block, so the source order drifts out of alphabetical over
+// time. Sort once here rather than relying on the file's literal order: by rank
+// (reusing the danGrades order the filter dropdown uses), then last name, then
+// first name.
+//
+// Intl.Collator with base sensitivity and ignorePunctuation puts names like
+// "Dell'Aquila", "O'Brien" and "Joaquin" where a reader expects them instead of
+// sorting the apostrophe or the accent as a character.
+const nameCollator = new Intl.Collator("en", { sensitivity: "base", ignorePunctuation: true });
+
+function rankIndex(rank: string) {
+  const i = danGrades.indexOf(rank);
+  return i === -1 ? danGrades.length : i;
+}
+
+const sortedRegistry = [...registryData].sort(
+  (a, b) =>
+    rankIndex(a.rank) - rankIndex(b.rank) ||
+    nameCollator.compare(a.lastName, b.lastName) ||
+    nameCollator.compare(a.firstName, b.firstName)
+);
 
 export default function BlackBeltRegistry() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -796,7 +812,7 @@ export default function BlackBeltRegistry() {
 
   const hasStartedSearch = searchQuery.length > 0 || selectedDan !== "All";
 
-  const filteredRegistry = registryData.filter(member => {
+  const filteredRegistry = sortedRegistry.filter(member => {
     const fullName = `${member.firstName} ${member.lastName}`.toLowerCase();
     const matchesName = fullName.includes(searchQuery.toLowerCase());
     const matchesDan = selectedDan === "All" || member.rank === selectedDan;

@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: `${title} | SKIF-USA`,
     description,
-    url: 'https://www.skifusa.org/events',
+    url: 'https://skifusa.org/events',
   },
   twitter: {
     title: `${title} | SKIF-USA`,

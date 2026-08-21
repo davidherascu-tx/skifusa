@@ -3,7 +3,7 @@ import './globals.css';
 import Navbar from '@/components/Navbar'; // <-- IMPORTED NAVBAR
 import Footer from '@/components/Footer';
 
-const SITE_URL = 'https://www.skifusa.org';
+const SITE_URL = 'https://skifusa.org';
 const SITE_NAME = 'SKIF-USA';
 const SITE_DESCRIPTION =
   'Official United States branch of the Shotokan Karate-Do International Federation (SKIF). Find SKIF-USA affiliated dojos, instructors, events, and the black belt registry.';

@@ -450,8 +450,6 @@ export default function FindADojo() {
 
   const states = ["All", ...Array.from(new Set(dojoLocations.map(d => d.state))).sort()];
 
-  const hasStartedSearch = searchQuery.length > 0 || selectedState !== "All";
-
   const filteredDojos = dojoLocations.filter(dojo => {
     const matchesSearch = 
       dojo.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
@@ -509,22 +507,7 @@ export default function FindADojo() {
         {/* --- RESULTS AREA --- */}
         <div className="min-h-[400px]">
           <AnimatePresence mode="wait">
-            {!hasStartedSearch ? (
-              <motion.div 
-                key="prompt"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                className="py-32 text-center border-2 border-dashed border-neutral-300 bg-white rounded-[3.5rem] flex flex-col items-center justify-center gap-6"
-              >
-                <div className="w-16 h-16 bg-neutral-100 rounded-full flex items-center justify-center text-neutral-400">
-                    <MapPin size={32} />
-                </div>
-                <p className="text-neutral-500 uppercase tracking-[0.4em] font-black text-sm">
-                  Select a state or type to view affiliated locations
-                </p>
-              </motion.div>
-            ) : filteredDojos.length > 0 ? (
+            {filteredDojos.length > 0 ? (
               <motion.div 
                 key="results"
                 initial={{ opacity: 0 }}
